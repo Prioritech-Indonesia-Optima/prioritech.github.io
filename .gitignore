@@ -27,6 +27,5 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# Package locks (optional, but common)
-package-lock.json
+# Package locks - only ignore in root, track in frontend/
 pnpm-lock.yaml
