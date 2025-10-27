@@ -11,10 +11,10 @@ export const metadata: Metadata = {
   generator: 'Next.js',
   icons: {
     icon: [
-      { url: '/prioritech-overunder-logo.svg', sizes: 'any' },
+      { url: '/prioritech-favicon.svg', sizes: 'any' },
     ],
     apple: [
-      { url: '/prioritech-overunder-logo.svg', sizes: '180x180', type: 'image/svg+xml' },
+      { url: '/prioritech-favicon.svg', sizes: '180x180', type: 'image/svg+xml' },
     ],
   },
 }
