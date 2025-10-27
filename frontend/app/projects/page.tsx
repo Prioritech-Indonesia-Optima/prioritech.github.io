@@ -1,5 +1,6 @@
 "use client"
 
+import { useState } from "react"
 import { Navbar } from "@/components/common/Navbar"
 import { Footer } from "@/components/common/Footer"
 import { PageHero } from "@/components/common/PageHero"
@@ -10,6 +11,7 @@ import { MovingBorder } from "@/components/aceternity/moving-border"
 import { LampEffect } from "@/components/aceternity/lamp-effect"
 import { CardSpotlight } from "@/components/aceternity/card-spotlight"
 import { TextGenerateEffect } from "@/components/aceternity/text-generate-effect"
+import { ProjectDemoModal } from "@/components/projects/ProjectDemoModal"
 import { ArrowRight, ExternalLink } from "lucide-react"
 
 /**
@@ -22,6 +24,19 @@ import { ArrowRight, ExternalLink } from "lucide-react"
  * @returns JSX element containing the projects page content
  */
 export default function ProjectsPage() {
+  const [selectedProject, setSelectedProject] = useState<string | null>(null)
+  const [isModalOpen, setIsModalOpen] = useState(false)
+
+  const handleOpenDemo = (projectTitle: string) => {
+    setSelectedProject(projectTitle)
+    setIsModalOpen(true)
+  }
+
+  const handleCloseDemo = () => {
+    setIsModalOpen(false)
+    setSelectedProject(null)
+  }
+
   const projectCategories = [
     {
       id: 'ai-systems',
@@ -182,7 +197,10 @@ export default function ProjectsPage() {
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 {category.projects.map((project, index) => (
                   <CardSpotlight key={index}>
-                    <div className="bg-main/80 backdrop-blur-sm border border-accent/20 rounded-lg p-8 hover:border-accent/50 hover:bg-main/90 transition-all duration-300 font-mono terminal-window relative">
+                    <div 
+                      className="bg-main/80 backdrop-blur-sm border border-accent/20 rounded-lg p-8 hover:border-accent/50 hover:bg-main/90 transition-all duration-300 font-mono terminal-window relative cursor-pointer"
+                      onClick={() => handleOpenDemo(project.title)}
+                    >
                       {/* Terminal header bar */}
                       <div className="absolute top-0 left-0 right-0 h-10 flex items-center gap-2 px-3 border-b border-accent/20 bg-main/50">
                         <div className="flex gap-1.5">
@@ -236,6 +254,20 @@ export default function ProjectsPage() {
                               </span>
                             ))}
                           </div>
+                        </div>
+
+                        {/* Demo Button */}
+                        <div className="mt-6">
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation()
+                              handleOpenDemo(project.title)
+                            }}
+                            className="w-full bg-accent/10 hover:bg-accent/20 text-accent border border-accent/30 hover:border-accent px-4 py-2 rounded-lg text-sm font-mono transition-all duration-300 flex items-center justify-center gap-2"
+                          >
+                            <span>▶</span>
+                            Click to view demo
+                          </button>
                         </div>
                       </div>
                     </div>
@@ -363,6 +395,15 @@ export default function ProjectsPage() {
       </main>
       
       <Footer />
+
+      {/* Demo Modal */}
+      {selectedProject && (
+        <ProjectDemoModal
+          open={isModalOpen}
+          onOpenChange={setIsModalOpen}
+          projectTitle={selectedProject}
+        />
+      )}
     </div>
   )
 }
