@@ -25,81 +25,81 @@ export default function DivisionsPage() {
     {
       id: 'ai-systems',
       title: 'AI Systems & Orchestration',
-      description: 'Agentic systems with observability built-in. Every AI pipeline includes failure modes, automated recovery, audit trails, and 10-year evolution paths.',
+      description: 'Build retrieval, automation, and workflow engines that make decision-making autonomous and auditable.',
       capabilities: [
-        'RAG pipelines with real-time vector indexing (500+ QPS)',
-        'Multi-agent orchestration with failure recovery',
-        'Natural language understanding with explainability',
-        'Intelligent workflows with human-in-the-loop',
-        'Enterprise integration with audit compliance',
-        'AI observability: metrics, tracing, model versioning'
+        'Autonomous decision-making systems',
+        'Workflow engines with audit trails',
+        'Retrieval systems for enterprise data',
+        'Automated process orchestration',
+        'Auditable AI operations',
+        'Production-ready AI infrastructure'
       ],
-      engineeringApproach: 'Built-in failure modes for every agent. Graceful degradation when models fail. Full audit trail for enterprise compliance. Systems evolve without rewrites.',
-      projects: ['Sales Analytics Assistant', 'Agentic Financial Assistant'],
+      engineeringApproach: 'We build systems designed for transparency and reliability. Every AI application includes built-in observability and audit capabilities.',
+      projects: ['Intelligent Query Assistant', 'Context-Aware Data Engine'],
       icon: 'ai-systems'
     },
     {
       id: 'cybersecurity',
-      title: 'Cybersecurity Intelligence',
-      description: 'Fraud detection at 1M+ TPS with sub-second latency. Automated penetration testing that improves faster than exploits evolve. Security that learns.',
+      title: 'Cybersecurity & Intelligence',
+      description: 'AI-assisted pentesting, anomaly detection, and graph-based risk modeling.',
       capabilities: [
-        'AI-assisted pentesting (10x faster than manual)',
-        'GNN fraud detection at million-transactions-per-second',
-        'Real-time anomaly detection with 92% precision',
-        'Cross-system event correlation (20+ systems)',
-        'Automated incident response and threat hunting',
-        'Security postures that self-improve weekly'
+        'AI-assisted penetration testing',
+        'Anomaly detection systems',
+        'Graph-based risk modeling',
+        'Threat intelligence platforms',
+        'Automated security monitoring',
+        'Security posture automation'
       ],
-      engineeringApproach: 'Defense in depth. Multiple detection layers. Automated response without false positive cascades. Threat intelligence that evolves in real-time.',
-      projects: ['Virtual Penetration Framework', 'Anomaly & Event Correlation Engine'],
+      engineeringApproach: 'We build defenses that adapt faster than threats. Every system includes proactive security measures and real-time monitoring.',
+      projects: ['Virtual Penetration Framework', 'Threat Graph Correlator'],
       icon: 'cybersecurity'
     },
     {
       id: 'quantitative',
-      title: 'Quantitative Engineering',
-      description: 'Trading systems with 5ms execution guarantees. Risk models backtested against 50 years of data. Deterministic execution, probabilistic risk.',
+      title: 'Quantitative & Financial Systems',
+      description: 'Predictive modeling, trading automation, and real-time forecasting engines.',
       capabilities: [
-        'C++ order routing with microsecond precision',
-        'Time-series forecasting with structural break detection',
-        'Risk management with 99.9% loss prevention',
-        'Quantitative models backtested on 50 years data',
-        'Real-time market data processing at scale',
-        'Portfolio optimization adapting to volatility regimes'
+        'Predictive financial modeling',
+        'Trading automation systems',
+        'Real-time forecasting engines',
+        'Market analysis platforms',
+        'Risk management systems',
+        'Portfolio optimization'
       ],
-      engineeringApproach: 'Production-grade execution paths in C++. ML inference on separate threads. Async risk checks. Backtest thoroughly, deploy conservatively, monitor everything.',
-      projects: ['Futures Trading Engine', 'Predictive Equation Modeler'],
+      engineeringApproach: 'We design data-driven models that measure, predict, and optimize performance. All systems include comprehensive risk management.',
+      projects: ['Market Forecast Engine', 'Breakout Probability Model', 'Agentic Finance Tracker'],
       icon: 'quantitative'
     },
     {
       id: 'automation',
-      title: 'Automation & Robotics',
-      description: 'Industrial control systems with redundant fail-safes. PLC code that survives hardware migrations. Edge AI that works offline.',
+      title: 'Industrial & Edge Automation',
+      description: 'Robotics, PLC, and IoT frameworks that connect data with motion.',
       capabilities: [
-        'PLC programming (ladder logic, structured text)',
-        'Industrial automation with OPC-UA/Modbus gateways',
-        '100+ device aggregation with unified visibility',
-        'ROS-based robotics with safety interlocks',
-        'Edge AI vision on ARM Cortex-A78',
-        'Offline-first IoT with adaptive control'
+        'PLC programming and automation',
+        'Robotics control systems',
+        'IoT framework integration',
+        'Edge computing solutions',
+        'Industrial data connectivity',
+        'Motion control systems'
       ],
-      engineeringApproach: 'Redundant fail-safes in every circuit. PLC code survives part replacements. Edge AI compresses to 8MB, runs on $50 hardware. Offline-first architecture.',
-      projects: ['Edge-AI Kitchen Vision System', 'Industrial Automation Suite', 'IoT & Robotics R&D'],
+      engineeringApproach: 'We connect data with motion. Every automation system includes reliability measures and integrates seamlessly with enterprise infrastructure.',
+      projects: ['Edge-Vision Analytics', 'PLC Automation Suite', 'Robotic R&D Series'],
       icon: 'automation'
     },
     {
       id: 'product',
-      title: 'Applied Product Engineering',
-      description: 'Backend services in Python/C/Java. Mobile in Flutter. Infrastructure that scales linearly. Code that documents itself.',
+      title: 'Applied Software Engineering',
+      description: 'Enterprise-grade systems combining backend precision with intuitive user interfaces.',
       capabilities: [
-        'Fullstack web: Next.js, React, TypeScript',
-        'Backend APIs: FastAPI, Spring Boot, Go',
-        'Mobile apps: Flutter (iOS, Android)',
-        'OCR and document processing systems',
-        'Voice AI with on-device transcription',
-        'Cloud platforms: AWS, on-prem, hybrid'
+        'Enterprise backend systems',
+        'Full-stack web applications',
+        'Mobile application development',
+        'API design and implementation',
+        'Database optimization',
+        'Cloud infrastructure'
       ],
-      engineeringApproach: 'Multi-language backends: Python for velocity, C for performance, Java for enterprise, Go for scale. Flutter for mobile. Infrastructure that grows linearly, not exponentially.',
-      projects: ['Cognitive Therapy Platform', 'Offline Summarizer App'],
+      engineeringApproach: 'We build systems that work. Every application balances backend precision with user-friendly interfaces. Code that documents itself.',
+      projects: ['Therapeutic Dialogue AI', 'Offline Transcriber'],
       icon: 'product'
     }
   ]
@@ -221,6 +221,15 @@ export default function DivisionsPage() {
                 }
               ]}
             />
+          </div>
+        </section>
+
+        {/* Closing Statement */}
+        <section className="py-16 bg-main/50">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <p className="text-secondary/70 text-lg sm:text-xl mb-8 font-mono italic">
+              Every division shares one principle: build systems that outperform expectations.
+            </p>
           </div>
         </section>
 

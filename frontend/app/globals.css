@@ -186,6 +186,14 @@
   --terminal-success: #4ade80;
   --terminal-error: #ef4444;
   --terminal-info: #60a5fa;
+
+  /* Splash screen animations */
+  --animate-splash-fade: splash-fade 1s ease-in-out;
+  
+  @keyframes splash-fade {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+  }
 }
 
 @layer base {

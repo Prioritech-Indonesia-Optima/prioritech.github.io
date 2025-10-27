@@ -24,130 +24,100 @@ import { ArrowRight, ExternalLink } from "lucide-react"
 export default function ProjectsPage() {
   const projectCategories = [
     {
-      id: 'intelligent-systems',
-      title: 'Intelligent Systems',
+      id: 'ai-systems',
+      title: 'AI Systems',
       description: 'AI-powered systems that enhance business operations and decision-making.',
       projects: [
         {
-          title: 'Sales Analytics Assistant',
-          description: 'Problem: teams spent hours building reports from 10 years of fragmented sales data. Solution: RAG pipeline with real-time vector indexing. Built 800+ embedding queries per second, sub-100ms retrieval.',
-          impact: '80% faster analytics, self-service dashboard eliminated manual reporting',
-          technicalChallenge: 'How to make 500GB of historical data queryable in natural language without pre-indexing everything',
-          engineeringDecision: 'Incremental indexing with vector similarity search. Trade-off: slightly stale data (acceptable for sales analytics)',
-          techStack: ['FastAPI', 'LangChain', 'PostgreSQL', 'Vector Indexing'],
-          category: 'intelligent-systems',
-          unlocks: 'Now supports predictive analytics, trend detection, and automated dashboard generation'
+          title: 'Intelligent Query Assistant',
+          description: 'Natural-language analytics over structured enterprise data.',
+          impact: '80% faster data retrieval.',
+          techStack: ['LangChain', 'FastAPI', 'PostgreSQL'],
+          category: 'ai-systems'
         },
         {
-          title: 'Graph Neural Fraud Detector',
-          description: 'Problem: fraud patterns evolve faster than rule-based systems can adapt. Solution: GNN learning transaction graph structures in real-time. Processes 1M+ transactions per second.',
-          impact: '92% precision prevents false positive cascade, reduces manual review by 60%',
-          technicalChallenge: 'Detect fraud in real-time without killing legitimate transactions. Cannot afford batch processing.',
-          engineeringDecision: 'Graph streaming with incremental learning. Model updates every 24 hours via MLOps pipeline.',
-          techStack: ['PyTorch Geometric', 'GNN', 'PostgreSQL', 'Redis', 'Streaming'],
-          category: 'intelligent-systems',
-          unlocks: 'Basis for anomaly detection across banking, e-commerce, insurance domains'
+          title: 'Context-Aware Data Engine',
+          description: 'Adaptive retrieval and feedback system designed for precision analytics.',
+          impact: 'Self-improving data retrieval system.',
+          techStack: ['RAG', 'Vector Stores', 'Feedback Loops'],
+          category: 'ai-systems'
         }
       ]
     },
     {
       id: 'cybersecurity',
-      title: 'Cybersecurity & Network Intelligence',
+      title: 'Cybersecurity Intelligence',
       description: 'Automated security solutions and intelligent threat detection systems.',
       projects: [
         {
           title: 'Virtual Penetration Framework',
-          description: 'Problem: security teams need continuous testing, but manual pentesting is expensive and slow. Solution: AI agent that performs reconnaissance, identifies attack vectors, and synthesizes exploit scripts. Fully autonomous security posture improvement.',
-          impact: 'Identifies vulnerabilities 10x faster than manual testing, updates attack strategies weekly',
-          technicalChallenge: 'How to automate security testing without false positives that waste engineer time',
-          engineeringDecision: 'Hierarchical agent architecture: reconnaissance → exploitation → reporting. Human-in-loop for critical findings.',
-          techStack: ['Python', 'LLM Orchestration', 'Network Protocols', 'Exploit Frameworks'],
-          category: 'cybersecurity',
-          unlocks: 'Continuous security improvement that adapts as infrastructure evolves'
+          description: 'Autonomous AI-driven pentest system that maps, analyzes, and exploits vulnerabilities safely.',
+          impact: 'Reduces manual security review time by over 70%.',
+          techStack: ['AI Pentesting', 'Security Automation'],
+          category: 'cybersecurity'
         },
         {
-          title: 'Anomaly & Event Correlation Engine',
-          description: 'Problem: security events across 20+ systems don\'t correlate. Attackers use infrastructure lag to evade detection. Solution: RAG-powered log analysis + GNN event correlation. Detects multi-system attack patterns in real-time.',
-          impact: 'Identifies attack campaigns 5 hours earlier than manual correlation, reduces false positives by 80%',
-          technicalChallenge: 'Correlate events across systems with different log formats, time zones, and network topologies',
-          engineeringDecision: 'Unified event graph where nodes are systems and edges are event relationships. RAG for natural language log parsing.',
-          techStack: ['RAG', 'GNN', 'Log Parsing', 'Event Correlation', 'Python'],
-          category: 'cybersecurity',
-          unlocks: 'SOC automation: automated incident response, threat hunting, and infrastructure hardening'
+          title: 'Threat Graph Correlator',
+          description: 'A graph intelligence engine that links cross-system anomalies into actionable insights.',
+          impact: 'Real-time threat detection across complex systems.',
+          techStack: ['Graph Intelligence', 'Anomaly Detection'],
+          category: 'cybersecurity'
         }
       ]
     },
     {
       id: 'quantitative',
-      title: 'Quantitative & Financial Systems',
+      title: 'Quantitative Systems',
       description: 'Machine learning-driven financial systems and algorithmic trading solutions.',
       projects: [
         {
-          title: 'Futures Trading Engine',
-          description: 'Problem: algorithmic trading needs millisecond execution but traditional ML pipelines are too slow. Solution: C++ order routing with 5ms latency guarantee. ML models run on separate thread, signals are queued.',
-          impact: 'Sustained profitability in live markets. Risk management prevents 99.9% of catastrophic losses.',
-          technicalChallenge: 'Sub-10ms total latency: network + order execution + risk check + confirmation',
-          engineeringDecision: 'Dedicated C++ path for order execution. Python for ML model inference. Async risk checks.',
-          techStack: ['C++', 'Machine Learning', 'Risk Management', 'Exchange APIs'],
-          category: 'quantitative',
-          unlocks: 'Scalable trading infrastructure: add new markets, instruments, strategies without rewrites'
+          title: 'Market Forecast Engine',
+          description: 'Machine-learning pipeline predicting volatility and momentum with high consistency.',
+          impact: '+38% ROI over baseline performance.',
+          techStack: ['Machine Learning', 'Time Series', 'Forecasting'],
+          category: 'quantitative'
         },
         {
-          title: 'Predictive Equation Modeler',
-          description: 'Problem: crypto volatility breaks traditional financial models. Solution: time-series framework with breakpoint detection. Models learn from 50 years of traditional market data, adapt to crypto microstructure.',
-          impact: '70% precision on breakout prediction vs 45% baseline. Identifies regime shifts 2 hours early',
-          technicalChallenge: 'How to detect structural breaks in market behavior without overfitting to noise',
-          engineeringDecision: 'Ensemble of ARIMA + neural ODEs. Backtest on 50 years data, validate on crypto metrics.',
-          techStack: ['Time Series', 'Forecasting', 'Python', 'Statistical Modeling'],
-          category: 'quantitative',
-          unlocks: 'Portfolio optimization: asset allocation that adapts to volatility regimes'
+          title: 'Breakout Probability Model',
+          description: 'Forecasting engine designed for real-time signal recognition and risk analysis.',
+          impact: 'High-consistency market prediction system.',
+          techStack: ['Signal Processing', 'Risk Analysis', 'Real-time ML'],
+          category: 'quantitative'
         },
         {
-          title: 'Agentic Financial Assistant',
-          description: 'Problem: SMEs lack financial analysis capability but can\'t afford advisors. Solution: conversational agent with financial reasoning. Analyzes spending patterns, suggests optimizations, plans cash flow.',
-          impact: 'Pilot users reduced inefficient spending by 12% within first month',
-          technicalChallenge: 'How to provide accurate financial advice without regulatory compliance violations',
-          engineeringDecision: 'Clear disclaimers. Agent explains reasoning. Human audit trail for all recommendations.',
-          techStack: ['Conversational AI', 'Financial Analysis', 'LangChain', 'FastAPI'],
-          category: 'quantitative',
-          unlocks: 'Financial literacy platform: SMEs learn good practices through daily interactions'
+          title: 'Agentic Finance Tracker',
+          description: 'Conversational finance system for SMEs that identifies inefficiencies and spending gaps.',
+          impact: 'Reduced wasted spend by 12%.',
+          techStack: ['Conversational AI', 'Financial Analysis'],
+          category: 'quantitative'
         }
       ]
     },
     {
       id: 'automation',
-      title: 'Automation & Mechatronics',
+      title: 'Automation & Robotics',
       description: 'Industrial automation, robotics, and IoT solutions for real-world applications.',
       projects: [
         {
-          title: 'Edge-AI Kitchen Vision System',
-          description: 'Problem: commercial kitchens need real-time efficiency monitoring but internet is unreliable. Solution: ARM-based edge computer vision. Processes 30 FPS locally, uploads summaries when online.',
-          impact: '30% faster service from predictive bottleneck detection. Works fully offline during outages',
-          technicalChallenge: 'Run neural networks on ARM Cortex-A78 without cloud dependency',
-          engineeringDecision: 'TensorFlow Lite quantization. MobileNet backbone. Model compresses to 8MB, runs on $50 hardware.',
-          techStack: ['Computer Vision', 'Edge AI', 'ARM Devices', 'TensorFlow Lite'],
-          category: 'automation',
-          unlocks: 'Offline-first AI: disaster response, rural deployments, privacy-sensitive applications'
+          title: 'Edge-Vision Analytics',
+          description: 'Real-time vision system deployed at the edge for manufacturing and logistics optimization.',
+          impact: 'Optimized manufacturing processes with edge AI.',
+          techStack: ['Edge AI', 'Computer Vision', 'Real-time Processing'],
+          category: 'automation'
         },
         {
-          title: 'Industrial Automation Suite',
-          description: 'Problem: automotive assembly lines have 100+ PLCs but no unified visibility. Solution: OPC-UA gateway aggregates all PLC data. Predictive maintenance prevents line stoppages.',
-          impact: '30% faster BOM processing. Zero unplanned downtime from equipment failure in 6 months',
-          technicalChallenge: 'Aggregate data from 100+ PLCs with different protocols, legacy hardware, proprietary formats',
-          engineeringDecision: 'Modbus-to-OPC-UA conversion layer. Universal driver library. Standardized event system.',
-          techStack: ['PLC Programming', 'OPC-UA', 'Modbus', 'Predictive Maintenance'],
-          category: 'automation',
-          unlocks: 'Smart factory: full visibility, predictive maintenance, autonomous quality control'
+          title: 'PLC Automation Suite',
+          description: 'Industrial automation pipeline designed for precision timing and error resilience.',
+          impact: 'High-reliability industrial control systems.',
+          techStack: ['PLC', 'Industrial Automation', 'SCADA'],
+          category: 'automation'
         },
         {
-          title: 'IoT & Robotics R&D',
-          description: 'Exploratory projects pushing boundaries: FPV ground drones for inspection, cloud AI CCTV with privacy-preserving analytics, adaptive irrigation that learns plant behavior.',
-          impact: 'Energy efficiency: irrigation system uses 40% less water via ML-optimized schedules',
-          technicalChallenge: 'How to make IoT systems work offline, respect privacy, and adapt to environmental changes',
-          engineeringDecision: 'Hybrid architecture: edge intelligence + cloud coordination. Privacy-by-design in computer vision.',
-          techStack: ['FPV Drones', 'Computer Vision', 'IoT', 'Adaptive Control', 'ROS'],
-          category: 'automation',
-          unlocks: 'Next-generation IoT: systems that adapt, self-heal, and work without constant connectivity'
+          title: 'Robotic R&D Series',
+          description: 'Drones, AI CCTV, and robotics systems integrating autonomy with reliability.',
+          impact: 'Advanced robotics for diverse industrial applications.',
+          techStack: ['Robotics', 'ROS', 'AI Vision', 'Drones'],
+          category: 'automation'
         }
       ]
     },
@@ -157,24 +127,18 @@ export default function ProjectsPage() {
       description: 'Production-ready AI applications and platforms for various industries.',
       projects: [
         {
-          title: 'Cognitive Therapy Platform',
-          description: 'Problem: mental health support should be private, available 24/7, and non-judgmental. Solution: conversational AI with long-term memory, sentiment tracking, and crisis detection. Fully encrypted, HIPAA-compliant.',
-          impact: 'Thousands of sessions without data breach. Users report 60% improvement in mood tracking consistency',
-          technicalChallenge: 'Maintain conversational context over months while preserving user privacy',
-          engineeringDecision: 'Separate encryption for vector embeddings vs metadata. Zero-knowledge architecture.',
-          techStack: ['LangChain', 'FastAPI', 'Encrypted Vector Stores', 'Sentiment Analysis', 'HIPAA Compliance'],
-          category: 'ai-platforms',
-          unlocks: 'Privacy-first AI: healthcare platforms, confidential counseling, personal assistant systems'
+          title: 'Therapeutic Dialogue AI',
+          description: 'Secure, sentiment-aware conversational engine built for sensitivity and privacy.',
+          impact: 'Secure and private conversational AI for sensitive applications.',
+          techStack: ['Conversational AI', 'Sentiment Analysis', 'Privacy'],
+          category: 'ai-platforms'
         },
         {
-          title: 'Offline Summarizer App',
-          description: 'Problem: professionals need note-taking but mobile apps require constant internet. Solution: on-device transcription + summarization. Works entirely offline, processes audio locally.',
-          impact: 'Used by 50K+ users in remote areas without reliable connectivity',
-          technicalChallenge: 'Run voice-to-text and summarization models on mobile hardware with <2GB RAM',
-          engineeringDecision: 'Apple Core ML for transcription. Custom quantized summarization model. 150MB total footprint.',
-          techStack: ['Flutter', 'Core ML', 'On-device AI', 'Audio Processing'],
-          category: 'ai-platforms',
-          unlocks: 'Edge AI products: voice assistants, meeting notes, accessibility tools that work anywhere'
+          title: 'Offline Transcriber',
+          description: 'Lightweight summarizer that processes data without cloud dependency.',
+          impact: 'Offline-capable AI transcription and summarization.',
+          techStack: ['On-device AI', 'Transcription', 'Summarization'],
+          category: 'ai-platforms'
         }
       ]
     }
@@ -251,26 +215,6 @@ export default function ProjectsPage() {
                           </div>
                         </div>
 
-                        {/* Technical Challenge */}
-                        {project.technicalChallenge && (
-                          <div className="mb-4">
-                            <h4 className="text-accent font-medium text-sm mb-2 font-mono">Technical Challenge</h4>
-                            <p className="text-secondary/70 text-xs italic font-mono">
-                              {project.technicalChallenge}
-                            </p>
-                          </div>
-                        )}
-
-                        {/* Engineering Decision */}
-                        {project.engineeringDecision && (
-                          <div className="mb-4">
-                            <h4 className="text-secondary font-medium text-sm mb-2 font-mono">Engineering Decision</h4>
-                            <p className="text-secondary/60 text-xs font-mono">
-                              {project.engineeringDecision}
-                            </p>
-                          </div>
-                        )}
-
                         {/* Impact Metrics */}
                         <div className="mb-6">
                           <h4 className="text-accent font-medium text-sm mb-2 font-mono">Impact</h4>
@@ -278,16 +222,6 @@ export default function ProjectsPage() {
                             &gt; {project.impact}
                           </p>
                         </div>
-
-                        {/* What This Unlocks */}
-                        {project.unlocks && (
-                          <div className="mb-6 border-t border-accent/10 pt-4">
-                            <h4 className="text-accent font-medium text-sm mb-2 font-mono">This Unlocks</h4>
-                            <p className="text-secondary/70 text-xs font-mono italic">
-                              {project.unlocks}
-                            </p>
-                          </div>
-                        )}
 
                         {/* Tech Stack */}
                         <div className="border-t border-accent/10 pt-4">
@@ -311,6 +245,53 @@ export default function ProjectsPage() {
             </div>
           </section>
         ))}
+
+        {/* What We Can Achieve Together */}
+        <section className="py-16 bg-main">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-12">
+              <h2 className="text-secondary text-2xl sm:text-3xl font-bold mb-4 font-mono">
+                What We Can Achieve Together
+              </h2>
+              <div className="text-secondary/70 text-base sm:text-lg max-w-3xl mx-auto font-mono italic mb-8">
+                We engineer results that make your workflow faster, smarter, and more profitable.
+              </div>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+              <div className="bg-main/50 border border-accent/20 rounded-lg p-6 font-mono hover:border-accent/50 transition-all">
+                <div className="text-accent text-sm font-medium mb-2">AI systems that think, analyze, and act on your behalf</div>
+              </div>
+              <div className="bg-main/50 border border-accent/20 rounded-lg p-6 font-mono hover:border-accent/50 transition-all">
+                <div className="text-accent text-sm font-medium mb-2">Automation frameworks that scale without human babysitting</div>
+              </div>
+              <div className="bg-main/50 border border-accent/20 rounded-lg p-6 font-mono hover:border-accent/50 transition-all">
+                <div className="text-accent text-sm font-medium mb-2">Predictive intelligence for operations, trading, or security</div>
+              </div>
+              <div className="bg-main/50 border border-accent/20 rounded-lg p-6 font-mono hover:border-accent/50 transition-all">
+                <div className="text-accent text-sm font-medium mb-2">Private AI environments that keep your data inside your walls</div>
+              </div>
+              <div className="bg-main/50 border border-accent/20 rounded-lg p-6 font-mono hover:border-accent/50 transition-all">
+                <div className="text-accent text-sm font-medium mb-2">Decision dashboards that don't just visualize — they execute</div>
+              </div>
+              <div className="bg-main/50 border border-accent/20 rounded-lg p-6 font-mono hover:border-accent/50 transition-all">
+                <div className="text-accent text-sm font-medium mb-2">End-to-end enterprise infrastructure with integrated AI agents</div>
+              </div>
+              <div className="bg-main/50 border border-accent/20 rounded-lg p-6 font-mono hover:border-accent/50 transition-all">
+                <div className="text-accent text-sm font-medium mb-2">Quant engines that optimize cost, risk, and opportunity</div>
+              </div>
+              <div className="bg-main/50 border border-accent/20 rounded-lg p-6 font-mono hover:border-accent/50 transition-all">
+                <div className="text-accent text-sm font-medium mb-2">Custom AI applications that transform day-to-day business execution</div>
+              </div>
+            </div>
+            
+            <div className="text-center">
+              <p className="text-secondary/70 text-sm sm:text-base font-mono italic">
+                You don't need another platform — you need a system that works. We build that.
+              </p>
+            </div>
+          </div>
+        </section>
 
         {/* Methodology Section */}
         <section className="py-16 bg-main/50">

@@ -29,39 +29,26 @@ import Link from "next/link"
 export default function AboutPage() {
   const focusAreas = [
     {
-      title: "AI Systems with Production Discipline",
-      description: "Agentic systems with observability hooks, failure modes, and audit trails. Built to evolve over 10 years without rewrites.",
+      title: "AI Systems & Automation",
+      description: "We transform complex operations into measurable, automated workflows.",
       icon: <Target size={24} />
     },
     {
-      title: "Fraud Detection at Scale",
-      description: "GNN architectures that learn transaction patterns in real-time. 92% precision on million-TPS throughput without false positive cascades.",
+      title: "Cybersecurity Intelligence",
+      description: "We build defenses that adapt faster than threats.",
       icon: <Lightbulb size={24} />
     },
     {
-      title: "Automated Security Testing",
-      description: "AI-assisted penetration testing with script synthesis. Security postures that improve faster than exploits evolve.",
+      title: "Quantitative Systems",
+      description: "We design data-driven models that measure, predict, and optimize performance.",
       icon: <CheckCircle size={24} />
-    },
-    {
-      title: "Quantitative Trading Systems",
-      description: "C++ order routing with 5ms latency guarantees. Backtested against 50 years of market data. Production-grade execution.",
-      icon: <Users size={24} />
-    },
-    {
-      title: "Industrial Control & Edge AI",
-      description: "PLC code that survives hardware migrations. Edge vision systems that work offline. Redundant fail-safes in every circuit.",
-      icon: <Target size={24} />
     }
   ]
 
   const philosophyPoints = [
-    "Uptime over uptick — we measure system availability, not page views.",
-    "Every system ships with its own diagnostic tools and failure recovery built-in.",
-    "We optimize for debuggability, not just performance. 3 AM debugging should be pleasant.",
-    "Documentation is code; code is documentation. Both must read clearly.",
-    "Systems designed to outgrow their initial requirements without rewrites.",
-    "Redundancy and graceful degradation from day one. Failures are features too."
+    "We build what's needed. No filler features, no empty dashboards.",
+    "We work directly. Clients deal with engineers, not middlemen.",
+    "We deliver results. Every product must prove its value in operation."
   ]
 
   return (
@@ -71,9 +58,9 @@ export default function AboutPage() {
       <main>
         {/* Hero Section */}
       <PageHero
-        title="We build systems that outlast their creators"
+        title="We build with intent, not impulse. Every line of code, every model, every circuit exists to solve a real problem."
         subtitle="About Prioritech"
-        description="Jakarta-based engineering firm. We measure success in system uptime, not marketing materials. Every design decision includes: how will the next engineer debug this at 3 AM?"
+        description="Prioritech is an engineering firm that blends AI, automation, and data infrastructure into working systems. We don't overpromise — we deliver. You'll never see vaporware here; just durable engineering that performs where it counts."
       />
 
         {/* Company Overview */}
@@ -86,13 +73,13 @@ export default function AboutPage() {
                 </h2>
                 <div className="text-secondary/70 text-base sm:text-lg leading-relaxed mb-6">
                   <TextGenerateEffect 
-                    words="Systems that inherit well. Code that documents itself. Infrastructure that fails gracefully. We don't optimize for demos; we build for the engineer who inherits our work in 5 years."
+                    words="We don't overpromise — we deliver. You'll never see vaporware here; just durable engineering that performs where it counts."
                     delayMultiple={0.03}
                   />
                 </div>
                 <div className="text-secondary/70 text-base sm:text-lg leading-relaxed">
                   <TextGenerateEffect 
-                    words="Every system ships with: observability infrastructure, failure mode documentation, and a 10-year maintenance strategy. Because software outlives requirements."
+                    words="We build with intent, not impulse. Every line of code, every model, every circuit exists to solve a real problem."
                     delayMultiple={0.03}
                   />
                 </div>
@@ -100,8 +87,8 @@ export default function AboutPage() {
               
               <TracingBeam>
                 <div className="bg-main/70 backdrop-blur-sm border border-accent/20 rounded-xl p-8 font-mono">
-                  <h3 className="text-secondary text-xl font-semibold mb-4 font-mono">Our Philosophy</h3>
-                  <ul className="space-y-3">
+                  <h3 className="text-secondary text-xl font-semibold mb-4 font-mono">Our Principles</h3>
+                  <ul className="space-y-3 mb-6">
                     {philosophyPoints.map((point, index) => (
                       <li key={index} className="flex items-start space-x-3">
                         <CheckCircle className="w-5 h-5 text-accent mt-0.5 flex-shrink-0" />
@@ -111,6 +98,16 @@ export default function AboutPage() {
                       </li>
                     ))}
                   </ul>
+                  <div className="border-t border-accent/20 pt-6">
+                    <h4 className="text-accent text-lg font-semibold mb-3 font-mono">Vision</h4>
+                    <p className="text-secondary/70 text-sm mb-4 font-mono">
+                      To become Indonesia's most trusted AI & automation engineering partner.
+                    </p>
+                    <h4 className="text-accent text-lg font-semibold mb-3 font-mono">Mission</h4>
+                    <p className="text-secondary/70 text-sm font-mono">
+                      To design technology that elevates industries through precision, reliability, and integrity.
+                    </p>
+                  </div>
                 </div>
               </TracingBeam>
             </div>
@@ -179,13 +176,9 @@ export default function AboutPage() {
         {/* CTA Section */}
         <section className="py-16">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 className="text-secondary text-2xl sm:text-3xl font-bold mb-6">
-              Ready to Build Something Together?
-            </h2>
-            <p className="text-secondary/70 text-base sm:text-lg mb-8 max-w-2xl mx-auto">
-              Let's discuss how Prioritech can help transform your business with intelligent, 
-              production-grade engineering solutions.
-            </p>
+            <div className="text-secondary/70 text-base sm:text-lg mb-8 max-w-2xl mx-auto font-mono italic">
+              Performance speaks louder than promises.
+            </div>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <MovingBorder borderRadius="8px">
                 <Link 

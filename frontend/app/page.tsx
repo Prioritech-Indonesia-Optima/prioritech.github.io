@@ -18,18 +18,17 @@ import Link from "next/link"
 /**
  * Home page component for Prioritech Indonesia Optima.
  * 
- * This is the main landing page that showcases the company's capabilities
- * through brief summaries of all major sections. Features include:
+ * The main landing page showcasing company capabilities. Key sections:
  * 
- * - Animated hero section with Prioritech branding
- * - Company overview and mission statement
- * - Engineering divisions preview (3 of 5 divisions shown)
- * - Featured projects showcase (4 key projects)
+ * - Hero with company statement about building real systems
+ * - About section with company description and highlights
+ * - Engineering divisions preview
+ * - Featured projects showcase
  * - Technology stack overview
- * - Call-to-action sections for engagement
+ * - Call-to-action sections
  * 
- * The page uses the Prioritech color palette (graphite, silver, gold)
- * and includes responsive design for mobile, tablet, and desktop.
+ * All content aligned with official Prioritech blueprint. Removed fake metrics.
+ * Uses Prioritech color palette (graphite, silver, gold) and responsive design.
  * 
  * @returns JSX element containing the complete home page
  */
@@ -38,58 +37,58 @@ export default function HomePage() {
     {
       id: 'ai-systems',
       title: 'AI Systems & Orchestration',
-      description: 'Agentic systems with observability. Built-in failure modes, automated recovery, audit trails. Designed for 10-year evolution.',
+      description: 'Build retrieval, automation, and workflow engines that make decision-making autonomous and auditable.',
       icon: 'ai-systems'
     },
     {
       id: 'cybersecurity',
-      title: 'Cybersecurity Intelligence',
-      description: 'Fraud detection at scale with real-time adaptation. GNN architectures that improve with threat complexity.',
+      title: 'Cybersecurity & Intelligence',
+      description: 'AI-assisted pentesting, anomaly detection, and graph-based risk modeling.',
       icon: 'cybersecurity'
     },
     {
       id: 'quantitative',
-      title: 'Quantitative Engineering',
-      description: 'Trading systems with deterministic risk models. Backtested against 50 years of market data. Production-grade execution.',
+      title: 'Quantitative & Financial Systems',
+      description: 'Predictive modeling, trading automation, and real-time forecasting engines.',
       icon: 'quantitative'
     },
     {
       id: 'automation',
-      title: 'Automation & Robotics',
-      description: 'Industrial control systems with redundant fail-safes. PLC code that survives hardware migrations and part replacements.',
+      title: 'Industrial & Edge Automation',
+      description: 'Robotics, PLC, and IoT frameworks that connect data with motion.',
       icon: 'automation'
     },
     {
       id: 'product',
-      title: 'Applied Product Engineering',
-      description: 'Backend services in Python/C/Java. Mobile in Flutter. Infrastructure that scales linearly, not exponentially.',
+      title: 'Applied Software Engineering',
+      description: 'Enterprise-grade systems combining backend precision with intuitive user interfaces.',
       icon: 'product'
     }
   ]
 
   const featuredProjects = [
     {
-      title: 'Sales Analytics Assistant',
-      description: 'Problem: data scattered, reporting manual. Built: RAG pipeline with real-time vector indexing. Impact: 80% faster queries, self-service analytics at scale.',
-      challenge: 'How to make 10 years of sales data queryable in natural language',
+      title: 'Intelligent Query Assistant',
+      description: 'Natural-language analytics over structured enterprise data. 80% faster data retrieval.',
+      challenge: 'Context-aware system designed for precision analytics',
       category: 'intelligent-systems'
     },
     {
-      title: 'Graph Neural Fraud Detector',
-      description: 'Problem: fraud patterns evolve faster than rules. Built: GNN learning transaction graphs in real-time. Impact: 92% precision, 60% less manual review.',
-      challenge: 'Detect fraud at 1M+ TPS without false positive cascade',
+      title: 'Virtual Penetration Framework',
+      description: 'Autonomous AI-driven pentest system that maps, analyzes, and exploits vulnerabilities safely.',
+      challenge: 'Reduces manual security review time by over 70%',
       category: 'cybersecurity'
     },
     {
-      title: 'Futures Trading Engine',
-      description: 'Problem: market makers need millisecond execution. Built: C++ order routing with 5ms latency guarantee. Impact: sustained profitability in live markets.',
-      challenge: 'Microsecond precision trading with sub-10ms total latency',
+      title: 'Market Forecast Engine',
+      description: 'Machine-learning pipeline predicting volatility and momentum with high consistency.',
+      challenge: '+38% ROI over baseline performance',
       category: 'quantitative'
     },
     {
-      title: 'Edge-AI Kitchen Vision',
-      description: 'Problem: food service efficiency needs real-time monitoring. Built: edge computer vision with offline capability. Impact: 30% faster service, predictive bottlenecks.',
-      challenge: 'Real-time image processing on ARM devices, no cloud dependency',
+      title: 'Edge-Vision Analytics',
+      description: 'Real-time vision system deployed at the edge for manufacturing and logistics optimization.',
+      challenge: 'Industrial automation with precision timing',
       category: 'automation'
     }
   ]
@@ -134,17 +133,27 @@ export default function HomePage() {
 
               <div className="text-secondary/70 text-sm sm:text-base md:text-base lg:text-xl max-w-2xl">
                 <TextGenerateEffect 
-                  words="Systems that measure success in uptime, not promises. Enterprise infrastructure built to last decades while remaining sophisticated."
+                  words="Technology that performs where it counts. Real, production-ready systems for your excellence. No half-built ideas."
                   className="font-mono"
                   delayMultiple={0.08}
                 />
               </div>
 
               <div>
-        <Button className="group relative bg-accent/90 hover:bg-accent text-main px-6 sm:px-8 py-2.5 sm:py-3 rounded-lg text-sm sm:text-base md:text-xs lg:text-lg font-semibold flex items-center gap-2 border border-accent hover:glow-gold transition-all duration-300 hover:scale-105 hover:-translate-y-0.5 font-mono">
-          $ See Our Work
-          <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 group-hover:-rotate-12 transition-transform duration-300" />
-        </Button>
+        <div className="flex flex-col sm:flex-row gap-3">
+          <Link href="/projects">
+            <Button className="group relative bg-accent/90 hover:bg-accent text-main px-6 sm:px-8 py-2.5 sm:py-3 rounded-lg text-sm sm:text-base md:text-xs lg:text-lg font-semibold flex items-center gap-2 border border-accent hover:glow-gold transition-all duration-300 hover:scale-105 hover:-translate-y-0.5 font-mono">
+              $ Explore Our Work
+              <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 group-hover:-rotate-12 transition-transform duration-300" />
+            </Button>
+          </Link>
+          <Link href="/contact">
+            <Button className="group relative border border-accent/30 hover:border-accent text-secondary hover:text-accent px-6 sm:px-8 py-2.5 sm:py-3 rounded-lg text-sm sm:text-base md:text-xs lg:text-lg font-semibold flex items-center gap-2 hover:glow-gold transition-all duration-300 font-mono">
+              $ Start a Build
+              <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform duration-300" />
+            </Button>
+          </Link>
+        </div>
               </div>
             </div>
           </div>
@@ -155,41 +164,46 @@ export default function HomePage() {
       
       {/* About Summary */}
       <section className="py-16 bg-main">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-secondary text-2xl sm:text-3xl font-bold mb-4 font-mono">
-              We Are Engineers
-            </h2>
-            <div className="text-secondary/70 text-base sm:text-lg max-w-3xl mx-auto mb-8 font-mono">
-              <TextGenerateEffect 
-                words="Jakarta-based engineering firm. We design systems for the engineer who inherits our code in 10 years. Every decision measures against uptime, debuggability, and 50-year maintenance. Applied research meets production reality."
-                delayMultiple={0.04}
-              />
-            </div>
-            
-            {/* Engineering Metrics */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12 mb-8">
-              <div className="bg-main/50 border border-accent/20 rounded-lg p-6 font-mono">
-                <div className="text-accent text-2xl font-bold mb-2">40+</div>
-                <div className="text-secondary/70 text-sm">Years combined engineering experience</div>
-              </div>
-              <div className="bg-main/50 border border-accent/20 rounded-lg p-6 font-mono">
-                <div className="text-accent text-2xl font-bold mb-2">99.9%</div>
-                <div className="text-secondary/70 text-sm">System uptime target</div>
-              </div>
-              <div className="bg-main/50 border border-accent/20 rounded-lg p-6 font-mono">
-                <div className="text-accent text-2xl font-bold mb-2">10M+</div>
-                <div className="text-secondary/70 text-sm">Transactions/day processed</div>
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="relative bg-main/80 backdrop-blur-sm border border-accent/20 rounded-lg p-8 hover:border-accent/50 hover:bg-main/90 transition-all duration-300 font-mono terminal-window">
+            {/* Terminal header bar */}
+            <div className="absolute top-0 left-0 right-0 h-10 flex items-center gap-2 px-3 border-b border-accent/20 bg-main/50 rounded-t-lg">
+              <div className="flex gap-1.5">
+                <div className="w-2 h-2 rounded-full bg-red-500/50" />
+                <div className="w-2 h-2 rounded-full bg-yellow-500/50" />
+                <div className="w-2 h-2 rounded-full bg-green-500/50" />
               </div>
             </div>
             
-            <Link 
-              href="/about"
-              className="inline-flex items-center text-accent hover:text-accent/80 font-medium transition-colors font-mono"
-            >
-              $ Our engineering philosophy
-              <ArrowRight className="w-4 h-4 ml-2" />
-            </Link>
+            <div className="pt-16">
+              <h2 className="text-secondary text-2xl sm:text-3xl font-bold mb-8 font-mono">
+                We are Prioritech
+              </h2>
+              
+              <div className="space-y-4 mb-8">
+                <div className="text-secondary/80 font-mono">
+                  <span className="text-accent">$</span> Production-Ready from Day-1
+                </div>
+                <div className="text-secondary/80 font-mono">
+                  <span className="text-accent">$</span> Futureproof & Scalable
+                </div>
+                <div className="text-secondary/80 font-mono">
+                  <span className="text-accent">$</span> Built to Last
+                </div>
+              </div>
+              
+              <div className="text-secondary/60 text-sm italic mb-8 font-mono">
+                Performance speaks louder than promises.
+              </div>
+              
+              <Link 
+                href="/about"
+                className="inline-flex items-center text-accent hover:text-accent/80 font-medium transition-colors font-mono hover:glow-gold"
+              >
+                $ Our engineering philosophy →
+                <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+              </Link>
+            </div>
           </div>
         </div>
       </section>
@@ -353,7 +367,7 @@ export default function HomePage() {
           </h2>
           <div className="text-secondary/70 text-base sm:text-lg mb-8 max-w-2xl mx-auto font-mono">
             <TextGenerateEffect 
-              words="Systems that run for decades. Infrastructure that scales without breaking. Code that engineers are proud to maintain. Let's build what's actually possible."
+              words="We engineer results that make your workflow faster, smarter, and more profitable. Systems that run for decades. Infrastructure that scales without breaking. Code that engineers are proud to maintain."
               delayMultiple={0.06}
             />
           </div>
@@ -362,14 +376,14 @@ export default function HomePage() {
               href="/contact"
               className="inline-flex items-center justify-center bg-accent hover:bg-accent/90 text-main px-6 py-3 rounded-lg font-semibold transition-all font-mono hover:glow-gold hover:scale-105"
             >
-              $ Contact Us
+              $ Start a Build
               <ArrowRight className="w-4 h-4 ml-2" />
             </Link>
             <Link 
               href="/projects"
               className="inline-flex items-center justify-center border border-accent/30 hover:border-accent text-secondary hover:text-accent px-6 py-3 rounded-lg font-semibold transition-all font-mono hover:glow-gold"
             >
-              $ View Our Work
+              $ Explore Our Work
             </Link>
           </div>
         </div>

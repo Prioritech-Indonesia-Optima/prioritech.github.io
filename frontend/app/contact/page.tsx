@@ -93,9 +93,9 @@ export default function ContactPage() {
       <main>
         {/* Hero Section */}
         <PageHero
-          title="Let's build something with precision."
-          subtitle="Contact Prioritech Indonesia Optima"
-          description="Ready to transform your business with intelligent, production-grade engineering solutions? Get in touch with our team to discuss your project."
+          title="We design systems that help you excel — not temporary fixes."
+          subtitle="Get in Touch"
+          description="We build what your operations need to compete at their best. If you're ready for a system that performs and scales, we're ready to design it."
         />
 
         {/* Contact Information & Form */}

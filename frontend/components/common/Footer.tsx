@@ -101,10 +101,7 @@ export function Footer() {
         <div className="border-t border-secondary/10 mt-8 pt-8">
           <div className="flex flex-col sm:flex-row justify-between items-center">
             <p className="text-secondary/50 text-sm">
-              © {currentYear} Prioritech Indonesia Optima. All rights reserved.
-            </p>
-            <p className="text-secondary/50 text-sm mt-2 sm:mt-0">
-              Progress. Precision. Prioritech.
+              © 2025 PT Prioritech Indonesia Optima — Progress. Precision. Prioritech.
             </p>
           </div>
         </div>

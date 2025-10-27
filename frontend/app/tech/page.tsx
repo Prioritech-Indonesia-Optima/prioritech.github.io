@@ -131,8 +131,8 @@ export default function TechPage() {
       <main>
         {/* Hero Section */}
         <PageHero
-          title="Our Technology Stack"
-          subtitle="Engineering Excellence"
+          title="We design systems that operate with precision, durability, and clarity. Tools evolve — our engineering principles don't."
+          subtitle="How We Build"
           description="Comprehensive technology stack spanning AI/ML, backend systems, frontend development, infrastructure, data management, and hardware integration."
         />
 
@@ -202,8 +202,208 @@ export default function TechPage() {
           </div>
         </section>
 
-        {/* Methodology Section */}
+        {/* Hardware & Embedded Systems */}
         <section className="py-16 bg-main/50">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-12">
+              <h2 className="text-secondary text-2xl sm:text-3xl font-bold mb-4 font-mono">
+                Hardware & Embedded Systems
+              </h2>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="bg-main/80 backdrop-blur-sm border border-accent/20 rounded-lg p-6 font-mono">
+                <h3 className="text-secondary font-semibold mb-4 font-mono">Firmware & Controllers</h3>
+                <ul className="space-y-2 text-sm">
+                  <li className="text-secondary/70">• STM32, ESP32, Arduino firmware development</li>
+                  <li className="text-secondary/70">• Custom controller programming</li>
+                  <li className="text-secondary/70">• Real-time embedded systems</li>
+                </ul>
+              </div>
+              <div className="bg-main/80 backdrop-blur-sm border border-accent/20 rounded-lg p-6 font-mono">
+                <h3 className="text-secondary font-semibold mb-4 font-mono">PLC Automation</h3>
+                <ul className="space-y-2 text-sm">
+                  <li className="text-secondary/70">• Siemens, Allen-Bradley systems</li>
+                  <li className="text-secondary/70">• Modbus/TCP integration</li>
+                  <li className="text-secondary/70">• Industrial control programming</li>
+                </ul>
+              </div>
+              <div className="bg-main/80 backdrop-blur-sm border border-accent/20 rounded-lg p-6 font-mono">
+                <h3 className="text-secondary font-semibold mb-4 font-mono">Robotics Systems</h3>
+                <ul className="space-y-2 text-sm">
+                  <li className="text-secondary/70">• Pathfinding algorithms</li>
+                  <li className="text-secondary/70">• Image processing for motion control</li>
+                  <li className="text-secondary/70">• ROS-based autonomous systems</li>
+                </ul>
+              </div>
+              <div className="bg-main/80 backdrop-blur-sm border border-accent/20 rounded-lg p-6 font-mono">
+                <h3 className="text-secondary font-semibold mb-4 font-mono">Edge AI</h3>
+                <ul className="space-y-2 text-sm">
+                  <li className="text-secondary/70">• NVIDIA CUDA, TensorRT optimization</li>
+                  <li className="text-secondary/70">• Jetson deployment</li>
+                  <li className="text-secondary/70">• OpenVINO, FPGA integration</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Security Architecture */}
+        <section className="py-16">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-12">
+              <h2 className="text-secondary text-2xl sm:text-3xl font-bold mb-4 font-mono">
+                Security Architecture
+              </h2>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="bg-main/50 border border-accent/20 rounded-lg p-6 font-mono">
+                <h3 className="text-accent font-semibold mb-4 font-mono">Zero-Trust Infrastructure</h3>
+                <p className="text-secondary/70 text-sm">Every component verified before access</p>
+              </div>
+              <div className="bg-main/50 border border-accent/20 rounded-lg p-6 font-mono">
+                <h3 className="text-accent font-semibold mb-4 font-mono">Encryption</h3>
+                <p className="text-secondary/70 text-sm">AES-256 / TLS 1.3 on all layers</p>
+              </div>
+              <div className="bg-main/50 border border-accent/20 rounded-lg p-6 font-mono">
+                <h3 className="text-accent font-semibold mb-4 font-mono">Access Control</h3>
+                <p className="text-secondary/70 text-sm">Role-based access with full audit logging</p>
+              </div>
+              <div className="bg-main/50 border border-accent/20 rounded-lg p-6 font-mono">
+                <h3 className="text-accent font-semibold mb-4 font-mono">Security Testing</h3>
+                <p className="text-secondary/70 text-sm">Pentesting integrated into development</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Pipeline Tooling */}
+        <section className="py-16 bg-main/50">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-12">
+              <h2 className="text-secondary text-2xl sm:text-3xl font-bold mb-4 font-mono">
+                Pipeline Tooling
+              </h2>
+            </div>
+            
+            <TracingBeam>
+              <div className="space-y-6">
+                <div className="bg-main/80 backdrop-blur-sm border border-accent/20 rounded-lg p-6 font-mono">
+                  <h3 className="text-accent font-semibold mb-2 font-mono">1. Data Layer</h3>
+                  <p className="text-secondary/70 text-sm">Ingestion, validation, and ETL</p>
+                </div>
+                <div className="bg-main/80 backdrop-blur-sm border border-accent/20 rounded-lg p-6 font-mono">
+                  <h3 className="text-accent font-semibold mb-2 font-mono">2. Model Layer</h3>
+                  <p className="text-secondary/70 text-sm">Agno + LangChain orchestration</p>
+                </div>
+                <div className="bg-main/80 backdrop-blur-sm border border-accent/20 rounded-lg p-6 font-mono">
+                  <h3 className="text-accent font-semibold mb-2 font-mono">3. Logic Layer</h3>
+                  <p className="text-secondary/70 text-sm">FastAPI/Flask endpoints with strict version control</p>
+                </div>
+                <div className="bg-main/80 backdrop-blur-sm border border-accent/20 rounded-lg p-6 font-mono">
+                  <h3 className="text-accent font-semibold mb-2 font-mono">4. Interface Layer</h3>
+                  <p className="text-secondary/70 text-sm">Flutter or React for visualization</p>
+                </div>
+                <div className="bg-main/80 backdrop-blur-sm border border-accent/20 rounded-lg p-6 font-mono">
+                  <h3 className="text-accent font-semibold mb-2 font-mono">5. Ops Layer</h3>
+                  <p className="text-secondary/70 text-sm">Docker, Redis, Grafana for monitoring</p>
+                </div>
+              </div>
+            </TracingBeam>
+          </div>
+        </section>
+
+        {/* Engineering Principles */}
+        <section className="py-16">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-12">
+              <h2 className="text-secondary text-2xl sm:text-3xl font-bold mb-4 font-mono">
+                Engineering Principles
+              </h2>
+            </div>
+            
+            <div className="space-y-4">
+              <div className="bg-main/50 border border-accent/20 rounded-lg p-6 font-mono">
+                <div className="flex items-start space-x-4">
+                  <div className="text-accent text-2xl font-bold">1.</div>
+                  <p className="text-secondary/70 text-sm">Every system is designed for clarity.</p>
+                </div>
+              </div>
+              <div className="bg-main/50 border border-accent/20 rounded-lg p-6 font-mono">
+                <div className="flex items-start space-x-4">
+                  <div className="text-accent text-2xl font-bold">2.</div>
+                  <p className="text-secondary/70 text-sm">Every deployment must be observable.</p>
+                </div>
+              </div>
+              <div className="bg-main/50 border border-accent/20 rounded-lg p-6 font-mono">
+                <div className="flex items-start space-x-4">
+                  <div className="text-accent text-2xl font-bold">3.</div>
+                  <p className="text-secondary/70 text-sm">Every client owns their data and logs.</p>
+                </div>
+              </div>
+              <div className="bg-main/50 border border-accent/20 rounded-lg p-6 font-mono">
+                <div className="flex items-start space-x-4">
+                  <div className="text-accent text-2xl font-bold">4.</div>
+                  <p className="text-secondary/70 text-sm">Every product is tested under real load.</p>
+                </div>
+              </div>
+              <div className="bg-main/50 border border-accent/20 rounded-lg p-6 font-mono">
+                <div className="flex items-start space-x-4">
+                  <div className="text-accent text-2xl font-bold">5.</div>
+                  <p className="text-secondary/70 text-sm">Documentation is part of the delivery.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* What We Can Achieve Together */}
+        <section className="py-16 bg-main/50">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-12">
+              <h2 className="text-secondary text-2xl sm:text-3xl font-bold mb-4 font-mono">
+                What We Can Achieve Together
+              </h2>
+              <div className="text-secondary/70 text-base sm:text-lg max-w-3xl mx-auto font-mono italic mb-8">
+                We build what matters — systems that keep your business ahead, not busy.
+              </div>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+              <div className="bg-main/80 border border-accent/20 rounded-lg p-6 font-mono hover:border-accent/50 transition-all">
+                <div className="text-accent text-sm font-medium mb-2">Multi-agent AI infrastructures that act on live data</div>
+              </div>
+              <div className="bg-main/80 border border-accent/20 rounded-lg p-6 font-mono hover:border-accent/50 transition-all">
+                <div className="text-accent text-sm font-medium mb-2">AI copilots that analyze, report, and respond automatically</div>
+              </div>
+              <div className="bg-main/80 border border-accent/20 rounded-lg p-6 font-mono hover:border-accent/50 transition-all">
+                <div className="text-accent text-sm font-medium mb-2">Secure private AI deployments for regulated industries</div>
+              </div>
+              <div className="bg-main/80 border border-accent/20 rounded-lg p-6 font-mono hover:border-accent/50 transition-all">
+                <div className="text-accent text-sm font-medium mb-2">Cyber-defense and monitoring platforms with self-learning</div>
+              </div>
+              <div className="bg-main/80 border border-accent/20 rounded-lg p-6 font-mono hover:border-accent/50 transition-all">
+                <div className="text-accent text-sm font-medium mb-2">Predictive automation for production, trading, and logistics</div>
+              </div>
+              <div className="bg-main/80 border border-accent/20 rounded-lg p-6 font-mono hover:border-accent/50 transition-all">
+                <div className="text-accent text-sm font-medium mb-2">Robotics systems integrated with cloud intelligence</div>
+              </div>
+              <div className="bg-main/80 border border-accent/20 rounded-lg p-6 font-mono hover:border-accent/50 transition-all">
+                <div className="text-accent text-sm font-medium mb-2">Full-stack AI platforms where backend, intelligence, and UI work as one</div>
+              </div>
+            </div>
+            
+            <div className="text-center">
+              <p className="text-secondary/70 text-sm sm:text-base font-mono italic">
+                We don't sell what's popular — we engineer what performs.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* Methodology Section */}
+        <section className="py-16 bg-main">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-12">
               <h2 className="text-secondary text-2xl sm:text-3xl font-bold mb-4">
