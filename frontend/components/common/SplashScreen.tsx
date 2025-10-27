@@ -5,14 +5,14 @@ import { motion, AnimatePresence } from "framer-motion"
 import { LoadingBar } from "./LoadingBar"
 
 const TERMINAL_COMMANDS = [
-  "$ sudo su",
+  "sudo su",
   {
     text: "[sudo] password for user: ",
     static: "[sudo] password for user: ",
     animated: "********"
   },
-  "# cd /opt/prioritech",
-  "# ./start-program.sh"
+  "cd /opt/prioritech",
+  "./start-program.sh"
 ]
 
 interface SplashScreenProps {
@@ -53,6 +53,7 @@ export function SplashScreen({ onComplete, show }: SplashScreenProps) {
   const [currentCommandIndex, setCurrentCommandIndex] = useState(0)
   const [currentText, setCurrentText] = useState("")
   const [isTyping, setIsTyping] = useState(true)
+  const [isWaitingForPassword, setIsWaitingForPassword] = useState(false)
 
   const handleLoadingComplete = () => {
     // Show success message
@@ -78,6 +79,7 @@ export function SplashScreen({ onComplete, show }: SplashScreenProps) {
       setShowLoading(false)
       setShowSuccess(false)
       setIsClosing(false)
+      setIsWaitingForPassword(false)
     }
   }, [show])
 
@@ -96,6 +98,16 @@ export function SplashScreen({ onComplete, show }: SplashScreenProps) {
         // For password: initialize with static text if empty
         if (currentText === "") {
           setCurrentText(currentCommand.static)
+          setIsWaitingForPassword(true)
+          // Wait 500ms before starting to type asterisks
+          setTimeout(() => {
+            setIsWaitingForPassword(false)
+          }, 500)
+          return
+        }
+        
+        // If still waiting, don't proceed with asterisk typing yet
+        if (isWaitingForPassword) {
           return
         }
         
@@ -114,6 +126,7 @@ export function SplashScreen({ onComplete, show }: SplashScreenProps) {
               setCurrentCommandIndex(prev => prev + 1)
               setCurrentText("")
               setIsTyping(true)
+              setIsWaitingForPassword(false)
             } else {
               setShowLoading(true)
             }
@@ -145,7 +158,7 @@ export function SplashScreen({ onComplete, show }: SplashScreenProps) {
     }, 30)
 
     return () => clearTimeout(timer)
-  }, [currentText, currentCommandIndex, isTyping, show])
+  }, [currentText, currentCommandIndex, isTyping, show, isWaitingForPassword])
 
   if (!show) return null
 

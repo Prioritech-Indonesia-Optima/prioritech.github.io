@@ -147,7 +147,7 @@ components/
 - **Address**: NEO SOHO PODOMORO CITY UNIT 3106
 - **Location**: Jl. Letjen S. Parman Kav. 28, Tanjung Duren Selatan
 - **City**: Jakarta Barat, DKI Jakarta 11470
-- **Email**: contact@prioritech.com
+- **Email**: contact@prioritech.co.id
 
 ## 🎨 Design Philosophy
 

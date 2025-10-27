@@ -55,8 +55,8 @@ export function Footer() {
               </div>
               <div className="flex items-center space-x-3 text-secondary/70">
                 <Mail className="w-4 h-4 text-accent" />
-                <a href="mailto:contact@prioritech.com" className="text-sm hover:text-accent transition-colors">
-                  contact@prioritech.com
+                <a href="mailto:contact@prioritech.co.id" className="text-sm hover:text-accent transition-colors">
+                  contact@prioritech.co.id
                 </a>
               </div>
             </div>
