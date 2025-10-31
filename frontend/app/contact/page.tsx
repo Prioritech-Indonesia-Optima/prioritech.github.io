@@ -82,7 +82,7 @@ export default function ContactPage() {
     {
       icon: <Mail size={20} />,
       title: 'Email',
-      details: ['contact@prioritech.co.id']
+      details: ['ivan.aurelius@prioritech.co.id']
     }
   ]
 
