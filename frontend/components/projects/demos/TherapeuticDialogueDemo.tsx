@@ -1,54 +1,55 @@
 "use client"
 
 import { useMemo } from "react"
-import { TerminalWindow } from "./shared/TerminalWindow"
-import { TerminalLine } from "./shared/TerminalLine"
-import { useUnifiedDemo, DemoLine } from "@/hooks/use-unified-demo"
+import { TherapeuticChat } from "./visualizations/TherapeuticChat"
 
 /**
  * Therapeutic Dialogue AI demo component.
  * 
- * Simulates sensitive chat interface with privacy focus, sentiment analysis,
- * and session summaries using unified fade-in animation.
+ * Displays messenger-style chat interface with therapeutic conversation,
+ * sentiment analysis, privacy indicators, and session summaries.
+ * Demonstrates secure, empathetic AI dialogue for sensitive applications.
  */
 export function TherapeuticDialogueDemo() {
-  // Build lines array
-  const lines: DemoLine[] = useMemo(() => [
-    { prefix: "✓", text: "Privacy: End-to-end encrypted • Local storage only • HIPAA compliant", color: "text-green-500", instant: true },
-    { text: "User (10:15 AM): I've been feeling really overwhelmed with work lately." },
-    { text: "Sentiment: stressed" },
-    { prefix: ">", text: "AI (10:15 AM): I understand. That sounds difficult. Can you tell me more?", color: "text-info" },
-    { text: "Sentiment: positive" },
-    { text: "User (10:16 AM): There's just so much pressure and expectations. I feel like I can't keep up." },
-    { text: "Sentiment: stressed" },
-    { prefix: ">", text: "AI (10:17 AM): It sounds like you're carrying a lot of responsibility.", color: "text-info" },
-    { text: "Session Summary:", instant: true },
-    { text: "Duration: 12 minutes" },
-    { text: "Sentiment: Improved (Stressed → Calm)" },
-    { text: "Topics: Work stress, expectations, patterns" },
-    { prefix: "✓", text: "Data encrypted and stored locally", color: "text-green-500", instant: true }
+  // Build chat messages
+  const chatMessages = useMemo(() => [
+    {
+      role: "user" as const,
+      content: "I've been feeling really overwhelmed with work lately.",
+      timestamp: "10:15 AM",
+      sentiment: "stressed" as const,
+    },
+    {
+      role: "assistant" as const,
+      content: "I understand. That sounds difficult. Can you tell me more about what's making you feel overwhelmed?",
+      timestamp: "10:15 AM",
+      sentiment: "positive" as const,
+    },
+    {
+      role: "user" as const,
+      content: "There's just so much pressure and expectations. I feel like I can't keep up.",
+      timestamp: "10:16 AM",
+      sentiment: "stressed" as const,
+    },
+    {
+      role: "assistant" as const,
+      content: "It sounds like you're carrying a lot of responsibility. That must be really challenging. What strategies have you tried to manage this pressure?",
+      timestamp: "10:17 AM",
+      sentiment: "calm" as const,
+    },
+    {
+      role: "user" as const,
+      content: "I haven't really tried much. I guess I've just been pushing through, but it's not working anymore.",
+      timestamp: "10:18 AM",
+      sentiment: "stressed" as const,
+    },
+    {
+      role: "assistant" as const,
+      content: "Acknowledging that pushing through isn't working is an important first step. Let's explore some practical approaches that might help you find more balance.",
+      timestamp: "10:19 AM",
+      sentiment: "positive" as const,
+    },
   ], [])
-  
-  const { visibleLines, showCursor } = useUnifiedDemo(lines, {
-    lineDelay: 300,
-    shouldLoop: true,
-    freezeDuration: 5000
-  })
 
-  return (
-    <TerminalWindow title="therapeutic-dialogue">
-      {visibleLines.map((line, i) => (
-        <TerminalLine
-          key={i}
-          text={line.text}
-          prefix={line.prefix}
-          color={line.color}
-          isAnimating={line.isAnimating}
-        />
-      ))}
-      {showCursor && (
-        <span className="animate-cursor-blink text-accent">▊</span>
-      )}
-    </TerminalWindow>
-  )
+  return <TherapeuticChat messages={chatMessages} />
 }

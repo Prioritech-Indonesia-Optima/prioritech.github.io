@@ -55,7 +55,7 @@ export function useRandomData(seed?: number) {
     let price = basePrice
     return Array.from({ length: count }, () => {
       const change = (random() - 0.5) * 2 // -1 to 1
-      price *= 1 + change * 0.02 // ±2% volatility
+      price *= 1 + change * 0.06 // ±6% volatility (increased from 2%)
       return Number(price.toFixed(2))
     })
   }

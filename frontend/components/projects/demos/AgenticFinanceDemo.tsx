@@ -1,50 +1,63 @@
 "use client"
 
 import { useMemo } from "react"
-import { TerminalWindow } from "./shared/TerminalWindow"
-import { TerminalLine } from "./shared/TerminalLine"
-import { useUnifiedDemo, DemoLine } from "@/hooks/use-unified-demo"
+import { FinanceChat } from "./visualizations/FinanceChat"
 
 /**
  * Agentic Finance Tracker demo component.
  * 
- * Simulates conversational finance assistant with terminal-style chat,
- * spending analysis, and actionable recommendations using unified fade-in animation.
+ * Displays messenger-style chat interface for finance assistant with spending analysis,
+ * category breakdowns, and actionable savings recommendations.
+ * Demonstrates conversational AI capabilities for financial management.
  */
 export function AgenticFinanceDemo() {
-  // Build lines array
-  const lines: DemoLine[] = useMemo(() => [
-    { prefix: "$", text: "Agentic Finance Tracker - Conversational AI", color: "text-accent", instant: true },
-    { text: "User: Where is my budget going this month?" },
-    { prefix: ">", text: "Analyzing spending patterns...", color: "text-info", instant: true },
-    { text: "AI: Top categories: Entertainment (28%), Dining (23%), Shopping (20%)" },
-    { text: "User: What can I do to save more?" },
-    { prefix: ">", text: "Generating recommendations...", color: "text-info", instant: true },
-    { text: "AI: 1) Reduce dining out by 40% → Save $152/month" },
-    { text: "    2) Cancel unused subscriptions → Save $65/month" },
-    { prefix: "✓", text: "Projected total: $217/month savings, 12% reduction", color: "text-green-500", instant: true }
+  // Build chat messages with financial insights
+  const chatMessages = useMemo(() => [
+    {
+      role: "user" as const,
+      content: "Where is my budget going this month?",
+      timestamp: "10:15 AM",
+    },
+    {
+      role: "assistant" as const,
+      content: "Based on your spending this month, here's where your budget is allocated:",
+      timestamp: "10:15 AM",
+      insights: {
+        categories: [
+          { name: "Entertainment", percentage: 28 },
+          { name: "Dining", percentage: 23 },
+          { name: "Shopping", percentage: 20 },
+          { name: "Transportation", percentage: 15 },
+          { name: "Utilities", percentage: 14 },
+        ],
+        metrics: {
+          totalSpending: "$3,245",
+          savingsPotential: "$217/mo",
+        },
+      },
+    },
+    {
+      role: "user" as const,
+      content: "What can I do to save more?",
+      timestamp: "10:16 AM",
+    },
+    {
+      role: "assistant" as const,
+      content: "Here are personalized recommendations to help you save more:",
+      timestamp: "10:16 AM",
+      insights: {
+        recommendations: [
+          { action: "Reduce dining out by 40%", savings: "$152/month" },
+          { action: "Cancel unused subscriptions", savings: "$65/month" },
+          { action: "Optimize entertainment spending", savings: "$45/month" },
+        ],
+        metrics: {
+          totalSpending: "$3,245",
+          savingsPotential: "$262/month",
+        },
+      },
+    },
   ], [])
-  
-  const { visibleLines, showCursor } = useUnifiedDemo(lines, {
-    lineDelay: 300,
-    shouldLoop: true,
-    freezeDuration: 5000
-  })
 
-  return (
-    <TerminalWindow title="agentic-finance-tracker">
-      {visibleLines.map((line, i) => (
-        <TerminalLine
-          key={i}
-          text={line.text}
-          prefix={line.prefix}
-          color={line.color}
-          isAnimating={line.isAnimating}
-        />
-      ))}
-      {showCursor && (
-        <span className="animate-cursor-blink text-accent">▊</span>
-      )}
-    </TerminalWindow>
-  )
+  return <FinanceChat messages={chatMessages} />
 }

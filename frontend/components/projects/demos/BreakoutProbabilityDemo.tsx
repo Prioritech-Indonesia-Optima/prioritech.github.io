@@ -1,73 +1,106 @@
 "use client"
 
 import { useMemo } from "react"
-import { TerminalWindow } from "./shared/TerminalWindow"
-import { TerminalLine } from "./shared/TerminalLine"
-import { useUnifiedDemo, DemoLine } from "@/hooks/use-unified-demo"
 import { useRandomData } from "@/hooks/use-random-data"
+import { MarketBreakoutIndicator } from "./visualizations/MarketBreakoutIndicator"
 
 /**
  * Breakout Probability Model demo component.
  * 
- * Simulates real-time market data streaming, signal detection, probability
- * calculation, risk analysis, and trade recommendations using unified fade-in animation.
+ * Displays predictive market breakout indicator showing PST (Predictive Signal Threshold)
+ * that signals breakouts BEFORE they occur. PST goes to +1 for upward breakouts or -1
+ * for downward breakouts ahead of actual price peaks/bottoms.
  */
 export function BreakoutProbabilityDemo() {
   const randomData = useRandomData()
   
   // Pre-compute demo data
   const demoData = useMemo(() => {
-    const price = 145.50 + Math.random() * 10 - 5
-    const probability = 60 + Math.random() * 30
-    const signals = randomData.generateTradeSignals(3)
+    const basePrice = 145.50
+    const dataPoints = 30
     
-    return { price, probability, signals }
+    // Generate price data with eventual breakout
+    const priceData: Array<{ time: string; price: number }> = []
+    const indicatorData: Array<{ time: string; pst: number }> = []
+    
+    let currentPrice = basePrice
+    const breakoutType = Math.random() > 0.5 ? "bottom" : "peak" // "bottom" = price bottoms then goes up, "peak" = price peaks then goes down
+    let breakoutPoint = Math.floor(dataPoints * 0.7) // Breakout happens at 70% of data
+    
+    for (let i = 0; i < dataPoints; i++) {
+      const time = `T${i + 1}`
+      
+      // Price movement - build to peak/bottom then breakout
+      if (i < breakoutPoint) {
+        // Before breakout: move toward peak or bottom
+        if (breakoutType === "bottom") {
+          // Price declining toward bottom
+          const change = -0.02 - Math.random() * 0.03 // -2% to -5%
+          currentPrice *= 1 + change
+        } else {
+          // Price rising toward peak
+          const change = 0.02 + Math.random() * 0.03 // +2% to +5%
+          currentPrice *= 1 + change
+        }
+      } else if (i === breakoutPoint) {
+        // At breakout point: reverse direction
+        if (breakoutType === "bottom") {
+          // Hit bottom, now break upward
+          currentPrice += Math.abs((Math.random() - 0.5) * 10) + 5
+        } else {
+          // Hit peak, now break downward
+          currentPrice -= Math.abs((Math.random() - 0.5) * 10) + 5
+        }
+      } else {
+        // After breakout: continue in breakout direction
+        if (breakoutType === "bottom") {
+          // Upward after bottom
+          currentPrice += 1 + Math.random() * 3
+        } else {
+          // Downward after peak
+          currentPrice -= 1 + Math.random() * 3
+        }
+      }
+      
+      priceData.push({ time, price: Number(currentPrice.toFixed(2)) })
+      
+      // PST Indicator: Predicts breakout BEFORE it happens
+      // PST goes to -1 before price bottoms (breakout down), +1 before price peaks (breakout up)
+      let pst = 0
+      const predictionStart = breakoutPoint - 5 // PST starts predicting 5 points before
+      
+      if (i < predictionStart) {
+        // Early: neutral, slight noise
+        pst = (Math.random() - 0.5) * 0.2 // -0.1 to 0.1
+      } else if (i < breakoutPoint) {
+        // Before breakout: PST gradually signals
+        const progress = (i - predictionStart) / (breakoutPoint - predictionStart) // 0 to 1
+        if (breakoutType === "bottom") {
+          // Price heading to bottom → PST predicts -1 (breakout down to bottom)
+          pst = -1 * progress // Gradually move to -1
+        } else {
+          // Price heading to peak → PST predicts +1 (breakout up to peak)
+          pst = 1 * progress // Gradually move to +1
+        }
+      } else {
+        // After breakout: PST maintains signal
+        if (breakoutType === "bottom") {
+          pst = -1.0 // Was -1 before bottom, stays at -1
+        } else {
+          pst = 1.0 // Was +1 before peak, stays at +1
+        }
+      }
+      
+      indicatorData.push({ time, pst: Number(pst.toFixed(2)) })
+    }
+    
+    return { priceData, indicatorData }
   }, [randomData])
-  
-  // Build lines array with pre-computed data
-  const lines: DemoLine[] = useMemo(() => [
-    { prefix: "$", text: "Breakout Probability Model", color: "text-accent", instant: true },
-    { prefix: ">", text: "Real-time market data: AAPL", color: "text-info", instant: true },
-    { text: `Current price: $${demoData.price.toFixed(2)}` },
-    { prefix: ">", text: "Detecting signals...", color: "text-info", instant: true },
-    { text: "Support level: $142.80" },
-    { text: "Resistance level: $148.20" },
-    { text: "Current position: 87% towards resistance" },
-    { prefix: ">", text: "Calculating breakout probability...", color: "text-info", instant: true },
-    { color: "text-accent", text: `Breakout probability: ${demoData.probability.toFixed(1)}%`, instant: true },
-    { text: "Signal strength: STRONG" },
-    { prefix: "!", text: "Risk Analysis:", color: "text-yellow-500", instant: true },
-    { text: "Position sizing: 100 shares" },
-    { text: "Stop loss: $143.50 (-1.4%)" },
-    { text: "Take profit: $149.80 (+3.0%)" },
-    { text: "Risk/Reward: 1:2.1" },
-    { prefix: "✓", text: "Trade Recommendation:", color: "text-green-500", instant: true },
-    { text: `Signal: ${demoData.signals[0].signal}` },
-    { text: `Confidence: ${demoData.signals[0].probability}%` },
-    { text: `Entry: $${demoData.price.toFixed(2)}` },
-    { text: "Win rate: 68% (backtested)" }
-  ], [demoData])
-  
-  const { visibleLines, showCursor } = useUnifiedDemo(lines, {
-    lineDelay: 300,
-    shouldLoop: true,
-    freezeDuration: 5000
-  })
 
   return (
-    <TerminalWindow title="breakout-probability">
-      {visibleLines.map((line, i) => (
-        <TerminalLine
-          key={i}
-          text={line.text}
-          prefix={line.prefix}
-          color={line.color}
-          isAnimating={line.isAnimating}
-        />
-      ))}
-      {showCursor && (
-        <span className="animate-cursor-blink text-accent">▊</span>
-      )}
-    </TerminalWindow>
+    <MarketBreakoutIndicator
+      priceData={demoData.priceData}
+      indicatorData={demoData.indicatorData}
+    />
   )
 }

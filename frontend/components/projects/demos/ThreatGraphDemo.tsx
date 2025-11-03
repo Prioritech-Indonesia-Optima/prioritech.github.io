@@ -1,60 +1,121 @@
 "use client"
 
 import { useMemo } from "react"
-import { TerminalWindow } from "./shared/TerminalWindow"
-import { TerminalLine } from "./shared/TerminalLine"
-import { useUnifiedDemo, DemoLine } from "@/hooks/use-unified-demo"
+import { useRandomData } from "@/hooks/use-random-data"
+import { ThreatGraphFirewallFlow } from "./visualizations/ThreatGraphFirewallFlow"
 
 /**
  * Threat Graph Correlator demo component.
  * 
- * Simulates multi-system event ingestion, anomaly detection, graph construction,
- * and threat correlation using unified fade-in animation.
+ * Displays firewall threat detection visualization showing firewall as central monitoring system
+ * detecting and responding to suspicious network activity. Demonstrates traffic analysis,
+ * threat detection, connection termination, and blacklisting capabilities.
  */
 export function ThreatGraphDemo() {
-  // Build lines array
-  const lines: DemoLine[] = useMemo(() => [
-    { prefix: "$", text: "Threat Graph Correlator v1.5", color: "text-accent", instant: true },
-    { prefix: ">", text: "Ingesting events from 4 systems...", color: "text-info", instant: true },
-    { prefix: "!", text: "Anomaly detected: 5 suspicious events", color: "text-yellow-500", instant: true },
-    { text: "Threat score threshold: 70" },
-    { text: "[65] Failed login: admin@system.local" },
-    { text: "[78] Multiple port scans detected from external IP" },
-    { text: "[92] Privilege escalation attempt on database server" },
-    { text: "[85] Unusual data exfiltration pattern detected" },
-    { prefix: ">", text: "Building threat graph...", color: "text-info", instant: true },
-    { text: "Nodes: 5 (Firewall, IDS, Database, Web Server, Auth)" },
-    { text: "Edges: 8 relationships identified" },
-    { prefix: ">", text: "Correlating events...", color: "text-info", instant: true },
-    { text: "Linked 5 suspicious events" },
-    { text: "Threat chain detected: Reconnaissance → Intrusion → Exfiltration" },
-    { prefix: "✓", text: "Threat graph visualization:", color: "text-green-500", instant: true },
-    { text: "  A (Firewall) --- 75% ---> B (Database)" },
-    { text: "  C (IDS) -- 82% --> E (Auth Log)" },
-    { text: "Overall threat level: CRITICAL (Score: 92)" },
-    { text: "Action: Alert security team immediately" }
-  ], [])
+  const randomData = useRandomData()
   
-  const { visibleLines, showCursor } = useUnifiedDemo(lines, {
-    lineDelay: 300,
-    shouldLoop: true,
-    freezeDuration: 5000
-  })
+  // Pre-compute demo data
+  const demoData = useMemo(() => {
+    const IPs = randomData.generateIPs(6)
+    
+    // Generate network components
+    const networkComponents = [
+      { id: "external", label: "External Network", type: "external" as const, ip: "203.0.113.0/24" },
+      { id: "webserver", label: "Web Server", type: "server" as const, ip: IPs[0] },
+      { id: "database", label: "Database", type: "database" as const, ip: IPs[1] },
+      { id: "workstation", label: "Workstation", type: "workstation" as const, ip: IPs[2] },
+      { id: "auth", label: "Auth System", type: "auth" as const, ip: IPs[3] },
+    ]
+    
+    // Generate traffic sequence with mix of normal, suspicious, and blocked traffic
+    const trafficSequence = [
+      // Normal incoming traffic - allowed
+      {
+        source: "external",
+        target: "webserver",
+        type: "incoming" as const,
+        status: "normal" as const,
+      },
+      // Normal internal traffic
+      {
+        source: "webserver",
+        target: "database",
+        type: "internal" as const,
+        status: "normal" as const,
+      },
+      // Suspicious incoming traffic - monitored
+      {
+        source: "external",
+        target: "webserver",
+        type: "incoming" as const,
+        status: "suspicious" as const,
+        threatLevel: 6,
+      },
+      // Normal outgoing traffic
+      {
+        source: "workstation",
+        target: "external",
+        type: "outgoing" as const,
+        status: "normal" as const,
+      },
+      // Blocked incoming traffic - terminated and blacklisted
+      {
+        source: "external",
+        target: "database",
+        type: "incoming" as const,
+        status: "blocked" as const,
+        threatLevel: 9,
+        reason: "Unauthorized access attempt",
+      },
+      // Normal internal traffic
+      {
+        source: "workstation",
+        target: "auth",
+        type: "internal" as const,
+        status: "normal" as const,
+      },
+      // Suspicious outgoing traffic
+      {
+        source: "workstation",
+        target: "external",
+        type: "outgoing" as const,
+        status: "suspicious" as const,
+        threatLevel: 5,
+      },
+      // Blocked incoming traffic - high threat
+      {
+        source: "external",
+        target: "auth",
+        type: "incoming" as const,
+        status: "blocked" as const,
+        threatLevel: 10,
+        reason: "Brute force attack detected",
+      },
+      // Normal internal traffic
+      {
+        source: "auth",
+        target: "database",
+        type: "internal" as const,
+        status: "normal" as const,
+      },
+      // Final blocked attempt
+      {
+        source: "external",
+        target: "webserver",
+        type: "incoming" as const,
+        status: "blocked" as const,
+        threatLevel: 8,
+        reason: "Known malicious IP pattern",
+      },
+    ]
+    
+    return { networkComponents, trafficSequence }
+  }, [randomData])
 
   return (
-    <TerminalWindow title="threat-graph-correlator">
-      {visibleLines.map((line, i) => (
-        <TerminalLine
-          key={i}
-          text={line.text}
-          prefix={line.prefix}
-          color={line.color}
-          isAnimating={line.isAnimating}
-        />
-      ))}
-      {showCursor && (
-        <span className="animate-cursor-blink text-accent">▊</span>
-      )}
-    </TerminalWindow>
+    <ThreatGraphFirewallFlow
+      networkComponents={demoData.networkComponents}
+      trafficSequence={demoData.trafficSequence}
+    />
   )
 }
