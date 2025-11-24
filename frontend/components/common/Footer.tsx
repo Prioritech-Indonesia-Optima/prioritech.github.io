@@ -26,13 +26,13 @@ export function Footer() {
   }
 
   return (
-    <footer className="bg-main border-t border-secondary/10">
+    <footer className="bg-main border-t border-secondary/10 font-mono">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Company Info */}
           <div className="lg:col-span-2">
             <div className="flex items-center mb-4">
-              <img src="/prioritech-sidebyside-logo.svg" alt="Prioritech Indonesia Optima Logo" className="h-28" />
+              <img src="/prioritech-logo-footer.png" alt="Prioritech Indonesia Optima Logo" className="h-20" />
             </div>
             <p className="text-secondary/70 text-sm mb-6 max-w-md">
               Engineering systems that make intelligence practical. We're an Indonesian AI and engineering 

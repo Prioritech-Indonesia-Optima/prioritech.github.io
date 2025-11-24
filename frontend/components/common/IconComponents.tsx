@@ -44,6 +44,7 @@ export function TechStackIcon({ tech, size = 20 }: { tech: string; size?: number
     'tensorflow': <Brain size={size} />,
     'langchain': <GitBranch size={size} />,
     'crewai': <Workflow size={size} />,
+    'agno': <Workflow size={size} />,
     'ollama': <Cpu size={size} />,
     'huggingface': <Brain size={size} />,
     
@@ -51,21 +52,32 @@ export function TechStackIcon({ tech, size = 20 }: { tech: string; size?: number
     'fastapi': <Zap size={size} />,
     'flask': <Zap size={size} />,
     'python': <Code2 size={size} />,
+    'c': <Code2 size={size} />,
+    'java': <Code2 size={size} />,
+    'go': <Code2 size={size} />,
+    'rust': <Code2 size={size} />,
     'docker': <Layers size={size} />,
     
     // Frontend
+    'next.js': <Code2 size={size} />,
     'nextjs': <Code2 size={size} />,
+    'react': <Code2 size={size} />,
+    'typescript': <Code2 size={size} />,
     'flutter': <Code2 size={size} />,
     
     // Infrastructure
     'aws': <Cloud size={size} />,
     'vercel': <Cloud size={size} />,
     'linux': <Cpu size={size} />,
+    'kubernetes': <Layers size={size} />,
+    'ros': <Cog size={size} />,
     
     // Data
     'postgresql': <Database size={size} />,
     'redis': <Database size={size} />,
     'sqlite': <Database size={size} />,
+    'mongodb': <Database size={size} />,
+    'kafka': <Network size={size} />,
     
     // Hardware
     'plc': <Cog size={size} />,

@@ -82,15 +82,15 @@ export function Navbar() {
         >
           {/* Logo */}
           <Link href="/" className="flex items-center">
-            {/* Mobile: Overunder logo (compact) */}
+            {/* Mobile: Compact logo */}
             <img 
-              src="/prioritech-overunder-logo.svg" 
+              src="/prioritech-logo-mobile.png" 
               alt="Prioritech Logo" 
               className="h-[54px] md:hidden" 
             />
-            {/* Tablet+: Sidebyside logo */}
+            {/* Tablet+: Horizontal logo */}
             <motion.img 
-              src="/prioritech-sidebyside-logo.svg" 
+              src="/prioritech-logo-navbar.png" 
               alt="Prioritech Logo" 
               className="hidden md:block" 
               animate={{
@@ -105,7 +105,7 @@ export function Navbar() {
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-4 lg:space-x-6">
+          <nav className="hidden md:flex items-center space-x-4 lg:space-x-6 font-mono">
             {navigation.map((item) => (
               <Link
                 key={item.name}
@@ -132,7 +132,7 @@ export function Navbar() {
 
           {/* Desktop CTA Button */}
           <Link href="/projects">
-            <ShimmerButton className="hidden md:flex bg-accent hover:bg-accent/90 text-main px-4 py-2 rounded-lg text-sm font-medium">
+            <ShimmerButton className="hidden md:flex bg-accent hover:bg-accent/90 text-main px-4 py-2 rounded-lg text-sm font-medium font-mono">
               Get Started
             </ShimmerButton>
           </Link>
@@ -154,7 +154,7 @@ export function Navbar() {
             <div className="flex items-center justify-between p-6" onClick={(e) => e.stopPropagation()}>
               <Link href="/" onClick={() => setMobileMenuOpen(false)}>
                 <img 
-                  src="/prioritech-overunder-logo.svg" 
+                  src="/prioritech-logo-mobile.png" 
                   alt="Prioritech Logo" 
                   className="h-[54px]" 
                 />
@@ -184,7 +184,7 @@ export function Navbar() {
                 >
                   <Link
                     href={item.href}
-                    className={`text-2xl font-medium transition-colors ${
+                    className={`text-2xl font-medium transition-colors font-mono ${
                       isActive(item.href)
                         ? 'text-accent'
                         : 'text-secondary hover:text-accent'
@@ -210,7 +210,7 @@ export function Navbar() {
                 }}
               >
                 <Link href="/projects" onClick={() => setMobileMenuOpen(false)}>
-                  <ShimmerButton className="bg-accent hover:bg-accent/90 text-main px-8 py-4 rounded-lg text-lg font-medium">
+                  <ShimmerButton className="bg-accent hover:bg-accent/90 text-main px-8 py-4 rounded-lg text-lg font-medium font-mono">
                     Get Started
                   </ShimmerButton>
                 </Link>

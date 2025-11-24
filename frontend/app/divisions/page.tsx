@@ -5,10 +5,9 @@ import { Footer } from "@/components/common/Footer"
 import { PageHero } from "@/components/common/PageHero"
 import { SectionCard } from "@/components/common/SectionCard"
 import { DivisionIcon } from "@/components/common/IconComponents"
-import { Timeline } from "@/components/aceternity/timeline"
 import { MovingBorder } from "@/components/aceternity/moving-border"
 import { CardSpotlight } from "@/components/aceternity/card-spotlight"
-import { ArrowRight } from "lucide-react"
+import { ArrowRight, Target, CheckCircle, Search, Code2, Rocket, Brain, GitBranch, Database, Workflow, Shield, TrendingUp, Cog, Layers, Network, Zap, Eye, FileText, Cpu } from "lucide-react"
 import Link from "next/link"
 
 /**
@@ -20,6 +19,56 @@ import Link from "next/link"
  * 
  * @returns JSX element containing the divisions page content
  */
+/**
+ * Maps capability text to icon and short label
+ */
+function getCapabilityIcon(capability: string) {
+  const lower = capability.toLowerCase()
+  
+  // AI Systems capabilities
+  if (lower.includes('autonomous') || lower.includes('decision')) return { icon: Brain, label: 'Autonomous AI' }
+  if (lower.includes('workflow') || lower.includes('audit trail')) return { icon: Workflow, label: 'Workflows' }
+  if (lower.includes('retrieval') || lower.includes('enterprise data')) return { icon: Database, label: 'Data Retrieval' }
+  if (lower.includes('orchestration') || lower.includes('process')) return { icon: GitBranch, label: 'Orchestration' }
+  if (lower.includes('auditable') || lower.includes('operations')) return { icon: Eye, label: 'Auditable Ops' }
+  if (lower.includes('production') || lower.includes('infrastructure')) return { icon: Layers, label: 'Production AI' }
+  
+  // Cybersecurity capabilities
+  if (lower.includes('penetration') || lower.includes('pentesting')) return { icon: Shield, label: 'Pentesting' }
+  if (lower.includes('anomaly') || lower.includes('detection')) return { icon: Eye, label: 'Anomaly Detection' }
+  if (lower.includes('graph') || lower.includes('risk modeling')) return { icon: Network, label: 'Risk Modeling' }
+  if (lower.includes('threat') || lower.includes('intelligence')) return { icon: Shield, label: 'Threat Intel' }
+  if (lower.includes('monitoring') || lower.includes('security')) return { icon: Eye, label: 'Security Monitor' }
+  if (lower.includes('posture') || lower.includes('automation')) return { icon: Zap, label: 'Security Automation' }
+  
+  // Quantitative capabilities
+  if (lower.includes('predictive') || lower.includes('modeling')) return { icon: TrendingUp, label: 'Predictive Models' }
+  if (lower.includes('trading') || lower.includes('automation')) return { icon: Zap, label: 'Trading Systems' }
+  if (lower.includes('forecasting') || lower.includes('real-time')) return { icon: TrendingUp, label: 'Forecasting' }
+  if (lower.includes('market') || lower.includes('analysis')) return { icon: TrendingUp, label: 'Market Analysis' }
+  if (lower.includes('risk management')) return { icon: Shield, label: 'Risk Management' }
+  if (lower.includes('portfolio')) return { icon: TrendingUp, label: 'Portfolio Opt' }
+  
+  // Automation capabilities
+  if (lower.includes('plc') || lower.includes('programming')) return { icon: Cog, label: 'PLC Systems' }
+  if (lower.includes('robotics') || lower.includes('control')) return { icon: Rocket, label: 'Robotics' }
+  if (lower.includes('iot') || lower.includes('framework')) return { icon: Network, label: 'IoT Integration' }
+  if (lower.includes('edge') || lower.includes('computing')) return { icon: Cpu, label: 'Edge Computing' }
+  if (lower.includes('data connectivity') || lower.includes('industrial')) return { icon: Network, label: 'Data Connect' }
+  if (lower.includes('motion control')) return { icon: Cog, label: 'Motion Control' }
+  
+  // Product capabilities
+  if (lower.includes('enterprise backend') || lower.includes('backend')) return { icon: Code2, label: 'Backend Systems' }
+  if (lower.includes('full-stack') || lower.includes('web')) return { icon: Layers, label: 'Full-Stack' }
+  if (lower.includes('mobile')) return { icon: Rocket, label: 'Mobile Apps' }
+  if (lower.includes('api')) return { icon: Network, label: 'API Design' }
+  if (lower.includes('database') || lower.includes('optimization')) return { icon: Database, label: 'Database Opt' }
+  if (lower.includes('cloud')) return { icon: Layers, label: 'Cloud Infra' }
+  
+  // Default
+  return { icon: CheckCircle, label: capability.split(' ').slice(0, 2).join(' ') }
+}
+
 export default function DivisionsPage() {
   const divisions = [
     {
@@ -113,7 +162,7 @@ export default function DivisionsPage() {
         <PageHero
           title="Our Engineering Divisions"
           subtitle="Specialized Expertise"
-          description="Five core engineering disciplines driving modern enterprise innovation. Each division combines deep technical expertise with practical implementation experience."
+          description="Five core engineering disciplines."
         />
 
         {/* Divisions Grid */}
@@ -142,33 +191,37 @@ export default function DivisionsPage() {
                           <h3 className="text-secondary text-xl font-semibold mb-2 font-mono">
                             {division.title}
                           </h3>
-                          <p className="text-secondary/70 text-sm leading-relaxed font-mono">
-                            <span className="text-accent">&gt;</span> {division.description}
-                          </p>
                         </div>
                       </div>
 
                       {/* Engineering Approach */}
                       {division.engineeringApproach && (
                         <div className="mb-6 border-t border-accent/10 pt-4">
-                          <h4 className="text-accent font-medium text-sm mb-2 font-mono">Engineering Approach</h4>
-                          <p className="text-secondary/70 text-xs italic font-mono">
-                            {division.engineeringApproach}
-                          </p>
+                          <div className="flex items-center gap-2 bg-accent/10 border border-accent/20 rounded-lg px-3 py-2 w-fit">
+                            <Target className="w-4 h-4 text-accent" />
+                            <span className="text-accent text-xs font-mono">Engineering Approach</span>
+                          </div>
                         </div>
                       )}
 
                       {/* Capabilities */}
                       <div className="mb-6">
                         <h4 className="text-secondary font-medium text-sm mb-3 font-mono">Key Capabilities</h4>
-                        <ul className="space-y-2">
-                          {division.capabilities.map((capability, index) => (
-                            <li key={index} className="flex items-start space-x-2">
-                              <div className="w-1.5 h-1.5 bg-accent rounded-full mt-2 flex-shrink-0" />
-                              <span className="text-secondary/60 text-xs font-mono">{capability}</span>
-                            </li>
-                          ))}
-                        </ul>
+                        <div className="grid grid-cols-3 gap-2">
+                          {division.capabilities.map((capability, index) => {
+                            const { icon: Icon, label } = getCapabilityIcon(capability)
+                            return (
+                              <div 
+                                key={index} 
+                                className="flex flex-col items-center gap-1 p-2 bg-main/50 border border-accent/20 rounded-lg hover:border-accent/50 transition-all"
+                                title={capability}
+                              >
+                                <Icon className="w-4 h-4 text-accent" />
+                                <span className="text-secondary/70 text-[10px] font-mono text-center leading-tight">{label}</span>
+                              </div>
+                            )
+                          })}
+                        </div>
                       </div>
 
                       {/* Related Projects */}
@@ -200,27 +253,22 @@ export default function DivisionsPage() {
               <h2 className="text-secondary text-2xl sm:text-3xl font-bold mb-4 font-mono">
                 Our Division Methodology
               </h2>
-              <div className="text-secondary/70 text-base sm:text-lg max-w-3xl mx-auto font-mono">
-                Each division follows a consistent approach to deliver production-grade solutions.
-              </div>
             </div>
             
-            <Timeline 
-              items={[
-                {
-                  title: "Research & Analysis",
-                  description: "Deep dive into requirements, existing systems, and technical constraints to design optimal solutions.",
-                },
-                {
-                  title: "Design & Prototype",
-                  description: "Create modular, scalable architectures with rapid prototyping to validate concepts before full implementation.",
-                },
-                {
-                  title: "Deploy & Monitor",
-                  description: "Production deployment with comprehensive monitoring, logging, and continuous optimization for enterprise reliability.",
-                }
-              ]}
-            />
+            <div className="flex justify-center gap-8">
+              <div className="flex flex-col items-center gap-2">
+                <Search className="w-12 h-12 text-accent" />
+                <span className="text-secondary/70 text-xs font-mono text-center">Research</span>
+              </div>
+              <div className="flex flex-col items-center gap-2">
+                <Code2 className="w-12 h-12 text-accent" />
+                <span className="text-secondary/70 text-xs font-mono text-center">Design</span>
+              </div>
+              <div className="flex flex-col items-center gap-2">
+                <Rocket className="w-12 h-12 text-accent" />
+                <span className="text-secondary/70 text-xs font-mono text-center">Deploy</span>
+              </div>
+            </div>
           </div>
         </section>
 

@@ -5,14 +5,12 @@ import { Navbar } from "@/components/common/Navbar"
 import { Footer } from "@/components/common/Footer"
 import { PageHero } from "@/components/common/PageHero"
 import { SectionCard } from "@/components/common/SectionCard"
-import { ProjectCategoryIcon } from "@/components/common/IconComponents"
-import { Timeline } from "@/components/aceternity/timeline"
+import { ProjectCategoryIcon, TechStackIcon } from "@/components/common/IconComponents"
 import { MovingBorder } from "@/components/aceternity/moving-border"
 import { LampEffect } from "@/components/aceternity/lamp-effect"
-import { CardSpotlight } from "@/components/aceternity/card-spotlight"
 import { TextGenerateEffect } from "@/components/aceternity/text-generate-effect"
 import { ProjectDemoModal } from "@/components/projects/ProjectDemoModal"
-import { ArrowRight, ExternalLink } from "lucide-react"
+import { ArrowRight, ExternalLink, Brain, Cog, TrendingUp, Shield, Zap, BarChart3, Layers, Target, Search, Code2, Rocket, Eye } from "lucide-react"
 
 /**
  * Projects page for Prioritech Indonesia Optima.
@@ -168,7 +166,7 @@ export default function ProjectsPage() {
         <PageHero
           title="What We've Built"
           subtitle="Technical Portfolio"
-          description="Systems that solve real problems at scale. Every project ships with production discipline, failure recovery, and 10-year maintenance plans."
+          description="Systems in production."
         />
 
         {/* Project Categories */}
@@ -185,20 +183,14 @@ export default function ProjectsPage() {
                     <LampEffect>{category.title}</LampEffect>
                   </h2>
                 </div>
-                <div className="text-secondary/70 text-base sm:text-lg max-w-3xl mx-auto font-mono">
-                  <TextGenerateEffect 
-                    words={category.description}
-                    delayMultiple={0.05}
-                  />
-                </div>
               </div>
 
               {/* Projects Grid */}
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 {category.projects.map((project, index) => (
-                  <CardSpotlight key={index}>
+                  <div key={index} className="h-full">
                     <div 
-                      className="bg-main/80 backdrop-blur-sm border border-accent/20 rounded-lg p-8 hover:border-accent/50 hover:bg-main/90 transition-all duration-300 font-mono terminal-window relative cursor-pointer"
+                      className="bg-main/80 backdrop-blur-sm border border-accent/20 rounded-lg p-8 hover:border-accent/50 hover:bg-main/90 transition-all duration-300 font-mono terminal-window relative cursor-pointer h-full flex flex-col min-h-[400px]"
                       onClick={() => handleOpenDemo(project.title)}
                     >
                       {/* Terminal header bar */}
@@ -212,46 +204,45 @@ export default function ProjectsPage() {
 
                       {/* Terminal line numbers */}
                       <div className="absolute left-0 top-10 bottom-0 w-8 border-r border-accent/20 flex flex-col pt-4">
-                        {[1, 2, 3].map((num) => (
+                        {[1, 2, 3, 4].map((num) => (
                           <span key={num} className="text-accent/40 text-xs px-1">
                             {num}
                           </span>
                         ))}
                       </div>
 
-                      <div className="pt-16 ml-10">
+                      <div className="pt-16 ml-10 flex flex-col flex-1">
                         {/* Project Header */}
                         <div className="mb-6">
-                          <h3 className="text-secondary text-xl font-semibold mb-3 font-mono">
-                            <span className="text-accent">$</span> {project.title}
-                          </h3>
-                          <div className="text-secondary/70 text-sm leading-relaxed mb-4">
-                            <TextGenerateEffect 
-                              words={project.description}
-                              delayMultiple={0.03}
-                            />
+                          <div className="flex items-center gap-3 mb-4">
+                            <div className="flex items-center justify-center w-10 h-10 bg-accent/10 rounded-lg flex-shrink-0">
+                              <ProjectCategoryIcon category={project.category} size={20} />
+                            </div>
+                            <h3 className="text-secondary text-xl font-semibold font-mono">
+                              <span className="text-accent">$</span> {project.title}
+                            </h3>
                           </div>
-                        </div>
-
-                        {/* Impact Metrics */}
-                        <div className="mb-6">
-                          <h4 className="text-accent font-medium text-sm mb-2 font-mono">Impact</h4>
-                          <p className="text-secondary/80 text-sm font-medium font-mono">
-                            &gt; {project.impact}
+                          <p className="text-accent/80 text-sm font-medium font-mono mb-2">
+                            {project.description}
+                          </p>
+                          <p className="text-accent/60 text-xs font-medium font-mono">
+                            {project.impact}
                           </p>
                         </div>
 
                         {/* Tech Stack */}
-                        <div className="border-t border-accent/10 pt-4">
-                          <h4 className="text-secondary font-medium text-sm mb-3 font-mono">Tech Stack</h4>
+                        <div className="border-t border-accent/10 pt-4 mt-auto">
+                          <p className="text-secondary/60 text-xs font-mono mb-3">Tech Stack:</p>
                           <div className="flex flex-wrap gap-2">
                             {project.techStack.map((tech, techIndex) => (
-                              <span 
+                              <div 
                                 key={techIndex}
-                                className="bg-accent/10 text-accent px-3 py-1 rounded-full text-xs font-medium font-mono"
+                                className="flex items-center gap-2 px-3 py-1.5 bg-accent/10 border border-accent/20 rounded-lg hover:border-accent/50 hover:bg-accent/20 transition-all group"
+                                title={tech}
                               >
-                                {tech}
-                              </span>
+                                <TechStackIcon tech={tech.toLowerCase()} size={16} className="text-accent" />
+                                <span className="text-secondary/80 text-xs font-mono">{tech}</span>
+                              </div>
                             ))}
                           </div>
                         </div>
@@ -271,7 +262,7 @@ export default function ProjectsPage() {
                         </div>
                       </div>
                     </div>
-                  </CardSpotlight>
+                  </div>
                 ))}
               </div>
             </div>
@@ -285,35 +276,40 @@ export default function ProjectsPage() {
               <h2 className="text-secondary text-2xl sm:text-3xl font-bold mb-4 font-mono">
                 What We Can Achieve Together
               </h2>
-              <div className="text-secondary/70 text-base sm:text-lg max-w-3xl mx-auto font-mono italic mb-8">
-                We engineer results that make your workflow faster, smarter, and more profitable.
-              </div>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-              <div className="bg-main/50 border border-accent/20 rounded-lg p-6 font-mono hover:border-accent/50 transition-all">
-                <div className="text-accent text-sm font-medium mb-2">AI systems that think, analyze, and act on your behalf</div>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8 max-w-4xl mx-auto">
+              <div className="flex flex-col items-center gap-2 p-4 bg-main/50 border border-accent/20 rounded-lg hover:border-accent/50 transition-all">
+                <Brain className="w-8 h-8 text-accent" />
+                <span className="text-accent text-xs font-mono text-center">AI Systems</span>
               </div>
-              <div className="bg-main/50 border border-accent/20 rounded-lg p-6 font-mono hover:border-accent/50 transition-all">
-                <div className="text-accent text-sm font-medium mb-2">Automation frameworks that scale without human babysitting</div>
+              <div className="flex flex-col items-center gap-2 p-4 bg-main/50 border border-accent/20 rounded-lg hover:border-accent/50 transition-all">
+                <Cog className="w-8 h-8 text-accent" />
+                <span className="text-accent text-xs font-mono text-center">Automation</span>
               </div>
-              <div className="bg-main/50 border border-accent/20 rounded-lg p-6 font-mono hover:border-accent/50 transition-all">
-                <div className="text-accent text-sm font-medium mb-2">Predictive intelligence for operations, trading, or security</div>
+              <div className="flex flex-col items-center gap-2 p-4 bg-main/50 border border-accent/20 rounded-lg hover:border-accent/50 transition-all">
+                <TrendingUp className="w-8 h-8 text-accent" />
+                <span className="text-accent text-xs font-mono text-center">Predictive Intelligence</span>
               </div>
-              <div className="bg-main/50 border border-accent/20 rounded-lg p-6 font-mono hover:border-accent/50 transition-all">
-                <div className="text-accent text-sm font-medium mb-2">Private AI environments that keep your data inside your walls</div>
+              <div className="flex flex-col items-center gap-2 p-4 bg-main/50 border border-accent/20 rounded-lg hover:border-accent/50 transition-all">
+                <Shield className="w-8 h-8 text-accent" />
+                <span className="text-accent text-xs font-mono text-center">Private AI</span>
               </div>
-              <div className="bg-main/50 border border-accent/20 rounded-lg p-6 font-mono hover:border-accent/50 transition-all">
-                <div className="text-accent text-sm font-medium mb-2">Decision dashboards that don't just visualize — they execute</div>
+              <div className="flex flex-col items-center gap-2 p-4 bg-main/50 border border-accent/20 rounded-lg hover:border-accent/50 transition-all">
+                <BarChart3 className="w-8 h-8 text-accent" />
+                <span className="text-accent text-xs font-mono text-center">Dashboards</span>
               </div>
-              <div className="bg-main/50 border border-accent/20 rounded-lg p-6 font-mono hover:border-accent/50 transition-all">
-                <div className="text-accent text-sm font-medium mb-2">End-to-end enterprise infrastructure with integrated AI agents</div>
+              <div className="flex flex-col items-center gap-2 p-4 bg-main/50 border border-accent/20 rounded-lg hover:border-accent/50 transition-all">
+                <Layers className="w-8 h-8 text-accent" />
+                <span className="text-accent text-xs font-mono text-center">Enterprise Infrastructure</span>
               </div>
-              <div className="bg-main/50 border border-accent/20 rounded-lg p-6 font-mono hover:border-accent/50 transition-all">
-                <div className="text-accent text-sm font-medium mb-2">Quant engines that optimize cost, risk, and opportunity</div>
+              <div className="flex flex-col items-center gap-2 p-4 bg-main/50 border border-accent/20 rounded-lg hover:border-accent/50 transition-all">
+                <Target className="w-8 h-8 text-accent" />
+                <span className="text-accent text-xs font-mono text-center">Quant Engines</span>
               </div>
-              <div className="bg-main/50 border border-accent/20 rounded-lg p-6 font-mono hover:border-accent/50 transition-all">
-                <div className="text-accent text-sm font-medium mb-2">Custom AI applications that transform day-to-day business execution</div>
+              <div className="flex flex-col items-center gap-2 p-4 bg-main/50 border border-accent/20 rounded-lg hover:border-accent/50 transition-all">
+                <Zap className="w-8 h-8 text-accent" />
+                <span className="text-accent text-xs font-mono text-center">Custom Apps</span>
               </div>
             </div>
             
@@ -332,31 +328,26 @@ export default function ProjectsPage() {
               <h2 className="text-secondary text-2xl sm:text-3xl font-bold mb-4">
                 Our Project Methodology
               </h2>
-              <p className="text-secondary/70 text-base sm:text-lg max-w-3xl mx-auto">
-                Every project follows our proven approach to deliver production-grade solutions.
-              </p>
             </div>
             
-            <Timeline 
-              items={[
-                {
-                  title: "Discovery",
-                  description: "Requirements analysis and technical feasibility assessment",
-                },
-                {
-                  title: "Design",
-                  description: "Architecture design and technology stack selection",
-                },
-                {
-                  title: "Development",
-                  description: "Iterative development with continuous testing and validation",
-                },
-                {
-                  title: "Deployment",
-                  description: "Production deployment with monitoring and optimization",
-                }
-              ]}
-            />
+            <div className="flex justify-center gap-8">
+              <div className="flex flex-col items-center gap-2">
+                <Search className="w-12 h-12 text-accent" />
+                <span className="text-secondary/70 text-xs font-mono text-center">Discovery</span>
+              </div>
+              <div className="flex flex-col items-center gap-2">
+                <Code2 className="w-12 h-12 text-accent" />
+                <span className="text-secondary/70 text-xs font-mono text-center">Design</span>
+              </div>
+              <div className="flex flex-col items-center gap-2">
+                <Rocket className="w-12 h-12 text-accent" />
+                <span className="text-secondary/70 text-xs font-mono text-center">Development</span>
+              </div>
+              <div className="flex flex-col items-center gap-2">
+                <Eye className="w-12 h-12 text-accent" />
+                <span className="text-secondary/70 text-xs font-mono text-center">Deployment</span>
+              </div>
+            </div>
           </div>
         </section>
 

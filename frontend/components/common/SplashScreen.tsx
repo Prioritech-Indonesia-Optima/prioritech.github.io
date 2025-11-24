@@ -1,19 +1,13 @@
 "use client"
 
-import { useEffect, useState, useCallback } from "react"
+import { useEffect, useState, useCallback, useRef } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { LoadingBar } from "./LoadingBar"
-
-const TERMINAL_COMMANDS = [
-  "sudo su",
-  {
-    text: "[sudo] password for user: ",
-    static: "[sudo] password for user: ",
-    animated: "********"
-  },
-  "cd /opt/prioritech",
-  "./start-program.sh"
-]
+import Image from "next/image"
+import { GridBackground } from "@/components/aceternity/grid-background"
+import { ParticleSystem } from "./ParticleSystem"
+import { DataStream } from "./DataStream"
+import { useIsMobile } from "@/hooks/use-mobile"
+import { useLogoBounds } from "@/hooks/use-logo-bounds"
 
 interface SplashScreenProps {
   /**
@@ -28,18 +22,21 @@ interface SplashScreenProps {
 }
 
 /**
- * CLI/terminal splash screen component.
+ * Modern techy splash screen component with sequential text reveal.
  * 
- * Simulates a boot sequence with typewriter effects, displaying
- * sudo commands and script execution in a terminal interface.
- * Includes loading bar animation and auto-transition after completion.
+ * Features a captivating animation sequence:
+ * 1. "Progress" text appears and fades out completely
+ * 2. 50ms gap
+ * 3. "Precision" text appears and fades out completely
+ * 4. 50ms gap
+ * 5. "Prioritech" text (gold) appears and fades out completely
+ * 6. 50ms gap
+ * 7. Logo fades in while background effects fade out
  * 
- * Features:
- * - Full-screen terminal interface
- * - Sequential command typing with delays
- * - Animated loading bar with percentage
- * - Success message
- * - Smooth fade-out transition
+ * Background effects (particles, data stream, grid) continue animating
+ * throughout text stages and only fade out when logo appears.
+ * 
+ * All effects use the Prioritech brand colors (gold #daa520 on dark #2d2c2c).
  * 
  * @param onComplete - Callback when animation completes
  * @param show - Whether to display the splash screen
@@ -47,118 +44,86 @@ interface SplashScreenProps {
  * @returns JSX element containing the splash screen
  */
 export function SplashScreen({ onComplete, show }: SplashScreenProps) {
-  const [showLoading, setShowLoading] = useState(false)
-  const [showSuccess, setShowSuccess] = useState(false)
   const [isClosing, setIsClosing] = useState(false)
-  const [currentCommandIndex, setCurrentCommandIndex] = useState(0)
-  const [currentText, setCurrentText] = useState("")
-  const [isTyping, setIsTyping] = useState(true)
-  const [isWaitingForPassword, setIsWaitingForPassword] = useState(false)
-
-  const handleLoadingComplete = () => {
-    // Show success message
-    setShowSuccess(true)
-    
-    // After showing success message, start preparing home screen (fade out)
-    setTimeout(() => {
-      setIsClosing(true)
-      
-      // Call onComplete to show the prepared home screen after fade
-      setTimeout(() => {
-        onComplete()
-      }, 1000) // 1 second fade out
-    }, 2000) // Show success message for 2 seconds before starting fade
-  }
-
-  // Reset when component mounts or show changes
+  const isMobile = useIsMobile()
+  const logoRef = useRef<HTMLDivElement>(null)
+  const [logoSize, setLogoSize] = useState({ width: 600, height: 300 })
+  
+  // Use responsive image with fallback to original
+  const logoImageSrc = "/logos/new/Asset 10.png"
+  const { bounds: logoBounds, isLoading: boundsLoading } = useLogoBounds(
+    logoImageSrc,
+    logoSize.width,
+    logoSize.height
+  )
+  
+  const [animationStage, setAnimationStage] = useState<
+    "progress" | "progress-fade-out" | "precision" | "precision-fade-out" | "prioritech-text" | "prioritech-fade-out" | "logo-reveal" | "complete"
+  >("progress")
+  
+  // Update logo size and position when component mounts or window resizes
   useEffect(() => {
-    if (show) {
-      setCurrentCommandIndex(0)
-      setCurrentText("")
-      setIsTyping(true)
-      setShowLoading(false)
-      setShowSuccess(false)
-      setIsClosing(false)
-      setIsWaitingForPassword(false)
+    const updateLogoDimensions = () => {
+      if (logoRef.current) {
+        const rect = logoRef.current.getBoundingClientRect()
+        setLogoSize({ width: rect.width, height: rect.height })
+      }
+    }
+    
+    updateLogoDimensions()
+    window.addEventListener("resize", updateLogoDimensions)
+    
+    // Also update after a short delay to ensure image is loaded
+    const timeout = setTimeout(updateLogoDimensions, 100)
+    
+    return () => {
+      window.removeEventListener("resize", updateLogoDimensions)
+      clearTimeout(timeout)
     }
   }, [show])
 
-  // Typewriter effect
+  /**
+   * Handle animation completion and trigger exit.
+   * 
+   * Called when all animations complete. Initiates fade-out transition.
+   */
+  const handleComplete = useCallback(() => {
+    setTimeout(() => {
+      setIsClosing(true)
+      setTimeout(() => {
+        onComplete()
+      }, 800) // 800ms fade out
+    }, 500) // Brief pause before exit
+  }, [onComplete])
+
+  /**
+   * Reset animation state when component mounts or show changes.
+   */
   useEffect(() => {
-    if (!show || !isTyping) return
-
-    const currentCommand = TERMINAL_COMMANDS[currentCommandIndex]
-    if (!currentCommand) return
-
-    const timer = setTimeout(() => {
-      // Check if this is the password command (has static and animated parts)
-      const isPasswordCommand = typeof currentCommand === 'object' && currentCommand.static && currentCommand.animated
+    if (show) {
+      setIsClosing(false)
+      setAnimationStage("progress")
       
-      if (isPasswordCommand) {
-        // For password: initialize with static text if empty
-        if (currentText === "") {
-          setCurrentText(currentCommand.static)
-          setIsWaitingForPassword(true)
-          // Wait 500ms before starting to type asterisks
-          setTimeout(() => {
-            setIsWaitingForPassword(false)
-          }, 500)
-          return
-        }
-        
-        // If still waiting, don't proceed with asterisk typing yet
-        if (isWaitingForPassword) {
-          return
-        }
-        
-        // Then animate asterisks one by one
-        const staticLength = currentCommand.static.length
-        const asteriskLength = currentText.length > staticLength ? currentText.length - staticLength : 0
-        
-        if (asteriskLength < currentCommand.animated.length) {
-          // Type next asterisk
-          setCurrentText(currentCommand.static + currentCommand.animated.slice(0, asteriskLength + 1))
-        } else {
-          // All asterisks typed, wait then advance
-          setIsTyping(false)
-          setTimeout(() => {
-            if (currentCommandIndex < TERMINAL_COMMANDS.length - 1) {
-              setCurrentCommandIndex(prev => prev + 1)
-              setCurrentText("")
-              setIsTyping(true)
-              setIsWaitingForPassword(false)
-            } else {
-              setShowLoading(true)
-            }
-          }, 800)
-        }
-      } else {
-        // Normal command: type character by character
-        const targetLength = currentText.length
-        const commandText = typeof currentCommand === 'string' ? currentCommand : currentCommand.text || ''
-        
-        if (targetLength < commandText.length) {
-          setCurrentText(prev => {
-            const nextLength = prev.length + 1
-            return commandText.slice(0, nextLength)
-          })
-        } else {
-          setIsTyping(false)
-          setTimeout(() => {
-            if (currentCommandIndex < TERMINAL_COMMANDS.length - 1) {
-              setCurrentCommandIndex(prev => prev + 1)
-              setCurrentText("")
-              setIsTyping(true)
-            } else {
-              setShowLoading(true)
-            }
-          }, 800)
-        }
-      }
-    }, 30)
-
-    return () => clearTimeout(timer)
-  }, [currentText, currentCommandIndex, isTyping, show, isWaitingForPassword])
+      // Start animation sequence
+      // Stage 1: "Progress" appears (600ms), then fades out (400ms)
+      setTimeout(() => setAnimationStage("progress-fade-out"), 600)
+      // 50ms gap after fade out completes
+      setTimeout(() => setAnimationStage("precision"), 1050)
+      // Stage 2: "Precision" appears (600ms), then fades out (400ms)
+      setTimeout(() => setAnimationStage("precision-fade-out"), 1650)
+      // 50ms gap after fade out completes
+      setTimeout(() => setAnimationStage("prioritech-text"), 2100)
+      // Stage 3: "Prioritech" (gold) appears (600ms), then fades out (400ms)
+      setTimeout(() => setAnimationStage("prioritech-fade-out"), 2700)
+      // 50ms gap after fade out completes
+      setTimeout(() => setAnimationStage("logo-reveal"), 3150)
+      // Stage 4: Logo fades in, background effects fade out, then complete
+      setTimeout(() => {
+        setAnimationStage("complete")
+        handleComplete()
+      }, 3950)
+    }
+  }, [show, handleComplete])
 
   if (!show) return null
 
@@ -169,121 +134,187 @@ export function SplashScreen({ onComplete, show }: SplashScreenProps) {
           initial={{ opacity: 1 }}
           animate={{ opacity: isClosing ? 0 : 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 1, ease: "easeInOut" }}
-          className="fixed inset-0 bg-main z-50 flex items-center justify-center font-mono p-6"
+          transition={{ duration: 0.8, ease: "easeInOut" }}
+          className="fixed inset-0 bg-main z-50 flex items-center justify-center overflow-hidden"
         >
-          {/* Terminal window container */}
-          <div className="w-full max-w-4xl mx-auto">
-            {/* Window frame with borders and shadow */}
-            <div className="border border-accent/50 bg-main/95 backdrop-blur-sm rounded-lg shadow-2xl overflow-hidden">
-              {/* Window title bar */}
-              <div className="bg-secondary/10 border-b border-accent/30 px-4 py-3 flex items-center gap-3">
-                <div className="flex gap-2">
-                  <div className="w-3 h-3 rounded-full bg-terminal-error cursor-pointer hover:bg-terminal-error/80"></div>
-                  <div className="w-3 h-3 rounded-full bg-yellow-500 cursor-pointer hover:bg-yellow-500/80"></div>
-                  <div className="w-3 h-3 rounded-full bg-terminal-success cursor-pointer hover:bg-terminal-success/80"></div>
-                </div>
-                <div className="flex-1 text-secondary/60 text-xs font-mono">
-                  terminal — 80x24
-                </div>
-                <div className="text-secondary/40 text-xs font-mono">
-                  ● ● ●
-                </div>
-              </div>
-              
-              {/* Terminal content area */}
-              <div className="px-6 md:px-8 py-6 min-h-[400px] bg-main">
+          {/* Background Grid - continues during text, fades out during logo reveal */}
+          <motion.div
+            animate={{
+              opacity: animationStage === "logo-reveal" || animationStage === "complete" ? 0 : 0.1,
+            }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+          >
+            {(animationStage === "progress" || animationStage === "progress-fade-out" || 
+              animationStage === "precision" || animationStage === "precision-fade-out" || 
+              animationStage === "prioritech-text" || animationStage === "prioritech-fade-out" || 
+              animationStage === "logo-reveal") && (
+              <GridBackground opacity={1} className="z-0" />
+            )}
+          </motion.div>
 
-            {/* Commands display area */}
-            <div className="space-y-3 min-h-[300px]">
-              {/* Show all completed commands */}
-              {TERMINAL_COMMANDS.slice(0, currentCommandIndex).map((cmd, idx) => {
-                // Handle both string and object commands
-                const isObject = typeof cmd === 'object'
-                const cmdText = isObject ? (cmd.static + cmd.animated) : cmd
-                const prompt = cmdText.startsWith("#") ? "# " : cmdText.startsWith("[") ? "" : "$ "
-                const displayText = cmdText.replace(/^[\$\#\[]*/, "")
-                
-                return (
-                  <div key={idx} className="text-secondary text-sm md:text-base">
-                    {cmdText.startsWith("[") ? (
-                      <span className="text-terminal-error">{cmdText}</span>
-                    ) : (
-                      <>
-                        <span className="text-accent">{prompt}</span>
-                        <span>{displayText}</span>
-                      </>
-                    )}
-                  </div>
-                )
-              })}
+          {/* Data Stream Background - continues during text, fades out during logo reveal */}
+          <motion.div
+            animate={{
+              opacity: animationStage === "logo-reveal" || animationStage === "complete" ? 0 : 1,
+            }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            className="z-0"
+          >
+            {(animationStage === "progress" || animationStage === "progress-fade-out" || 
+              animationStage === "precision" || animationStage === "precision-fade-out" || 
+              animationStage === "prioritech-text" || animationStage === "prioritech-fade-out" || 
+              animationStage === "logo-reveal") && (
+              <DataStream speed={0.8} />
+            )}
+          </motion.div>
 
-              {/* Current typing command - appears immediately with typing effect */}
-              {currentCommandIndex < TERMINAL_COMMANDS.length && (() => {
-                const cmd = TERMINAL_COMMANDS[currentCommandIndex]
-                const isObject = typeof cmd === 'object'
-                const cmdText = isObject ? cmd.text : cmd
-                const isPasswordCommand = isObject && cmd.static && cmd.animated
-                const prompt = cmdText.startsWith("#") ? "# " : cmdText.startsWith("[") ? "" : "$ "
-                
-                return (
-                  <div className="text-secondary text-sm md:text-base">
-                    {!cmdText.startsWith("[") && (
-                      <span className="text-accent mr-2">{prompt}</span>
-                    )}
-                    <span className={cmdText.startsWith("[") ? "text-terminal-error" : ""}>
-                      {currentText}
-                      {isTyping && (
-                        <span className="inline-block w-0.5 h-4 bg-accent ml-0.5 animate-cursor-blink" />
-                      )}
-                    </span>
-                  </div>
-                )
-              })()}
+          {/* Particle System - continues during text, fades out during logo reveal */}
+          <motion.div
+            animate={{
+              opacity: animationStage === "logo-reveal" || animationStage === "complete" ? 0 : 1,
+            }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            className="z-10"
+          >
+            {(animationStage === "progress" || animationStage === "progress-fade-out" || 
+              animationStage === "precision" || animationStage === "precision-fade-out" || 
+              animationStage === "prioritech-text" || animationStage === "prioritech-fade-out" || 
+              animationStage === "logo-reveal") && (
+              <ParticleSystem
+                particleCount={isMobile ? 30 : 60}
+                targetX="50%"
+                targetY="50%"
+                logoBounds={!boundsLoading && logoBounds ? logoBounds : null}
+              />
+            )}
+          </motion.div>
 
-              {/* Loading bar */}
-              {showLoading && !isClosing && (
+          {/* Main Content Container */}
+          <div className="absolute inset-0 z-30 flex items-center justify-center">
+            {/* Stage 1: "Progress" text */}
+            <AnimatePresence mode="wait">
+              {animationStage === "progress" && (
                 <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  className="mt-6"
+                  key="progress"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.6, ease: "easeOut" }}
+                  className="absolute text-center"
                 >
-                  <LoadingBar
-                    duration={3}
-                    onComplete={handleLoadingComplete}
-                    successMessage="OK"
-                  />
+                  <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white">
+                    Progress
+                  </h1>
                 </motion.div>
               )}
-
-              {/* Success message */}
-              {showSuccess && (
+              {animationStage === "progress-fade-out" && (
                 <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  className="text-terminal-success text-sm md:text-base mt-4"
+                  key="progress-fade-out"
+                  initial={{ opacity: 1, y: 0 }}
+                  animate={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.4, ease: "easeIn" }}
+                  className="absolute text-center"
                 >
-                  # System initialized successfully.
+                  <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white">
+                    Progress
+                  </h1>
                 </motion.div>
               )}
-            </div>
+            </AnimatePresence>
 
-                {/* Footer hint */}
-                {!showLoading && (
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    className="mt-8 text-secondary/30 text-xs text-center"
-                  >
-                    Initializing Prioritech systems...
-                  </motion.div>
-                )}
-              </div>
-            </div>
+            {/* Stage 2: "Precision" text */}
+            <AnimatePresence mode="wait">
+              {animationStage === "precision" && (
+                <motion.div
+                  key="precision"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.6, ease: "easeOut" }}
+                  className="absolute text-center"
+                >
+                  <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white">
+                    Precision
+                  </h1>
+                </motion.div>
+              )}
+              {animationStage === "precision-fade-out" && (
+                <motion.div
+                  key="precision-fade-out"
+                  initial={{ opacity: 1, y: 0 }}
+                  animate={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.4, ease: "easeIn" }}
+                  className="absolute text-center"
+                >
+                  <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white">
+                    Precision
+                  </h1>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            {/* Stage 3: "Prioritech" text (gold) */}
+            <AnimatePresence mode="wait">
+              {animationStage === "prioritech-text" && (
+                <motion.div
+                  key="prioritech-text"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.6, ease: "easeOut" }}
+                  className="absolute text-center"
+                >
+                  <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-accent">
+                    Prioritech
+                  </h1>
+                </motion.div>
+              )}
+              {animationStage === "prioritech-fade-out" && (
+                <motion.div
+                  key="prioritech-fade-out"
+                  initial={{ opacity: 1, y: 0 }}
+                  animate={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.4, ease: "easeIn" }}
+                  className="absolute text-center"
+                >
+                  <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-accent">
+                    Prioritech
+                  </h1>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            {/* Stage 4: Logo with Smooth Entrance Animation */}
+            {(animationStage === "logo-reveal" || animationStage === "complete") && (
+              <motion.div
+                ref={logoRef}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.8, ease: "easeOut" }}
+                className="relative"
+              >
+                {/* Logo Image - Using responsive images for optimal loading */}
+                <Image
+                  src={logoImageSrc}
+                  alt="Prioritech Logo"
+                  width={600}
+                  height={300}
+                  sizes="(max-width: 640px) 360px, (max-width: 768px) 440px, (max-width: 1024px) 560px, 600px"
+                  className="w-[360px] sm:w-[440px] md:w-[560px] lg:w-[600px] h-auto"
+                  priority
+                  onLoad={() => {
+                    // Update dimensions after image loads
+                    if (logoRef.current) {
+                      const rect = logoRef.current.getBoundingClientRect()
+                      setLogoSize({ width: rect.width, height: rect.height })
+                    }
+                  }}
+                />
+              </motion.div>
+            )}
           </div>
         </motion.div>
       )}
     </AnimatePresence>
   )
 }
-

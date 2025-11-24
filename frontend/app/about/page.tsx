@@ -14,7 +14,15 @@ import {
   Users, 
   Lightbulb, 
   CheckCircle,
-  ArrowRight 
+  ArrowRight,
+  Code2,
+  Brain,
+  Cog,
+  Rocket,
+  Shield,
+  Zap,
+  TrendingUp,
+  Layers
 } from "lucide-react"
 import Link from "next/link"
 
@@ -58,9 +66,9 @@ export default function AboutPage() {
       <main>
         {/* Hero Section */}
       <PageHero
-        title="We build with intent, not impulse. Every line of code, every model, every circuit exists to solve a real problem."
+        title="Precision. Elegance. Systems."
         subtitle="About Prioritech"
-        description="Prioritech is an engineering firm that blends AI, automation, and data infrastructure into working systems. We don't overpromise — we deliver. You'll never see vaporware here; just durable engineering that performs where it counts."
+        description="Engineering firm that blends AI, automation, and data infrastructure into working systems."
       />
 
         {/* Company Overview */}
@@ -71,45 +79,57 @@ export default function AboutPage() {
                 <h2 className="text-secondary text-2xl sm:text-3xl font-bold mb-6 font-mono">
                   What We Build
                 </h2>
-                <div className="text-secondary/70 text-base sm:text-lg leading-relaxed mb-6">
-                  <TextGenerateEffect 
-                    words="We don't overpromise — we deliver. You'll never see vaporware here; just durable engineering that performs where it counts."
-                    delayMultiple={0.03}
-                  />
-                </div>
-                <div className="text-secondary/70 text-base sm:text-lg leading-relaxed">
-                  <TextGenerateEffect 
-                    words="We build with intent, not impulse. Every line of code, every model, every circuit exists to solve a real problem."
-                    delayMultiple={0.03}
-                  />
+                <div className="grid grid-cols-3 gap-4">
+                  <div className="flex flex-col items-center gap-2 p-4 bg-main/50 border border-accent/20 rounded-lg hover:border-accent/50 transition-all">
+                    <Rocket className="w-8 h-8 text-accent" />
+                    <span className="text-secondary/70 text-xs font-mono text-center">Production Systems</span>
+                  </div>
+                  <div className="flex flex-col items-center gap-2 p-4 bg-main/50 border border-accent/20 rounded-lg hover:border-accent/50 transition-all">
+                    <Brain className="w-8 h-8 text-accent" />
+                    <span className="text-secondary/70 text-xs font-mono text-center">AI Orchestration</span>
+                  </div>
+                  <div className="flex flex-col items-center gap-2 p-4 bg-main/50 border border-accent/20 rounded-lg hover:border-accent/50 transition-all">
+                    <Cog className="w-8 h-8 text-accent" />
+                    <span className="text-secondary/70 text-xs font-mono text-center">Industrial Automation</span>
+                  </div>
+                  <div className="flex flex-col items-center gap-2 p-4 bg-main/50 border border-accent/20 rounded-lg hover:border-accent/50 transition-all">
+                    <Shield className="w-8 h-8 text-accent" />
+                    <span className="text-secondary/70 text-xs font-mono text-center">Security Intelligence</span>
+                  </div>
+                  <div className="flex flex-col items-center gap-2 p-4 bg-main/50 border border-accent/20 rounded-lg hover:border-accent/50 transition-all">
+                    <TrendingUp className="w-8 h-8 text-accent" />
+                    <span className="text-secondary/70 text-xs font-mono text-center">Financial Systems</span>
+                  </div>
+                  <div className="flex flex-col items-center gap-2 p-4 bg-main/50 border border-accent/20 rounded-lg hover:border-accent/50 transition-all">
+                    <Layers className="w-8 h-8 text-accent" />
+                    <span className="text-secondary/70 text-xs font-mono text-center">Enterprise Platforms</span>
+                  </div>
                 </div>
               </div>
               
-              <TracingBeam>
-                <div className="bg-main/70 backdrop-blur-sm border border-accent/20 rounded-xl p-8 font-mono">
-                  <h3 className="text-secondary text-xl font-semibold mb-4 font-mono">Our Principles</h3>
-                  <ul className="space-y-3 mb-6">
-                    {philosophyPoints.map((point, index) => (
-                      <li key={index} className="flex items-start space-x-3">
-                        <CheckCircle className="w-5 h-5 text-accent mt-0.5 flex-shrink-0" />
-                        <span className="text-secondary/70 text-sm sm:text-base font-mono">
-                          <span className="text-accent">&gt;</span> {point}
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
-                  <div className="border-t border-accent/20 pt-6">
-                    <h4 className="text-accent text-lg font-semibold mb-3 font-mono">Vision</h4>
-                    <p className="text-secondary/70 text-sm mb-4 font-mono">
-                      To become Indonesia's most trusted AI & automation engineering partner.
-                    </p>
-                    <h4 className="text-accent text-lg font-semibold mb-3 font-mono">Mission</h4>
-                    <p className="text-secondary/70 text-sm font-mono">
-                      To design technology that elevates industries through precision, reliability, and integrity.
-                    </p>
+              <div className="bg-main/70 backdrop-blur-sm border border-accent/20 rounded-xl p-8 font-mono">
+                <h3 className="text-secondary text-xl font-semibold mb-6 font-mono">Our Principles</h3>
+                <div className="space-y-3 mb-6">
+                  {philosophyPoints.map((point, index) => (
+                    <div key={index} className="flex items-start gap-3 p-3 bg-main/50 border border-accent/20 rounded-lg hover:border-accent/50 transition-all">
+                      <CheckCircle className="w-5 h-5 text-accent mt-0.5 flex-shrink-0" />
+                      <span className="text-secondary/70 text-sm font-mono">{point}</span>
+                    </div>
+                  ))}
+                </div>
+                <div className="border-t border-accent/20 pt-6">
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="flex flex-col items-center gap-2 p-4 bg-main/50 border border-accent/20 rounded-lg">
+                      <Target className="w-6 h-6 text-accent" />
+                      <span className="text-accent text-sm font-semibold font-mono">Vision</span>
+                    </div>
+                    <div className="flex flex-col items-center gap-2 p-4 bg-main/50 border border-accent/20 rounded-lg">
+                      <Rocket className="w-6 h-6 text-accent" />
+                      <span className="text-accent text-sm font-semibold font-mono">Mission</span>
+                    </div>
                   </div>
                 </div>
-              </TracingBeam>
+              </div>
             </div>
           </div>
         </section>
@@ -121,19 +141,20 @@ export default function AboutPage() {
               <h2 className="text-secondary text-2xl sm:text-3xl font-bold mb-4">
                 Our Focus Areas
               </h2>
-              <p className="text-secondary/70 text-base sm:text-lg max-w-3xl mx-auto">
-                We specialize in five core engineering disciplines that drive modern enterprise innovation.
-              </p>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-3 gap-6 max-w-2xl mx-auto">
               {focusAreas.map((area, index) => (
-                <SectionCard
+                <div
                   key={index}
-                  title={area.title}
-                  description={area.description}
-                  icon={area.icon}
-                />
+                  className="flex flex-col items-center gap-3 p-6 bg-main/80 border border-accent/20 rounded-lg hover:border-accent/50 transition-all"
+                  title={area.description}
+                >
+                  <div className="text-accent">
+                    {area.icon}
+                  </div>
+                  <span className="text-secondary font-semibold text-sm font-mono text-center">{area.title.split('&')[0].trim()}</span>
+                </div>
               ))}
             </div>
           </div>
@@ -146,30 +167,22 @@ export default function AboutPage() {
               <h2 className="text-secondary text-2xl sm:text-3xl font-bold mb-4">
                 Our Engineering Approach
               </h2>
-              <p className="text-secondary/70 text-base sm:text-lg max-w-3xl mx-auto">
-                We design modular pipelines — built to scale, auditable, and cloud-agnostic.
-              </p>
             </div>
             
-            <Timeline 
-              items={[
-                {
-                  title: "Design for 10-Year Evolution",
-                  description: "Every component interfaces through documented contracts. Upgrade one piece without breaking others. Your 2025 code should still work in 2035.",
-                  icon: <Target className="w-8 h-8 text-accent" />
-                },
-                {
-                  title: "Self-Documenting Systems",
-                  description: "Logging that tells a story. Metrics that diagnose issues before they cascade. The system teaches engineers how it works.",
-                  icon: <CheckCircle className="w-8 h-8 text-accent" />
-                },
-                {
-                  title: "Infrastructure Agnostic",
-                  description: "Runs on AWS, Azure, on-prem, or your garage. Migration paths for all scenarios. Vendor lock-in is technical debt we refuse to incur.",
-                  icon: <Lightbulb className="w-8 h-8 text-accent" />
-                }
-              ]}
-            />
+            <div className="flex justify-center gap-8">
+              <div className="flex flex-col items-center gap-2">
+                <Target className="w-12 h-12 text-accent" />
+                <span className="text-secondary/70 text-xs font-mono text-center">10-Year Design</span>
+              </div>
+              <div className="flex flex-col items-center gap-2">
+                <CheckCircle className="w-12 h-12 text-accent" />
+                <span className="text-secondary/70 text-xs font-mono text-center">Self-Documenting</span>
+              </div>
+              <div className="flex flex-col items-center gap-2">
+                <Lightbulb className="w-12 h-12 text-accent" />
+                <span className="text-secondary/70 text-xs font-mono text-center">Cloud-Agnostic</span>
+              </div>
+            </div>
           </div>
         </section>
 

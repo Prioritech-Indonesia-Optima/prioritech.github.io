@@ -8,12 +8,36 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
-import { Timeline } from "@/components/aceternity/timeline"
 import { MovingBorder } from "@/components/aceternity/moving-border"
 import { TextGenerateEffect } from "@/components/aceternity/text-generate-effect"
 import { TracingBeam } from "@/components/aceternity/tracing-beam"
 import { CardSpotlight } from "@/components/aceternity/card-spotlight"
-import { Mail, MapPin, Building2, Phone, Send } from "lucide-react"
+import { StructuredData } from "@/components/common/StructuredData"
+import { Mail, MapPin, Building2, Phone, Send, Rocket, Layers, Eye, Brain } from "lucide-react"
+
+/**
+ * LocalBusiness structured data for contact page.
+ */
+const localBusinessSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'LocalBusiness' as const,
+  name: 'Prioritech Indonesia Optima',
+  url: 'https://prioritech.co.id',
+  description: 'Indonesian AI and engineering company focused on creating production-grade systems.',
+  address: {
+    '@type': 'PostalAddress' as const,
+    streetAddress: 'NEO SOHO PODOMORO CITY UNIT 3106, Jl. Letjen S. Parman Kav. 28, Tanjung Duren Selatan',
+    addressLocality: 'Jakarta Barat',
+    addressRegion: 'DKI Jakarta',
+    postalCode: '11470',
+    addressCountry: 'ID',
+  },
+  contactPoint: {
+    '@type': 'ContactPoint' as const,
+    email: 'ivan.aurelius@prioritech.co.id',
+    contactType: 'Business Inquiries',
+  },
+}
 
 /**
  * Contact page for Prioritech Indonesia Optima.
@@ -88,6 +112,7 @@ export default function ContactPage() {
 
   return (
     <div className="min-h-screen bg-main">
+      <StructuredData localBusiness={localBusinessSchema} />
       <Navbar />
       
       <main>
@@ -95,7 +120,7 @@ export default function ContactPage() {
         <PageHero
           title="We design systems that help you excel — not temporary fixes."
           subtitle="Get in Touch"
-          description="We build what your operations need to compete at their best. If you're ready for a system that performs and scales, we're ready to design it."
+          description="Systems that perform and scale."
         />
 
         {/* Contact Information & Form */}
@@ -149,32 +174,24 @@ export default function ContactPage() {
                     <h3 className="text-secondary font-semibold text-lg mb-4 font-mono">
                       Why Choose Prioritech?
                     </h3>
-                    <ul className="space-y-2">
-                      <li className="flex items-center space-x-2">
-                        <div className="w-1.5 h-1.5 bg-accent rounded-full" />
-                        <span className="text-secondary/70 text-sm font-mono">
-                          <span className="text-accent">&gt;</span> Production-grade systems, not prototypes
-                        </span>
-                      </li>
-                      <li className="flex items-center space-x-2">
-                        <div className="w-1.5 h-1.5 bg-accent rounded-full" />
-                        <span className="text-secondary/70 text-sm font-mono">
-                          <span className="text-accent">&gt;</span> Modular, scalable, and cloud-agnostic solutions
-                        </span>
-                      </li>
-                      <li className="flex items-center space-x-2">
-                        <div className="w-1.5 h-1.5 bg-accent rounded-full" />
-                        <span className="text-secondary/70 text-sm font-mono">
-                          <span className="text-accent">&gt;</span> Comprehensive monitoring and audit trails
-                        </span>
-                      </li>
-                      <li className="flex items-center space-x-2">
-                        <div className="w-1.5 h-1.5 bg-accent rounded-full" />
-                        <span className="text-secondary/70 text-sm font-mono">
-                          <span className="text-accent">&gt;</span> Expertise across AI, cybersecurity, and automation
-                        </span>
-                      </li>
-                    </ul>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="flex flex-col items-center gap-2 p-3 bg-main/50 border border-accent/20 rounded-lg">
+                        <Rocket className="w-6 h-6 text-accent" />
+                        <span className="text-secondary/70 text-xs font-mono text-center">Production-Grade</span>
+                      </div>
+                      <div className="flex flex-col items-center gap-2 p-3 bg-main/50 border border-accent/20 rounded-lg">
+                        <Layers className="w-6 h-6 text-accent" />
+                        <span className="text-secondary/70 text-xs font-mono text-center">Scalable</span>
+                      </div>
+                      <div className="flex flex-col items-center gap-2 p-3 bg-main/50 border border-accent/20 rounded-lg">
+                        <Eye className="w-6 h-6 text-accent" />
+                        <span className="text-secondary/70 text-xs font-mono text-center">Monitored</span>
+                      </div>
+                      <div className="flex flex-col items-center gap-2 p-3 bg-main/50 border border-accent/20 rounded-lg">
+                        <Brain className="w-6 h-6 text-accent" />
+                        <span className="text-secondary/70 text-xs font-mono text-center">Expertise</span>
+                      </div>
+                    </div>
                   </div>
                 </TracingBeam>
               </div>
@@ -283,27 +300,20 @@ export default function ContactPage() {
               <h2 className="text-secondary text-2xl font-bold mb-4">
                 What to Expect
               </h2>
-              <p className="text-secondary/70 text-base sm:text-lg max-w-3xl mx-auto mb-8">
-                We typically respond to all inquiries within 24 hours. For urgent matters, 
-                please mention it in your message and we'll prioritize your request.
-              </p>
-              
-              <Timeline 
-                items={[
-                  {
-                    title: "Initial Response",
-                    description: "We'll acknowledge your message within 24 hours",
-                  },
-                  {
-                    title: "Project Discussion",
-                    description: "Schedule a call to discuss your requirements in detail",
-                  },
-                  {
-                    title: "Proposal",
-                    description: "Receive a detailed proposal with timeline and approach",
-                  }
-                ]}
-              />
+              <div className="flex justify-center gap-8">
+                <div className="flex flex-col items-center gap-2">
+                  <Mail className="w-12 h-12 text-accent" />
+                  <span className="text-secondary/70 text-xs font-mono text-center">Response</span>
+                </div>
+                <div className="flex flex-col items-center gap-2">
+                  <Phone className="w-12 h-12 text-accent" />
+                  <span className="text-secondary/70 text-xs font-mono text-center">Discussion</span>
+                </div>
+                <div className="flex flex-col items-center gap-2">
+                  <Send className="w-12 h-12 text-accent" />
+                  <span className="text-secondary/70 text-xs font-mono text-center">Proposal</span>
+                </div>
+              </div>
             </div>
           </div>
         </section>

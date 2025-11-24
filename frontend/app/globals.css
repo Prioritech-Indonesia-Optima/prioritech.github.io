@@ -206,6 +206,16 @@
   * {
     @apply border-border outline-ring/50;
   }
+  html {
+    scroll-behavior: smooth;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+
   body {
     @apply bg-background text-foreground;
   }
@@ -248,17 +258,15 @@
     font-family: var(--font-mono);
   }
 
-  /* Glow effects */
+  /* Glow effects - reduced intensity */
   .glow-gold {
-    box-shadow: 0 0 10px rgba(218, 165, 32, 0.5),
-                0 0 20px rgba(218, 165, 32, 0.3),
-                0 0 30px rgba(218, 165, 32, 0.2);
+    box-shadow: 0 0 5px rgba(218, 165, 32, 0.25),
+                0 0 10px rgba(218, 165, 32, 0.15);
   }
 
   .glow-gold-strong {
-    box-shadow: 0 0 20px rgba(218, 165, 32, 0.8),
-                0 0 40px rgba(218, 165, 32, 0.6),
-                0 0 60px rgba(218, 165, 32, 0.4);
+    box-shadow: 0 0 8px rgba(218, 165, 32, 0.3),
+                0 0 15px rgba(218, 165, 32, 0.2);
   }
 
   /* Hide scrollbar but keep scrolling functional */

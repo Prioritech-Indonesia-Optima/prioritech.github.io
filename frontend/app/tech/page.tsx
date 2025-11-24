@@ -5,12 +5,9 @@ import { Footer } from "@/components/common/Footer"
 import { PageHero } from "@/components/common/PageHero"
 import { SectionCard } from "@/components/common/SectionCard"
 import { TechStackIcon } from "@/components/common/IconComponents"
-import { Timeline } from "@/components/aceternity/timeline"
 import { MovingBorder } from "@/components/aceternity/moving-border"
 import { LampEffect } from "@/components/aceternity/lamp-effect"
-import { TextGenerateEffect } from "@/components/aceternity/text-generate-effect"
-import { TracingBeam } from "@/components/aceternity/tracing-beam"
-import { ArrowRight, CheckCircle } from "lucide-react"
+import { ArrowRight, CheckCircle, Cpu, Cog, Brain, Database, Shield, Lock, Key, Eye, Layers, Code2, Zap, Rocket, Search, TrendingUp } from "lucide-react"
 import Link from "next/link"
 
 /**
@@ -42,6 +39,7 @@ export default function TechPage() {
         { name: 'PyTorch', description: 'Deep learning for research and production' },
         { name: 'LangChain', description: 'LLM orchestration with RAG pipelines' },
         { name: 'CrewAI', description: 'Multi-agent systems with task delegation' },
+        { name: 'Agno', description: 'AI orchestration and workflow management' },
         { name: 'Ollama', description: 'Local LLM deployment, privacy-first' },
         { name: 'HuggingFace', description: 'Model hub, transformers, inference' }
       ]
@@ -86,6 +84,8 @@ export default function TechPage() {
         { name: 'PostgreSQL', description: 'Relational database, production workloads' },
         { name: 'Redis', description: 'In-memory cache, pub/sub, real-time' },
         { name: 'Kafka', description: 'Event streaming, microservices messaging' },
+        { name: 'SQLite', description: 'Lightweight embedded database' },
+        { name: 'MongoDB', description: 'NoSQL document database' },
         { name: 'Pytest / Jest', description: 'Testing frameworks with coverage' },
         { name: 'Load Testing', description: 'Performance and stress testing tools' }
       ]
@@ -131,9 +131,9 @@ export default function TechPage() {
       <main>
         {/* Hero Section */}
         <PageHero
-          title="We design systems that operate with precision, durability, and clarity. Tools evolve — our engineering principles don't."
+          title="Tools change. Principles don't."
           subtitle="How We Build"
-          description="Comprehensive technology stack spanning AI/ML, backend systems, frontend development, infrastructure, data management, and hardware integration."
+          description="Comprehensive technology stack."
         />
 
         {/* Tech Stack Overview */}
@@ -143,12 +143,6 @@ export default function TechPage() {
               <h2 className="text-secondary text-2xl sm:text-3xl font-bold mb-4 font-mono">
                 <LampEffect>Technology Stack Overview</LampEffect>
               </h2>
-              <div className="text-secondary/70 text-base sm:text-lg max-w-3xl mx-auto font-mono">
-                <TextGenerateEffect 
-                  words="Our comprehensive technology stack enables us to build production-grade systems across all layers of the technology stack."
-                  delayMultiple={0.04}
-                />
-              </div>
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -168,30 +162,28 @@ export default function TechPage() {
 
                   <div className="pt-12">
                     {/* Layer Header */}
-                    <div className="mb-6">
+                    <div className="mb-4">
                       <h3 className="text-secondary text-xl font-semibold mb-2 font-mono">
                         <span className="text-accent">$</span> {layer.layer}
                       </h3>
-                      <div className="text-secondary/70 text-sm font-mono">
+                      <p className="text-secondary/60 text-xs font-mono leading-relaxed">
                         {layer.description}
-                      </div>
+                      </p>
                     </div>
 
                     {/* Technologies */}
-                    <div className="space-y-4">
+                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-6">
                       {layer.technologies.map((tech, techIndex) => (
-                        <div key={techIndex} className="flex items-center space-x-3">
-                          <div className="flex items-center justify-center w-8 h-8 bg-accent/10 rounded-lg flex-shrink-0">
-                            <TechStackIcon tech={tech.name.toLowerCase()} size={16} />
+                        <div 
+                          key={techIndex} 
+                          className="flex flex-col items-center gap-2 p-3 bg-main/50 border border-accent/20 rounded-lg hover:border-accent/50 hover:bg-main/70 transition-all group"
+                          title={tech.description}
+                        >
+                          <div className="flex items-center justify-center w-10 h-10 bg-accent/10 rounded-lg group-hover:bg-accent/20 transition-colors text-accent">
+                            <TechStackIcon tech={tech.name.toLowerCase()} size={20} />
                           </div>
-                          <div className="flex-1">
-                            <h4 className="text-secondary font-medium text-sm font-mono">
-                              {tech.name}
-                            </h4>
-                            <p className="text-secondary/60 text-xs font-mono">
-                              &gt; {tech.description}
-                            </p>
-                          </div>
+                          <span className="text-secondary/80 text-xs font-mono text-center font-medium">{tech.name}</span>
+                          <span className="text-secondary/50 text-[10px] font-mono text-center leading-tight line-clamp-2">{tech.description}</span>
                         </div>
                       ))}
                     </div>
@@ -211,38 +203,22 @@ export default function TechPage() {
               </h2>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="bg-main/80 backdrop-blur-sm border border-accent/20 rounded-lg p-6 font-mono">
-                <h3 className="text-secondary font-semibold mb-4 font-mono">Firmware & Controllers</h3>
-                <ul className="space-y-2 text-sm">
-                  <li className="text-secondary/70">• STM32, ESP32, Arduino firmware development</li>
-                  <li className="text-secondary/70">• Custom controller programming</li>
-                  <li className="text-secondary/70">• Real-time embedded systems</li>
-                </ul>
+            <div className="grid grid-cols-4 gap-4 max-w-3xl mx-auto">
+              <div className="flex flex-col items-center gap-2 p-4 bg-main/80 border border-accent/20 rounded-lg hover:border-accent/50 transition-all">
+                <Cpu className="w-8 h-8 text-accent" />
+                <span className="text-secondary/70 text-xs font-mono text-center">Firmware</span>
               </div>
-              <div className="bg-main/80 backdrop-blur-sm border border-accent/20 rounded-lg p-6 font-mono">
-                <h3 className="text-secondary font-semibold mb-4 font-mono">PLC Automation</h3>
-                <ul className="space-y-2 text-sm">
-                  <li className="text-secondary/70">• Siemens, Allen-Bradley systems</li>
-                  <li className="text-secondary/70">• Modbus/TCP integration</li>
-                  <li className="text-secondary/70">• Industrial control programming</li>
-                </ul>
+              <div className="flex flex-col items-center gap-2 p-4 bg-main/80 border border-accent/20 rounded-lg hover:border-accent/50 transition-all">
+                <Cog className="w-8 h-8 text-accent" />
+                <span className="text-secondary/70 text-xs font-mono text-center">PLC</span>
               </div>
-              <div className="bg-main/80 backdrop-blur-sm border border-accent/20 rounded-lg p-6 font-mono">
-                <h3 className="text-secondary font-semibold mb-4 font-mono">Robotics Systems</h3>
-                <ul className="space-y-2 text-sm">
-                  <li className="text-secondary/70">• Pathfinding algorithms</li>
-                  <li className="text-secondary/70">• Image processing for motion control</li>
-                  <li className="text-secondary/70">• ROS-based autonomous systems</li>
-                </ul>
+              <div className="flex flex-col items-center gap-2 p-4 bg-main/80 border border-accent/20 rounded-lg hover:border-accent/50 transition-all">
+                <Rocket className="w-8 h-8 text-accent" />
+                <span className="text-secondary/70 text-xs font-mono text-center">Robotics</span>
               </div>
-              <div className="bg-main/80 backdrop-blur-sm border border-accent/20 rounded-lg p-6 font-mono">
-                <h3 className="text-secondary font-semibold mb-4 font-mono">Edge AI</h3>
-                <ul className="space-y-2 text-sm">
-                  <li className="text-secondary/70">• NVIDIA CUDA, TensorRT optimization</li>
-                  <li className="text-secondary/70">• Jetson deployment</li>
-                  <li className="text-secondary/70">• OpenVINO, FPGA integration</li>
-                </ul>
+              <div className="flex flex-col items-center gap-2 p-4 bg-main/80 border border-accent/20 rounded-lg hover:border-accent/50 transition-all">
+                <Brain className="w-8 h-8 text-accent" />
+                <span className="text-secondary/70 text-xs font-mono text-center">Edge AI</span>
               </div>
             </div>
           </div>
@@ -257,22 +233,22 @@ export default function TechPage() {
               </h2>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="bg-main/50 border border-accent/20 rounded-lg p-6 font-mono">
-                <h3 className="text-accent font-semibold mb-4 font-mono">Zero-Trust Infrastructure</h3>
-                <p className="text-secondary/70 text-sm">Every component verified before access</p>
+            <div className="grid grid-cols-4 gap-4 max-w-3xl mx-auto">
+              <div className="flex flex-col items-center gap-2 p-4 bg-main/50 border border-accent/20 rounded-lg hover:border-accent/50 transition-all">
+                <Shield className="w-8 h-8 text-accent" />
+                <span className="text-accent text-xs font-mono text-center">Zero-Trust</span>
               </div>
-              <div className="bg-main/50 border border-accent/20 rounded-lg p-6 font-mono">
-                <h3 className="text-accent font-semibold mb-4 font-mono">Encryption</h3>
-                <p className="text-secondary/70 text-sm">AES-256 / TLS 1.3 on all layers</p>
+              <div className="flex flex-col items-center gap-2 p-4 bg-main/50 border border-accent/20 rounded-lg hover:border-accent/50 transition-all">
+                <Lock className="w-8 h-8 text-accent" />
+                <span className="text-accent text-xs font-mono text-center">Encryption</span>
               </div>
-              <div className="bg-main/50 border border-accent/20 rounded-lg p-6 font-mono">
-                <h3 className="text-accent font-semibold mb-4 font-mono">Access Control</h3>
-                <p className="text-secondary/70 text-sm">Role-based access with full audit logging</p>
+              <div className="flex flex-col items-center gap-2 p-4 bg-main/50 border border-accent/20 rounded-lg hover:border-accent/50 transition-all">
+                <Key className="w-8 h-8 text-accent" />
+                <span className="text-accent text-xs font-mono text-center">Access Control</span>
               </div>
-              <div className="bg-main/50 border border-accent/20 rounded-lg p-6 font-mono">
-                <h3 className="text-accent font-semibold mb-4 font-mono">Security Testing</h3>
-                <p className="text-secondary/70 text-sm">Pentesting integrated into development</p>
+              <div className="flex flex-col items-center gap-2 p-4 bg-main/50 border border-accent/20 rounded-lg hover:border-accent/50 transition-all">
+                <Eye className="w-8 h-8 text-accent" />
+                <span className="text-accent text-xs font-mono text-center">Testing</span>
               </div>
             </div>
           </div>
@@ -287,30 +263,28 @@ export default function TechPage() {
               </h2>
             </div>
             
-            <TracingBeam>
-              <div className="space-y-6">
-                <div className="bg-main/80 backdrop-blur-sm border border-accent/20 rounded-lg p-6 font-mono">
-                  <h3 className="text-accent font-semibold mb-2 font-mono">1. Data Layer</h3>
-                  <p className="text-secondary/70 text-sm">Ingestion, validation, and ETL</p>
-                </div>
-                <div className="bg-main/80 backdrop-blur-sm border border-accent/20 rounded-lg p-6 font-mono">
-                  <h3 className="text-accent font-semibold mb-2 font-mono">2. Model Layer</h3>
-                  <p className="text-secondary/70 text-sm">Agno + LangChain orchestration</p>
-                </div>
-                <div className="bg-main/80 backdrop-blur-sm border border-accent/20 rounded-lg p-6 font-mono">
-                  <h3 className="text-accent font-semibold mb-2 font-mono">3. Logic Layer</h3>
-                  <p className="text-secondary/70 text-sm">FastAPI/Flask endpoints with strict version control</p>
-                </div>
-                <div className="bg-main/80 backdrop-blur-sm border border-accent/20 rounded-lg p-6 font-mono">
-                  <h3 className="text-accent font-semibold mb-2 font-mono">4. Interface Layer</h3>
-                  <p className="text-secondary/70 text-sm">Flutter or React for visualization</p>
-                </div>
-                <div className="bg-main/80 backdrop-blur-sm border border-accent/20 rounded-lg p-6 font-mono">
-                  <h3 className="text-accent font-semibold mb-2 font-mono">5. Ops Layer</h3>
-                  <p className="text-secondary/70 text-sm">Docker, Redis, Grafana for monitoring</p>
-                </div>
+            <div className="flex justify-center gap-6">
+              <div className="flex flex-col items-center gap-2">
+                <Database className="w-12 h-12 text-accent" />
+                <span className="text-secondary/70 text-xs font-mono text-center">Data</span>
               </div>
-            </TracingBeam>
+              <div className="flex flex-col items-center gap-2">
+                <Brain className="w-12 h-12 text-accent" />
+                <span className="text-secondary/70 text-xs font-mono text-center">Model</span>
+              </div>
+              <div className="flex flex-col items-center gap-2">
+                <Code2 className="w-12 h-12 text-accent" />
+                <span className="text-secondary/70 text-xs font-mono text-center">Logic</span>
+              </div>
+              <div className="flex flex-col items-center gap-2">
+                <Layers className="w-12 h-12 text-accent" />
+                <span className="text-secondary/70 text-xs font-mono text-center">Interface</span>
+              </div>
+              <div className="flex flex-col items-center gap-2">
+                <Zap className="w-12 h-12 text-accent" />
+                <span className="text-secondary/70 text-xs font-mono text-center">Ops</span>
+              </div>
+            </div>
           </div>
         </section>
 
@@ -323,36 +297,26 @@ export default function TechPage() {
               </h2>
             </div>
             
-            <div className="space-y-4">
-              <div className="bg-main/50 border border-accent/20 rounded-lg p-6 font-mono">
-                <div className="flex items-start space-x-4">
-                  <div className="text-accent text-2xl font-bold">1.</div>
-                  <p className="text-secondary/70 text-sm">Every system is designed for clarity.</p>
-                </div>
+            <div className="grid grid-cols-5 gap-4 max-w-4xl mx-auto">
+              <div className="flex flex-col items-center gap-2 p-4 bg-main/50 border border-accent/20 rounded-lg hover:border-accent/50 transition-all">
+                <Eye className="w-8 h-8 text-accent" />
+                <span className="text-secondary/70 text-xs font-mono text-center">Clarity</span>
               </div>
-              <div className="bg-main/50 border border-accent/20 rounded-lg p-6 font-mono">
-                <div className="flex items-start space-x-4">
-                  <div className="text-accent text-2xl font-bold">2.</div>
-                  <p className="text-secondary/70 text-sm">Every deployment must be observable.</p>
-                </div>
+              <div className="flex flex-col items-center gap-2 p-4 bg-main/50 border border-accent/20 rounded-lg hover:border-accent/50 transition-all">
+                <Search className="w-8 h-8 text-accent" />
+                <span className="text-secondary/70 text-xs font-mono text-center">Observable</span>
               </div>
-              <div className="bg-main/50 border border-accent/20 rounded-lg p-6 font-mono">
-                <div className="flex items-start space-x-4">
-                  <div className="text-accent text-2xl font-bold">3.</div>
-                  <p className="text-secondary/70 text-sm">Every client owns their data and logs.</p>
-                </div>
+              <div className="flex flex-col items-center gap-2 p-4 bg-main/50 border border-accent/20 rounded-lg hover:border-accent/50 transition-all">
+                <Shield className="w-8 h-8 text-accent" />
+                <span className="text-secondary/70 text-xs font-mono text-center">Ownership</span>
               </div>
-              <div className="bg-main/50 border border-accent/20 rounded-lg p-6 font-mono">
-                <div className="flex items-start space-x-4">
-                  <div className="text-accent text-2xl font-bold">4.</div>
-                  <p className="text-secondary/70 text-sm">Every product is tested under real load.</p>
-                </div>
+              <div className="flex flex-col items-center gap-2 p-4 bg-main/50 border border-accent/20 rounded-lg hover:border-accent/50 transition-all">
+                <Zap className="w-8 h-8 text-accent" />
+                <span className="text-secondary/70 text-xs font-mono text-center">Tested</span>
               </div>
-              <div className="bg-main/50 border border-accent/20 rounded-lg p-6 font-mono">
-                <div className="flex items-start space-x-4">
-                  <div className="text-accent text-2xl font-bold">5.</div>
-                  <p className="text-secondary/70 text-sm">Documentation is part of the delivery.</p>
-                </div>
+              <div className="flex flex-col items-center gap-2 p-4 bg-main/50 border border-accent/20 rounded-lg hover:border-accent/50 transition-all">
+                <Code2 className="w-8 h-8 text-accent" />
+                <span className="text-secondary/70 text-xs font-mono text-center">Documented</span>
               </div>
             </div>
           </div>
@@ -365,39 +329,37 @@ export default function TechPage() {
               <h2 className="text-secondary text-2xl sm:text-3xl font-bold mb-4 font-mono">
                 What We Can Achieve Together
               </h2>
-              <div className="text-secondary/70 text-base sm:text-lg max-w-3xl mx-auto font-mono italic mb-8">
-                We build what matters — systems that keep your business ahead, not busy.
-              </div>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-              <div className="bg-main/80 border border-accent/20 rounded-lg p-6 font-mono hover:border-accent/50 transition-all">
-                <div className="text-accent text-sm font-medium mb-2">Multi-agent AI infrastructures that act on live data</div>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8 max-w-4xl mx-auto">
+              <div className="flex flex-col items-center gap-2 p-4 bg-main/80 border border-accent/20 rounded-lg hover:border-accent/50 transition-all">
+                <Brain className="w-8 h-8 text-accent" />
+                <span className="text-accent text-xs font-mono text-center">Multi-Agent AI</span>
               </div>
-              <div className="bg-main/80 border border-accent/20 rounded-lg p-6 font-mono hover:border-accent/50 transition-all">
-                <div className="text-accent text-sm font-medium mb-2">AI copilots that analyze, report, and respond automatically</div>
+              <div className="flex flex-col items-center gap-2 p-4 bg-main/80 border border-accent/20 rounded-lg hover:border-accent/50 transition-all">
+                <Zap className="w-8 h-8 text-accent" />
+                <span className="text-accent text-xs font-mono text-center">AI Copilots</span>
               </div>
-              <div className="bg-main/80 border border-accent/20 rounded-lg p-6 font-mono hover:border-accent/50 transition-all">
-                <div className="text-accent text-sm font-medium mb-2">Secure private AI deployments for regulated industries</div>
+              <div className="flex flex-col items-center gap-2 p-4 bg-main/80 border border-accent/20 rounded-lg hover:border-accent/50 transition-all">
+                <Shield className="w-8 h-8 text-accent" />
+                <span className="text-accent text-xs font-mono text-center">Private AI</span>
               </div>
-              <div className="bg-main/80 border border-accent/20 rounded-lg p-6 font-mono hover:border-accent/50 transition-all">
-                <div className="text-accent text-sm font-medium mb-2">Cyber-defense and monitoring platforms with self-learning</div>
+              <div className="flex flex-col items-center gap-2 p-4 bg-main/80 border border-accent/20 rounded-lg hover:border-accent/50 transition-all">
+                <Eye className="w-8 h-8 text-accent" />
+                <span className="text-accent text-xs font-mono text-center">Cyber-Defense</span>
               </div>
-              <div className="bg-main/80 border border-accent/20 rounded-lg p-6 font-mono hover:border-accent/50 transition-all">
-                <div className="text-accent text-sm font-medium mb-2">Predictive automation for production, trading, and logistics</div>
+              <div className="flex flex-col items-center gap-2 p-4 bg-main/80 border border-accent/20 rounded-lg hover:border-accent/50 transition-all">
+                <TrendingUp className="w-8 h-8 text-accent" />
+                <span className="text-accent text-xs font-mono text-center">Predictive Automation</span>
               </div>
-              <div className="bg-main/80 border border-accent/20 rounded-lg p-6 font-mono hover:border-accent/50 transition-all">
-                <div className="text-accent text-sm font-medium mb-2">Robotics systems integrated with cloud intelligence</div>
+              <div className="flex flex-col items-center gap-2 p-4 bg-main/80 border border-accent/20 rounded-lg hover:border-accent/50 transition-all">
+                <Rocket className="w-8 h-8 text-accent" />
+                <span className="text-accent text-xs font-mono text-center">Robotics</span>
               </div>
-              <div className="bg-main/80 border border-accent/20 rounded-lg p-6 font-mono hover:border-accent/50 transition-all">
-                <div className="text-accent text-sm font-medium mb-2">Full-stack AI platforms where backend, intelligence, and UI work as one</div>
+              <div className="flex flex-col items-center gap-2 p-4 bg-main/80 border border-accent/20 rounded-lg hover:border-accent/50 transition-all">
+                <Layers className="w-8 h-8 text-accent" />
+                <span className="text-accent text-xs font-mono text-center">Full-Stack AI</span>
               </div>
-            </div>
-            
-            <div className="text-center">
-              <p className="text-secondary/70 text-sm sm:text-base font-mono italic">
-                We don't sell what's popular — we engineer what performs.
-              </p>
             </div>
           </div>
         </section>
@@ -409,19 +371,19 @@ export default function TechPage() {
               <h2 className="text-secondary text-2xl sm:text-3xl font-bold mb-4">
                 Our Development Methodology
               </h2>
-              <p className="text-secondary/70 text-base sm:text-lg max-w-3xl mx-auto">
-                We follow proven engineering principles to deliver reliable, scalable, and maintainable systems.
-              </p>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="grid grid-cols-4 gap-4 max-w-3xl mx-auto">
               {methodologyPrinciples.map((principle, index) => (
-                <SectionCard
+                <div
                   key={index}
-                  title={principle.title}
-                  description={principle.description}
-                  icon={principle.icon}
-                />
+                  className="flex flex-col items-center gap-2 p-4 bg-main/80 border border-accent/20 rounded-lg hover:border-accent/50 transition-all"
+                >
+                  <div className="text-accent">
+                    {principle.icon}
+                  </div>
+                  <span className="text-secondary font-semibold text-xs font-mono text-center">{principle.title}</span>
+                </div>
               ))}
             </div>
           </div>
@@ -434,25 +396,34 @@ export default function TechPage() {
               <h2 className="text-secondary text-2xl sm:text-3xl font-bold mb-4">
                 Development Approach
               </h2>
-              <p className="text-secondary/70 text-base sm:text-lg max-w-3xl mx-auto">
-                Our systematic approach ensures every project meets the highest standards of quality and reliability.
-              </p>
             </div>
             
-            <TracingBeam>
-              <div className="bg-main/80 backdrop-blur-sm border border-accent/20 rounded-xl p-8 font-mono">
-                <ul className="space-y-4">
-                  {developmentApproach.map((point, index) => (
-                    <li key={index} className="flex items-start space-x-3 font-mono">
-                      <CheckCircle className="w-5 h-5 text-accent mt-0.5 flex-shrink-0" />
-                      <span className="text-secondary/70 text-sm sm:text-base">
-                        <span className="text-accent">&gt;</span> {point}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
+            <div className="flex justify-center gap-6 flex-wrap">
+              <div className="flex flex-col items-center gap-2">
+                <Layers className="w-10 h-10 text-accent" />
+                <span className="text-secondary/70 text-xs font-mono text-center">Modular</span>
               </div>
-            </TracingBeam>
+              <div className="flex flex-col items-center gap-2">
+                <Zap className="w-10 h-10 text-accent" />
+                <span className="text-secondary/70 text-xs font-mono text-center">Tested</span>
+              </div>
+              <div className="flex flex-col items-center gap-2">
+                <Eye className="w-10 h-10 text-accent" />
+                <span className="text-secondary/70 text-xs font-mono text-center">Observable</span>
+              </div>
+              <div className="flex flex-col items-center gap-2">
+                <Code2 className="w-10 h-10 text-accent" />
+                <span className="text-secondary/70 text-xs font-mono text-center">Documented</span>
+              </div>
+              <div className="flex flex-col items-center gap-2">
+                <Database className="w-10 h-10 text-accent" />
+                <span className="text-secondary/70 text-xs font-mono text-center">Cloud-Agnostic</span>
+              </div>
+              <div className="flex flex-col items-center gap-2">
+                <Shield className="w-10 h-10 text-accent" />
+                <span className="text-secondary/70 text-xs font-mono text-center">Secure</span>
+              </div>
+            </div>
           </div>
         </section>
 
@@ -463,27 +434,22 @@ export default function TechPage() {
               <h2 className="text-secondary text-2xl sm:text-3xl font-bold mb-4">
                 Research & Development
               </h2>
-              <p className="text-secondary/70 text-base sm:text-lg max-w-3xl mx-auto">
-                We continuously invest in R&D to stay at the forefront of technology and deliver cutting-edge solutions.
-              </p>
             </div>
             
-            <Timeline 
-              items={[
-                {
-                  title: "Research",
-                  description: "Continuous exploration of emerging technologies, AI models, and engineering methodologies.",
-                },
-                {
-                  title: "Development",
-                  description: "Practical implementation and testing of new technologies in real-world scenarios.",
-                },
-                {
-                  title: "Innovation",
-                  description: "Creating novel solutions that push the boundaries of what's possible with current technology.",
-                }
-              ]}
-            />
+            <div className="flex justify-center gap-8">
+              <div className="flex flex-col items-center gap-2">
+                <Search className="w-12 h-12 text-accent" />
+                <span className="text-secondary/70 text-xs font-mono text-center">Research</span>
+              </div>
+              <div className="flex flex-col items-center gap-2">
+                <Code2 className="w-12 h-12 text-accent" />
+                <span className="text-secondary/70 text-xs font-mono text-center">Development</span>
+              </div>
+              <div className="flex flex-col items-center gap-2">
+                <Rocket className="w-12 h-12 text-accent" />
+                <span className="text-secondary/70 text-xs font-mono text-center">Innovation</span>
+              </div>
+            </div>
           </div>
         </section>
 
@@ -493,9 +459,6 @@ export default function TechPage() {
             <h2 className="text-secondary text-2xl sm:text-3xl font-bold mb-6">
               Ready to Leverage Our Technology?
             </h2>
-            <p className="text-secondary/70 text-base sm:text-lg mb-8 max-w-2xl mx-auto">
-              Discover how our comprehensive technology stack and proven methodology can accelerate your project's success.
-            </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <MovingBorder borderRadius="8px">
                 <Link 

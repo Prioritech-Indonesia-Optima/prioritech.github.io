@@ -2,7 +2,7 @@ import { ReactNode } from "react"
 
 interface SectionCardProps {
   title: string
-  description: string
+  description?: string
   icon?: ReactNode
   children?: ReactNode
   className?: string
@@ -34,7 +34,7 @@ export function SectionCard({
   return (
     <div className={`
       relative bg-main/80 backdrop-blur-sm border border-accent/20 rounded-lg p-6 font-mono terminal-window
-      ${hover ? 'hover:border-accent/50 hover:bg-main/90 hover:glow-gold transition-all duration-300' : ''}
+      ${hover ? 'hover:border-accent/50 hover:bg-main/90 transition-all duration-300' : ''}
       ${className}
     `}>
       {/* Terminal header bar */}
@@ -46,9 +46,9 @@ export function SectionCard({
         </div>
       </div>
       
-      <div className="pt-12">
+      <div className={`pt-12 ${className.includes('flex flex-col') ? 'flex flex-col flex-1' : ''}`}>
         {icon && (
-          <div className="flex items-center justify-center w-12 h-12 bg-accent/10 rounded-lg mb-4">
+          <div className="flex items-center justify-center w-12 h-12 bg-accent/10 rounded-lg mb-4 flex-shrink-0">
             <div className="text-accent">
               {icon}
             </div>
@@ -59,12 +59,14 @@ export function SectionCard({
           {title}
         </h3>
         
-        <p className="text-secondary/60 text-xs sm:text-sm mb-4 leading-relaxed font-mono">
-          <span className="text-accent">></span> {description}
-        </p>
+        {description && (
+          <p className="text-secondary/60 text-xs sm:text-sm mb-4 leading-relaxed font-mono">
+            <span className="text-accent">></span> {description}
+          </p>
+        )}
         
         {children && (
-          <div className="mt-4">
+          <div className={`${className.includes('flex flex-col') ? 'mt-auto' : 'mt-4'}`}>
             {children}
           </div>
         )}
