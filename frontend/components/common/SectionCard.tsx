@@ -33,29 +33,32 @@ export function SectionCard({
 }: SectionCardProps) {
   return (
     <div className={`
-      relative bg-main/80 backdrop-blur-sm border border-accent/20 rounded-lg p-6 font-mono terminal-window
-      ${hover ? 'hover:border-accent/50 hover:bg-main/90 transition-all duration-300' : ''}
+      relative bg-main/70 backdrop-blur-md border border-accent/20 rounded-xl p-6 font-mono overflow-hidden group
+      ${hover ? 'hover:border-accent/60 hover:bg-main/80 hover:-translate-y-1 hover:shadow-xl hover:shadow-accent/5 transition-all duration-300 ease-out' : ''}
       ${className}
     `}>
+      {/* Gradient overlay on hover */}
+      <div className="absolute inset-0 bg-gradient-to-br from-accent/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+      
       {/* Terminal header bar */}
-      <div className="absolute top-0 left-0 right-0 h-8 flex items-center gap-2 px-3 border-b border-accent/20 bg-main/50">
+      <div className="absolute top-0 left-0 right-0 h-8 flex items-center gap-2 px-3 border-b border-accent/20 bg-main/40">
         <div className="flex gap-1.5">
-          <div className="w-2 h-2 rounded-full bg-red-500/50" />
-          <div className="w-2 h-2 rounded-full bg-yellow-500/50" />
-          <div className="w-2 h-2 rounded-full bg-green-500/50" />
+          <div className="w-2 h-2 rounded-full bg-red-500/50 group-hover:bg-red-500/70 transition-colors" />
+          <div className="w-2 h-2 rounded-full bg-yellow-500/50 group-hover:bg-yellow-500/70 transition-colors" />
+          <div className="w-2 h-2 rounded-full bg-green-500/50 group-hover:bg-green-500/70 transition-colors" />
         </div>
       </div>
       
-      <div className={`pt-12 ${className.includes('flex flex-col') ? 'flex flex-col flex-1' : ''}`}>
+      <div className={`relative z-10 pt-12 ${className.includes('flex flex-col') ? 'flex flex-col flex-1' : ''}`}>
         {icon && (
-          <div className="flex items-center justify-center w-12 h-12 bg-accent/10 rounded-lg mb-4 flex-shrink-0">
+          <div className="flex items-center justify-center w-12 h-12 bg-accent/10 rounded-lg mb-4 flex-shrink-0 group-hover:bg-accent/15 group-hover:scale-105 transition-all duration-300">
             <div className="text-accent">
               {icon}
             </div>
           </div>
         )}
         
-        <h3 className="text-secondary font-semibold text-base sm:text-lg mb-3 font-mono">
+        <h3 className="text-secondary font-semibold text-base sm:text-lg mb-3 font-mono group-hover:text-accent/90 transition-colors duration-300">
           {title}
         </h3>
         

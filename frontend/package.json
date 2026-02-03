@@ -3,12 +3,15 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "build": "npm run generate:images && npm run precompute:bounds && next build",
+    "build": "npm run optimize:images && npm run generate:images && npm run precompute:bounds && next build",
     "dev": "next dev",
     "lint": "eslint .",
     "start": "next start",
     "generate:images": "node scripts/generate-responsive-images.js",
-    "precompute:bounds": "node scripts/precompute-logo-bounds.js"
+    "precompute:bounds": "node scripts/precompute-logo-bounds.js",
+    "optimize:images": "node scripts/optimize-images.js",
+    "build:analyze": "ANALYZE=true npm run build",
+    "test:performance": "echo 'Performance tests not yet configured'"
   },
   "dependencies": {
     "@emotion/is-prop-valid": "latest",

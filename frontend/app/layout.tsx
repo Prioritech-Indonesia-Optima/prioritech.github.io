@@ -4,6 +4,7 @@ import { GeistMono } from 'geist/font/mono'
 import { Analytics } from '@vercel/analytics/next'
 import { SplashScreenWrapper } from '@/components/common/SplashScreenWrapper'
 import { StructuredData } from '@/components/common/StructuredData'
+import { ResourceHints } from '@/components/common/ResourceHints'
 import { generateMetadata as generateSEOMetadata, siteConfig, getCanonicalUrl } from '@/lib/seo'
 import './globals.css'
 
@@ -148,6 +149,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        <ResourceHints />
         <StructuredData 
           organization={organizationSchema}
           website={websiteSchema}

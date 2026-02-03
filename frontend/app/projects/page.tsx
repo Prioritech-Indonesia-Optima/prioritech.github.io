@@ -4,12 +4,11 @@ import { useState } from "react"
 import { Navbar } from "@/components/common/Navbar"
 import { Footer } from "@/components/common/Footer"
 import { PageHero } from "@/components/common/PageHero"
-import { SectionCard } from "@/components/common/SectionCard"
+import { ModernCard } from "@/components/common/ModernCard"
+import { ImageSection } from "@/components/common/ImageSection"
+import { PrimaryButton, SecondaryButton } from "@/components/common/ModernButton"
 import { ProjectCategoryIcon, TechStackIcon } from "@/components/common/IconComponents"
-import { MovingBorder } from "@/components/aceternity/moving-border"
 import { LampEffect } from "@/components/aceternity/lamp-effect"
-import { TextGenerateEffect } from "@/components/aceternity/text-generate-effect"
-import { ProjectDemoModal } from "@/components/projects/ProjectDemoModal"
 import { ArrowRight, ExternalLink, Brain, Cog, TrendingUp, Shield, Zap, BarChart3, Layers, Target, Search, Code2, Rocket, Eye } from "lucide-react"
 
 /**
@@ -167,6 +166,7 @@ export default function ProjectsPage() {
           title="What We've Built"
           subtitle="Technical Portfolio"
           description="Systems in production."
+          variant="gradient"
         />
 
         {/* Project Categories */}
@@ -185,84 +185,53 @@ export default function ProjectsPage() {
                 </div>
               </div>
 
-              {/* Projects Grid */}
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 {category.projects.map((project, index) => (
-                  <div key={index} className="h-full">
-                    <div 
-                      className="bg-main/80 backdrop-blur-sm border border-accent/20 rounded-lg p-8 hover:border-accent/50 hover:bg-main/90 transition-all duration-300 font-mono terminal-window relative cursor-pointer h-full flex flex-col min-h-[400px]"
-                      onClick={() => handleOpenDemo(project.title)}
-                    >
-                      {/* Terminal header bar */}
-                      <div className="absolute top-0 left-0 right-0 h-10 flex items-center gap-2 px-3 border-b border-accent/20 bg-main/50">
-                        <div className="flex gap-1.5">
-                          <div className="w-2 h-2 rounded-full bg-red-500/50" />
-                          <div className="w-2 h-2 rounded-full bg-yellow-500/50" />
-                          <div className="w-2 h-2 rounded-full bg-green-500/50" />
-                        </div>
-                      </div>
+                  <ModernCard
+                    key={index}
+                    title={project.title}
+                    icon={<ProjectCategoryIcon category={project.category} size={24} />}
+                    className="h-full cursor-pointer"
+                    delay={index * 0.1}
+                  >
+                    <div className="space-y-4">
+                      <p className="text-accent/80 text-sm font-medium font-mono">
+                        {project.description}
+                      </p>
+                      <p className="text-accent/60 text-xs font-medium font-mono">
+                        {project.impact}
+                      </p>
 
-                      {/* Terminal line numbers */}
-                      <div className="absolute left-0 top-10 bottom-0 w-8 border-r border-accent/20 flex flex-col pt-4">
-                        {[1, 2, 3, 4].map((num) => (
-                          <span key={num} className="text-accent/40 text-xs px-1">
-                            {num}
-                          </span>
-                        ))}
-                      </div>
-
-                      <div className="pt-16 ml-10 flex flex-col flex-1">
-                        {/* Project Header */}
-                        <div className="mb-6">
-                          <div className="flex items-center gap-3 mb-4">
-                            <div className="flex items-center justify-center w-10 h-10 bg-accent/10 rounded-lg flex-shrink-0">
-                              <ProjectCategoryIcon category={project.category} size={20} />
+                      {/* Tech Stack */}
+                      <div className="border-t border-accent/10 pt-4">
+                        <p className="text-secondary/60 text-xs font-mono mb-3">Tech Stack:</p>
+                        <div className="flex flex-wrap gap-2">
+                          {project.techStack.map((tech, techIndex) => (
+                            <div 
+                              key={techIndex}
+                              className="flex items-center gap-2 px-3 py-1.5 bg-accent/10 border border-accent/20 rounded-lg hover:border-accent/50 hover:bg-accent/20 transition-all group"
+                              title={tech}
+                            >
+                              <TechStackIcon tech={tech.toLowerCase()} size={16} className="text-accent" />
+                              <span className="text-secondary/80 text-xs font-mono">{tech}</span>
                             </div>
-                            <h3 className="text-secondary text-xl font-semibold font-mono">
-                              <span className="text-accent">$</span> {project.title}
-                            </h3>
-                          </div>
-                          <p className="text-accent/80 text-sm font-medium font-mono mb-2">
-                            {project.description}
-                          </p>
-                          <p className="text-accent/60 text-xs font-medium font-mono">
-                            {project.impact}
-                          </p>
-                        </div>
-
-                        {/* Tech Stack */}
-                        <div className="border-t border-accent/10 pt-4 mt-auto">
-                          <p className="text-secondary/60 text-xs font-mono mb-3">Tech Stack:</p>
-                          <div className="flex flex-wrap gap-2">
-                            {project.techStack.map((tech, techIndex) => (
-                              <div 
-                                key={techIndex}
-                                className="flex items-center gap-2 px-3 py-1.5 bg-accent/10 border border-accent/20 rounded-lg hover:border-accent/50 hover:bg-accent/20 transition-all group"
-                                title={tech}
-                              >
-                                <TechStackIcon tech={tech.toLowerCase()} size={16} className="text-accent" />
-                                <span className="text-secondary/80 text-xs font-mono">{tech}</span>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-
-                        {/* Demo Button */}
-                        <div className="mt-6">
-                          <button
-                            onClick={(e) => {
-                              e.stopPropagation()
-                              handleOpenDemo(project.title)
-                            }}
-                            className="w-full bg-accent/10 hover:bg-accent/20 text-accent border border-accent/30 hover:border-accent px-4 py-2 rounded-lg text-sm font-mono transition-all duration-300 flex items-center justify-center gap-2"
-                          >
-                            <span>▶</span>
-                            Click to view demo
-                          </button>
+                          ))}
                         </div>
                       </div>
+
+                      {/* Demo Button */}
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          handleOpenDemo(project.title)
+                        }}
+                        className="w-full bg-accent/10 hover:bg-accent/20 text-accent border border-accent/30 hover:border-accent px-4 py-2 rounded-lg text-sm font-mono transition-all duration-300 flex items-center justify-center gap-2"
+                      >
+                        <span>▶</span>
+                        Click to view demo
+                      </button>
                     </div>
-                  </div>
+                  </ModernCard>
                 ))}
               </div>
             </div>
@@ -321,6 +290,20 @@ export default function ProjectsPage() {
           </div>
         </section>
 
+        {/* Case Study Showcase Image */}
+        <section className="py-8">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <ImageSection
+              src="/projects-dashboard.jpg"
+              alt="Data dashboard and analytics visualization"
+              title="Real-Time Analytics"
+              description="Live dashboards that turn complex data into actionable insights."
+              height="md"
+              textPosition="bottom-left"
+            />
+          </div>
+        </section>
+
         {/* Methodology Section */}
         <section className="py-16 bg-main/50">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -362,24 +345,12 @@ export default function ProjectsPage() {
               engineering solutions.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <MovingBorder borderRadius="8px">
-                <a 
-                  href="/contact"
-                  className="inline-flex items-center justify-center bg-accent hover:bg-accent/90 text-main px-6 py-3 rounded-lg font-semibold transition-all font-mono hover:glow-gold"
-                >
-                  $ Start a Project
-                  <ArrowRight className="w-4 h-4 ml-2" />
-                </a>
-              </MovingBorder>
-              <MovingBorder borderRadius="8px">
-                <a 
-                  href="/tech"
-                  className="inline-flex items-center justify-center border border-accent/30 hover:border-accent text-secondary hover:text-accent px-6 py-3 rounded-lg font-semibold transition-all font-mono hover:glow-gold"
-                >
-                  $ View Our Tech Stack
-                  <ExternalLink className="w-4 h-4 ml-2" />
-                </a>
-              </MovingBorder>
+              <PrimaryButton href="/contact" icon>
+                $ Start a Project
+              </PrimaryButton>
+              <SecondaryButton href="/tech" icon>
+                $ View Our Tech Stack
+              </SecondaryButton>
             </div>
           </div>
         </section>

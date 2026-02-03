@@ -1,17 +1,18 @@
 "use client";
 
 import React, { useRef, Suspense, lazy } from "react";
+import Image from "next/image";
 import { Button } from "@/components/ui/button"
 import { ArrowRight, Rocket, TrendingUp, Shield } from "lucide-react"
 import { LineShadowText } from "@/components/line-shadow-text"
 import { Navbar } from "@/components/common/Navbar"
 import { SectionCard } from "@/components/common/SectionCard"
+import { PrimaryButton, SecondaryButton } from "@/components/common/ModernButton"
 import { ScrollProgress } from "@/components/common/ScrollProgress"
 import { DivisionIcon, ProjectCategoryIcon, TechStackIcon } from "@/components/common/IconComponents"
 import { AnimatedThreadBackground } from "@/components/common/AnimatedThreadBackground"
 import { TypewriterEffect } from "@/components/aceternity/typewriter-effect"
 import { TextGenerateEffect } from "@/components/aceternity/text-generate-effect"
-import { GridBackground } from "@/components/aceternity/grid-background"
 import { motion, useScroll, useTransform } from "framer-motion"
 import { MovingBorder } from "@/components/aceternity/moving-border"
 import { LampEffect } from "@/components/aceternity/lamp-effect"
@@ -37,39 +38,64 @@ function HeroSectionWithParallax() {
   })
   
   // Parallax transforms - subtle movement for depth
-  const threadY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"])
-  const gridY = useTransform(scrollYProgress, [0, 1], ["0%", "20%"])
+  const threadY = useTransform(scrollYProgress, [0, 1], ["0%", "20%"])
   const contentY = useTransform(scrollYProgress, [0, 1], ["0%", "10%"])
 
   return (
-    <div ref={ref} className="relative py-8 sm:py-12 lg:py-16 overflow-hidden">
+    <div ref={ref} className="relative min-h-[85vh] py-8 sm:py-12 lg:py-16 overflow-hidden">
+      {/* Hero Background - Space image with overlay */}
+      <div className="absolute inset-0 z-0">
+        {/* Space background image */}
+        <Image
+          src="/hero-bg.jpg"
+          alt="Space background"
+          fill
+          priority
+          className="object-cover"
+          sizes="100vw"
+        />
+        {/* Dark overlay for text readability - reduced opacity */}
+        <div className="absolute inset-0 bg-black/30" />
+        {/* Tech pattern overlay */}
+        <div className="absolute inset-0 opacity-20">
+          <div className="absolute inset-0 bg-[linear-gradient(45deg,transparent_30%,rgba(218,165,32,0.05)_50%,transparent_70%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_80%,rgba(217,217,217,0.03)_0%,transparent_50%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_20%,rgba(218,165,32,0.02)_0%,transparent_50%)]" />
+        </div>
+        {/* Subtle gradient overlay - lighter */}
+        <div className="absolute inset-0 bg-gradient-to-b from-main/40 via-main/30 to-main/50" />
+        {/* Subtle vignette - lighter */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,rgba(45,44,44,0.15)_100%)]" />
+      </div>
+      
       {/* Animated Background - contained within hero with parallax */}
-      <motion.div style={{ y: threadY }}>
+      <motion.div style={{ y: threadY }} className="absolute inset-0 z-[1] opacity-40">
         <AnimatedThreadBackground />
       </motion.div>
       
-      {/* Grid overlay for terminal aesthetic with parallax */}
-      <motion.div style={{ y: gridY }} className="z-[5]">
-        <GridBackground className="z-[5]" opacity={0.15} strokeWidth={0.3} spacing={24} />
-      </motion.div>
+      {/* Ambient gradient animation */}
+      <div className="absolute inset-0 z-[2] overflow-hidden pointer-events-none">
+        <div className="absolute -top-1/2 -left-1/2 w-full h-full bg-gradient-to-br from-accent/10 via-transparent to-transparent blur-3xl animate-pulse-slow" />
+        <div className="absolute -bottom-1/2 -right-1/2 w-full h-full bg-gradient-to-tl from-accent/5 via-transparent to-transparent blur-3xl animate-pulse-slow delay-1000" />
+      </div>
       
       {/* Hero Content - properly layered above animation with subtle parallax */}
       <motion.div 
         style={{ y: contentY }}
-        className="relative z-10 flex items-start pt-8 sm:pt-12 lg:pt-16 w-full"
+        className="relative z-10 flex items-center min-h-[70vh] pt-8 sm:pt-12 lg:pt-16 w-full"
       >
         <div className="mx-auto px-6 lg:px-8 xl:px-12 2xl:px-16 w-full">
           <div className="max-w-5xl lg:max-w-6xl xl:max-w-7xl space-y-4 sm:space-y-5 md:space-y-6 bg-transparent">
             {/* CLI-style Badge */}
             <div>
-              <div className="inline-flex items-center bg-main/80 backdrop-blur-sm border border-accent/30 rounded px-3 sm:px-4 py-2 font-mono">
-                <span className="text-accent text-xs md:text-xs">
+              <div className="inline-flex items-center bg-main/60 backdrop-blur-md border border-accent/40 rounded-lg px-3 sm:px-4 py-2 font-mono shadow-lg">
+                <span className="text-accent text-xs md:text-sm">
                   $ Building systems that outlast their requirements
                 </span>
               </div>
             </div>
 
-            <h1 className="text-secondary text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl leading-tight text-balance font-mono">
+            <h1 className="text-secondary text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl leading-tight text-balance font-mono drop-shadow-lg">
               <TypewriterEffect 
                 words={[
                   { text: "Progress.", className: "font-light" },
@@ -84,22 +110,12 @@ function HeroSectionWithParallax() {
 
             <div>
               <div className="flex flex-col sm:flex-row gap-3">
-                <MovingBorder borderRadius="8px" className="group">
-                  <Link href="/projects">
-                    <Button className="group relative bg-accent/90 hover:bg-accent text-main px-6 sm:px-8 py-2.5 sm:py-3 rounded-lg text-sm sm:text-base md:text-xs lg:text-lg font-semibold flex items-center gap-2 border border-accent hover:glow-gold transition-all duration-300 hover:scale-105 hover:-translate-y-0.5 font-mono w-full">
-                      $ Explore Our Work
-                      <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 group-hover:-rotate-12 transition-transform duration-300" />
-                    </Button>
-                  </Link>
-                </MovingBorder>
-                <MovingBorder borderRadius="8px" className="group">
-                  <Link href="/contact">
-                    <Button className="group relative border border-accent/30 hover:border-accent text-secondary hover:text-accent px-6 sm:px-8 py-2.5 sm:py-3 rounded-lg text-sm sm:text-base md:text-xs lg:text-lg font-semibold flex items-center gap-2 hover:glow-gold transition-all duration-300 font-mono w-full">
-                      $ Start a Build
-                      <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform duration-300" />
-                    </Button>
-                  </Link>
-                </MovingBorder>
+                <PrimaryButton href="/projects" icon>
+                  $ Explore Our Work
+                </PrimaryButton>
+                <SecondaryButton href="/contact" icon>
+                  $ Start a Build
+                </SecondaryButton>
               </div>
             </div>
           </div>
@@ -233,7 +249,7 @@ export default function HomePage(): JSX.Element {
               
               <Link 
                 href="/about"
-                className="inline-flex items-center text-accent hover:text-accent/80 font-medium transition-colors font-mono hover:glow-gold"
+                className="inline-flex items-center text-accent hover:text-accent/80 font-medium transition-colors font-mono hover:shadow-gold"
               >
                 $ Our engineering philosophy →
                 <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
@@ -274,7 +290,7 @@ export default function HomePage(): JSX.Element {
           <div className="text-center">
             <Link 
               href="/divisions"
-              className="inline-flex items-center bg-accent hover:bg-accent/90 text-main px-6 py-3 rounded-lg font-semibold transition-colors font-mono hover:glow-gold"
+              className="inline-flex items-center bg-accent hover:bg-accent/90 text-main px-6 py-3 rounded-lg font-semibold transition-all duration-300 font-mono hover:shadow-lg hover:shadow-accent/25"
             >
               $ View All Divisions
               <ArrowRight className="w-4 h-4 ml-2" />
@@ -299,10 +315,13 @@ export default function HomePage(): JSX.Element {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
             {featuredProjects.map((project, index) => (
               <SectionReveal key={index} delay={0.2 + index * 0.1} duration={0.5}>
-                <div className="h-full">
+                <div className="h-full group">
                   <div 
-                    className="relative bg-main/80 backdrop-blur-sm border border-accent/20 rounded-lg p-6 hover:border-accent/50 hover:bg-main/90 transition-all duration-300 font-mono terminal-window cursor-pointer h-full flex flex-col min-h-[200px]"
+                    className="relative bg-main/70 backdrop-blur-md border border-accent/20 rounded-xl p-6 hover:border-accent/60 hover:bg-main/80 hover:-translate-y-1 hover:shadow-xl hover:shadow-accent/5 transition-all duration-300 ease-out font-mono cursor-pointer h-full flex flex-col min-h-[200px] overflow-hidden"
                   >
+                    {/* Gradient overlay on hover */}
+                    <div className="absolute inset-0 bg-gradient-to-br from-accent/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+                    
                     {/* Terminal line numbers */}
                     <div className="absolute left-0 top-0 bottom-0 w-8 border-r border-accent/20 flex flex-col pt-6">
                       {[1, 2, 3].map((num) => (
@@ -312,14 +331,14 @@ export default function HomePage(): JSX.Element {
                       ))}
                     </div>
                     
-                    <div className="flex items-start space-x-4 ml-10 flex-1">
-                      <div className="flex items-center justify-center w-12 h-12 bg-accent/10 rounded-lg flex-shrink-0">
+                    <div className="flex items-start space-x-4 ml-10 flex-1 relative z-10">
+                      <div className="flex items-center justify-center w-12 h-12 bg-accent/10 rounded-lg flex-shrink-0 group-hover:bg-accent/15 group-hover:scale-105 transition-all duration-300">
                         <ProjectCategoryIcon category={project.category} size={24} />
                       </div>
                       <div className="flex-1 min-w-0 flex flex-col">
                         <div className="mb-2">
                           <span className="text-accent">$</span>{" "}
-                          <span className="text-secondary font-bold text-base">
+                          <span className="text-secondary font-bold text-base group-hover:text-accent/90 transition-colors duration-300">
                             {project.title}
                           </span>
                         </div>
@@ -340,7 +359,7 @@ export default function HomePage(): JSX.Element {
           <div className="text-center">
             <Link 
               href="/projects"
-              className="inline-flex items-center bg-accent hover:bg-accent/90 text-main px-6 py-3 rounded-lg font-semibold transition-colors font-mono hover:glow-gold"
+              className="inline-flex items-center bg-accent hover:bg-accent/90 text-main px-6 py-3 rounded-lg font-semibold transition-all duration-300 font-mono hover:shadow-lg hover:shadow-accent/25"
             >
               $ View All Projects
               <ArrowRight className="w-4 h-4 ml-2" />
@@ -371,12 +390,12 @@ export default function HomePage(): JSX.Element {
                   {['Python', 'C', 'Java', 'Go', 'Rust'].map((tech) => (
                     <div 
                       key={tech}
-                      className="flex flex-col items-center gap-2 p-4 bg-main/50 border border-accent/20 rounded-lg hover:border-accent/50 hover:bg-main/80 transition-all"
+                      className="flex flex-col items-center gap-2 p-4 bg-main/50 border border-accent/20 rounded-xl hover:border-accent/60 hover:bg-main/70 hover:-translate-y-1 hover:shadow-lg hover:shadow-accent/5 transition-all duration-300 ease-out group"
                     >
-                      <div className="flex items-center justify-center w-12 h-12 bg-accent/10 rounded-lg text-accent">
+                      <div className="flex items-center justify-center w-12 h-12 bg-accent/10 rounded-lg text-accent group-hover:bg-accent/15 group-hover:scale-105 transition-all duration-300">
                         <TechStackIcon tech={tech.toLowerCase()} size={24} />
                       </div>
-                      <span className="text-secondary/80 text-xs font-mono text-center font-medium">{tech}</span>
+                      <span className="text-secondary/80 text-xs font-mono text-center font-medium group-hover:text-accent/80 transition-colors duration-300">{tech}</span>
                     </div>
                   ))}
                 </div>
@@ -389,12 +408,12 @@ export default function HomePage(): JSX.Element {
                   {['PyTorch', 'LangChain', 'CrewAI', 'Agno', 'Ollama', 'HuggingFace'].map((tech) => (
                     <div 
                       key={tech}
-                      className="flex flex-col items-center gap-2 p-4 bg-main/50 border border-accent/20 rounded-lg hover:border-accent/50 hover:bg-main/80 transition-all"
+                      className="flex flex-col items-center gap-2 p-4 bg-main/50 border border-accent/20 rounded-xl hover:border-accent/60 hover:bg-main/70 hover:-translate-y-1 hover:shadow-lg hover:shadow-accent/5 transition-all duration-300 ease-out group"
                     >
-                      <div className="flex items-center justify-center w-12 h-12 bg-accent/10 rounded-lg text-accent">
+                      <div className="flex items-center justify-center w-12 h-12 bg-accent/10 rounded-lg text-accent group-hover:bg-accent/15 group-hover:scale-105 transition-all duration-300">
                         <TechStackIcon tech={tech.toLowerCase()} size={24} />
                       </div>
-                      <span className="text-secondary/80 text-xs font-mono text-center font-medium">{tech}</span>
+                      <span className="text-secondary/80 text-xs font-mono text-center font-medium group-hover:text-accent/80 transition-colors duration-300">{tech}</span>
                     </div>
                   ))}
                 </div>
@@ -407,12 +426,12 @@ export default function HomePage(): JSX.Element {
                   {['Next.js', 'React', 'TypeScript', 'Flutter'].map((tech) => (
                     <div 
                       key={tech}
-                      className="flex flex-col items-center gap-2 p-4 bg-main/50 border border-accent/20 rounded-lg hover:border-accent/50 hover:bg-main/80 transition-all"
+                      className="flex flex-col items-center gap-2 p-4 bg-main/50 border border-accent/20 rounded-xl hover:border-accent/60 hover:bg-main/70 hover:-translate-y-1 hover:shadow-lg hover:shadow-accent/5 transition-all duration-300 ease-out group"
                     >
-                      <div className="flex items-center justify-center w-12 h-12 bg-accent/10 rounded-lg text-accent">
+                      <div className="flex items-center justify-center w-12 h-12 bg-accent/10 rounded-lg text-accent group-hover:bg-accent/15 group-hover:scale-105 transition-all duration-300">
                         <TechStackIcon tech={tech.toLowerCase()} size={24} />
                       </div>
-                      <span className="text-secondary/80 text-xs font-mono text-center font-medium">{tech}</span>
+                      <span className="text-secondary/80 text-xs font-mono text-center font-medium group-hover:text-accent/80 transition-colors duration-300">{tech}</span>
                     </div>
                   ))}
                 </div>
@@ -425,12 +444,12 @@ export default function HomePage(): JSX.Element {
                   {['AWS', 'Docker', 'Kubernetes', 'Linux', 'Terraform'].map((tech) => (
                     <div 
                       key={tech}
-                      className="flex flex-col items-center gap-2 p-4 bg-main/50 border border-accent/20 rounded-lg hover:border-accent/50 hover:bg-main/80 transition-all"
+                      className="flex flex-col items-center gap-2 p-4 bg-main/50 border border-accent/20 rounded-xl hover:border-accent/60 hover:bg-main/70 hover:-translate-y-1 hover:shadow-lg hover:shadow-accent/5 transition-all duration-300 ease-out group"
                     >
-                      <div className="flex items-center justify-center w-12 h-12 bg-accent/10 rounded-lg text-accent">
+                      <div className="flex items-center justify-center w-12 h-12 bg-accent/10 rounded-lg text-accent group-hover:bg-accent/15 group-hover:scale-105 transition-all duration-300">
                         <TechStackIcon tech={tech.toLowerCase()} size={24} />
                       </div>
-                      <span className="text-secondary/80 text-xs font-mono text-center font-medium">{tech}</span>
+                      <span className="text-secondary/80 text-xs font-mono text-center font-medium group-hover:text-accent/80 transition-colors duration-300">{tech}</span>
                     </div>
                   ))}
                 </div>
@@ -443,12 +462,12 @@ export default function HomePage(): JSX.Element {
                   {['PostgreSQL', 'Redis', 'Kafka', 'SQLite', 'MongoDB'].map((tech) => (
                     <div 
                       key={tech}
-                      className="flex flex-col items-center gap-2 p-4 bg-main/50 border border-accent/20 rounded-lg hover:border-accent/50 hover:bg-main/80 transition-all"
+                      className="flex flex-col items-center gap-2 p-4 bg-main/50 border border-accent/20 rounded-xl hover:border-accent/60 hover:bg-main/70 hover:-translate-y-1 hover:shadow-lg hover:shadow-accent/5 transition-all duration-300 ease-out group"
                     >
-                      <div className="flex items-center justify-center w-12 h-12 bg-accent/10 rounded-lg text-accent">
+                      <div className="flex items-center justify-center w-12 h-12 bg-accent/10 rounded-lg text-accent group-hover:bg-accent/15 group-hover:scale-105 transition-all duration-300">
                         <TechStackIcon tech={tech.toLowerCase()} size={24} />
                       </div>
-                      <span className="text-secondary/80 text-xs font-mono text-center font-medium">{tech}</span>
+                      <span className="text-secondary/80 text-xs font-mono text-center font-medium group-hover:text-accent/80 transition-colors duration-300">{tech}</span>
                     </div>
                   ))}
                 </div>
@@ -459,7 +478,7 @@ export default function HomePage(): JSX.Element {
           <div className="text-center">
             <Link 
               href="/tech"
-              className="inline-flex items-center border border-accent/30 hover:border-accent text-secondary hover:text-accent px-6 py-3 rounded-lg font-semibold transition-colors font-mono glow-gold hover:glow-gold-strong"
+              className="inline-flex items-center border border-accent/30 hover:border-accent bg-main/60 backdrop-blur-sm text-secondary hover:text-accent px-6 py-3 rounded-lg font-semibold transition-all duration-300 font-mono hover:bg-main/80 hover:shadow-lg"
             >
               $ View Full Tech Stack
               <ArrowRight className="w-4 h-4 ml-2" />
@@ -479,23 +498,12 @@ export default function HomePage(): JSX.Element {
             <LampEffect>What Could We Build Together?</LampEffect>
           </h2>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <MovingBorder borderRadius="8px" className="group">
-              <Link 
-                href="/contact"
-                className="inline-flex items-center justify-center bg-accent hover:bg-accent/90 text-main px-6 py-3 rounded-lg font-semibold transition-all font-mono hover:glow-gold hover:scale-105"
-              >
-                $ Start a Build
-                <ArrowRight className="w-4 h-4 ml-2" />
-              </Link>
-            </MovingBorder>
-            <MovingBorder borderRadius="8px" className="group">
-              <Link 
-                href="/projects"
-                className="inline-flex items-center justify-center border border-accent/30 hover:border-accent text-secondary hover:text-accent px-6 py-3 rounded-lg font-semibold transition-all font-mono hover:glow-gold"
-              >
-                $ Explore Our Work
-              </Link>
-            </MovingBorder>
+            <PrimaryButton href="/contact" icon>
+              $ Start a Build
+            </PrimaryButton>
+            <SecondaryButton href="/projects">
+              $ Explore Our Work
+            </SecondaryButton>
           </div>
         </div>
       </section>

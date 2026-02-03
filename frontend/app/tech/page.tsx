@@ -3,12 +3,12 @@
 import { Navbar } from "@/components/common/Navbar"
 import { Footer } from "@/components/common/Footer"
 import { PageHero } from "@/components/common/PageHero"
-import { SectionCard } from "@/components/common/SectionCard"
+import { ModernCard } from "@/components/common/ModernCard"
+import { ImageSection } from "@/components/common/ImageSection"
+import { PrimaryButton, SecondaryButton } from "@/components/common/ModernButton"
 import { TechStackIcon } from "@/components/common/IconComponents"
-import { MovingBorder } from "@/components/aceternity/moving-border"
 import { LampEffect } from "@/components/aceternity/lamp-effect"
-import { ArrowRight, CheckCircle, Cpu, Cog, Brain, Database, Shield, Lock, Key, Eye, Layers, Code2, Zap, Rocket, Search, TrendingUp } from "lucide-react"
-import Link from "next/link"
+import { ArrowRight, CheckCircle, Cpu, Cog, Brain, Database, Shield, Zap, Lock, Key, Eye, Layers, Code2, Rocket, Search, TrendingUp } from "lucide-react"
 
 /**
  * Tech page for Prioritech Indonesia Optima.
@@ -134,6 +134,7 @@ export default function TechPage() {
           title="Tools change. Principles don't."
           subtitle="How We Build"
           description="Comprehensive technology stack."
+          variant="gradient"
         />
 
         {/* Tech Stack Overview */}
@@ -197,11 +198,15 @@ export default function TechPage() {
         {/* Hardware & Embedded Systems */}
         <section className="py-16 bg-main/50">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-12">
-              <h2 className="text-secondary text-2xl sm:text-3xl font-bold mb-4 font-mono">
-                Hardware & Embedded Systems
-              </h2>
-            </div>
+            <ImageSection
+              src="/tech-hardware.jpg"
+              alt="Circuit board and embedded systems"
+              title="Hardware & Embedded Systems"
+              description="Firmware to robotics — we bridge silicon and software."
+              height="md"
+              textPosition="center"
+              className="mb-12"
+            />
             
             <div className="grid grid-cols-4 gap-4 max-w-3xl mx-auto">
               <div className="flex flex-col items-center gap-2 p-4 bg-main/80 border border-accent/20 rounded-lg hover:border-accent/50 transition-all">
@@ -227,11 +232,15 @@ export default function TechPage() {
         {/* Security Architecture */}
         <section className="py-16">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-12">
-              <h2 className="text-secondary text-2xl sm:text-3xl font-bold mb-4 font-mono">
-                Security Architecture
-              </h2>
-            </div>
+            <ImageSection
+              src="/tech-security.jpg"
+              alt="Cybersecurity and digital protection"
+              title="Security Architecture"
+              description="Zero-trust frameworks with end-to-end encryption."
+              height="md"
+              textPosition="center"
+              className="mb-12"
+            />
             
             <div className="grid grid-cols-4 gap-4 max-w-3xl mx-auto">
               <div className="flex flex-col items-center gap-2 p-4 bg-main/50 border border-accent/20 rounded-lg hover:border-accent/50 transition-all">
@@ -460,23 +469,12 @@ export default function TechPage() {
               Ready to Leverage Our Technology?
             </h2>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <MovingBorder borderRadius="8px">
-                <Link 
-                  href="/contact"
-                  className="inline-flex items-center justify-center bg-accent hover:bg-accent/90 text-main px-6 py-3 rounded-lg font-semibold transition-all font-mono hover:glow-gold"
-                >
-                  $ Start a Project
-                  <ArrowRight className="w-4 h-4 ml-2" />
-                </Link>
-              </MovingBorder>
-              <MovingBorder borderRadius="8px">
-                <Link 
-                  href="/projects"
-                  className="inline-flex items-center justify-center border border-accent/30 hover:border-accent text-secondary hover:text-accent px-6 py-3 rounded-lg font-semibold transition-all font-mono hover:glow-gold"
-                >
-                  $ View Our Work
-                </Link>
-              </MovingBorder>
+              <PrimaryButton href="/contact" icon>
+                $ Start a Project
+              </PrimaryButton>
+              <SecondaryButton href="/projects">
+                $ View Our Work
+              </SecondaryButton>
             </div>
           </div>
         </section>

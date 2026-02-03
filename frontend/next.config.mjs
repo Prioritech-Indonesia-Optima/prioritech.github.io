@@ -21,8 +21,18 @@ const nextConfig = {
   compress: true,
   // Enable experimental features for better tree shaking
   experimental: {
-    optimizePackageImports: ['framer-motion', 'lucide-react', '@radix-ui/react-accordion'],
+    optimizePackageImports: ['framer-motion', 'lucide-react', '@radix-ui/react-accordion', '@radix-ui/react-dialog', '@radix-ui/react-tooltip'],
+    optimizeCss: true,
   },
+  // Modularize imports for better tree shaking
+  modularizeImports: {
+    'lucide-react': {
+      transform: 'lucide-react/dist/esm/icons/{{kebabCase member}}',
+      skipDefaultConversion: true,
+    },
+  },
+  // Disable source maps in production
+  productionBrowserSourceMaps: false,
   // Webpack configuration for better code splitting
   webpack: (config, { isServer }) => {
     if (!isServer) {
@@ -34,12 +44,13 @@ const nextConfig = {
           cacheGroups: {
             default: false,
             vendors: false,
-            // Vendor chunk for large libraries
+            // Vendor chunk for large libraries (increased max size)
             vendor: {
               name: 'vendor',
               chunks: 'all',
               test: /node_modules/,
               priority: 20,
+              maxSize: 244000, // 244KB max chunk
             },
             // Separate chunk for framer-motion
             framerMotion: {

@@ -25,7 +25,7 @@ export function AnimatedThreadBackground({
   className = "", 
   viewBox = "0 0 2000 800",
   showHeroBackground = true,
-  threadCount = 10
+  threadCount = 5
 }: {
   className?: string
   viewBox?: string
@@ -40,43 +40,44 @@ export function AnimatedThreadBackground({
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
         preserveAspectRatio="xMidYMid slice"
+        style={{ willChange: 'transform' }}
       >
         <defs>
-          {/* Radial gradients for pulsing circles */}
+          {/* Subtle radial gradients for pulsing circles - reduced intensity */}
           <radialGradient id="neonPulse1" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stopColor="rgba(218,165,32,1)" />
-            <stop offset="30%" stopColor="rgba(218,165,32,0.8)" />
-            <stop offset="70%" stopColor="rgba(218,165,32,0.4)" />
+            <stop offset="0%" stopColor="rgba(218,165,32,0.6)" />
+            <stop offset="30%" stopColor="rgba(218,165,32,0.3)" />
+            <stop offset="70%" stopColor="rgba(218,165,32,0.1)" />
             <stop offset="100%" stopColor="rgba(218,165,32,0)" />
           </radialGradient>
           <radialGradient id="neonPulse2" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stopColor="rgba(217,217,217,0.9)" />
-            <stop offset="25%" stopColor="rgba(217,217,217,0.6)" />
-            <stop offset="60%" stopColor="rgba(217,217,217,0.3)" />
+            <stop offset="0%" stopColor="rgba(217,217,217,0.4)" />
+            <stop offset="25%" stopColor="rgba(217,217,217,0.2)" />
+            <stop offset="60%" stopColor="rgba(217,217,217,0.05)" />
             <stop offset="100%" stopColor="rgba(217,217,217,0)" />
           </radialGradient>
           <radialGradient id="neonPulse3" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stopColor="rgba(218,165,32,1)" />
-            <stop offset="35%" stopColor="rgba(218,165,32,0.7)" />
-            <stop offset="75%" stopColor="rgba(218,165,32,0.3)" />
+            <stop offset="0%" stopColor="rgba(218,165,32,0.5)" />
+            <stop offset="35%" stopColor="rgba(218,165,32,0.25)" />
+            <stop offset="75%" stopColor="rgba(218,165,32,0.08)" />
             <stop offset="100%" stopColor="rgba(218,165,32,0)" />
           </radialGradient>
 
-          {/* Hero text background gradient */}
+          {/* Hero text background gradient - more subtle */}
           <radialGradient id="heroTextBg" cx="30%" cy="50%" r="70%">
-            <stop offset="0%" stopColor="rgba(218,165,32,0.15)" />
-            <stop offset="40%" stopColor="rgba(218,165,32,0.08)" />
-            <stop offset="80%" stopColor="rgba(218,165,32,0.05)" />
+            <stop offset="0%" stopColor="rgba(218,165,32,0.08)" />
+            <stop offset="40%" stopColor="rgba(218,165,32,0.04)" />
+            <stop offset="80%" stopColor="rgba(218,165,32,0.02)" />
             <stop offset="100%" stopColor="rgba(0,0,0,0)" />
           </radialGradient>
 
-          {/* Text blur filter */}
+          {/* Text blur filter - reduced intensity */}
           <filter id="heroTextBlur" x="-50%" y="-50%" width="200%" height="200%">
-            <feGaussianBlur stdDeviation="12" result="blur" />
-            <feTurbulence baseFrequency="0.7" numOctaves="4" result="noise" />
+            <feGaussianBlur stdDeviation="8" result="blur" />
+            <feTurbulence baseFrequency="0.7" numOctaves="3" result="noise" />
             <feColorMatrix in="noise" type="saturate" values="0" result="monoNoise" />
             <feComponentTransfer in="monoNoise" result="alphaAdjustedNoise">
-              <feFuncA type="discrete" tableValues="0.03 0.06 0.09 0.12" />
+              <feFuncA type="discrete" tableValues="0.02 0.04 0.06 0.08" />
             </feComponentTransfer>
             <feComposite in="blur" in2="alphaAdjustedNoise" operator="multiply" result="noisyBlur" />
             <feMerge>
@@ -84,29 +85,29 @@ export function AnimatedThreadBackground({
             </feMerge>
           </filter>
 
-          {/* Thread path gradients */}
+          {/* Thread path gradients - more muted */}
           <linearGradient id="threadFade1" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="rgba(0,0,0,1)" />
-            <stop offset="15%" stopColor="rgba(218,165,32,0.8)" />
-            <stop offset="85%" stopColor="rgba(218,165,32,0.8)" />
-            <stop offset="100%" stopColor="rgba(0,0,0,1)" />
+            <stop offset="0%" stopColor="rgba(0,0,0,0.8)" />
+            <stop offset="15%" stopColor="rgba(218,165,32,0.3)" />
+            <stop offset="85%" stopColor="rgba(218,165,32,0.3)" />
+            <stop offset="100%" stopColor="rgba(0,0,0,0.8)" />
           </linearGradient>
           <linearGradient id="threadFade2" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="rgba(0,0,0,1)" />
-            <stop offset="12%" stopColor="rgba(217,217,217,0.7)" />
-            <stop offset="88%" stopColor="rgba(217,217,217,0.7)" />
-            <stop offset="100%" stopColor="rgba(0,0,0,1)" />
+            <stop offset="0%" stopColor="rgba(0,0,0,0.8)" />
+            <stop offset="12%" stopColor="rgba(217,217,217,0.25)" />
+            <stop offset="88%" stopColor="rgba(217,217,217,0.25)" />
+            <stop offset="100%" stopColor="rgba(0,0,0,0.8)" />
           </linearGradient>
           <linearGradient id="threadFade3" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="rgba(0,0,0,1)" />
-            <stop offset="18%" stopColor="rgba(218,165,32,0.8)" />
-            <stop offset="82%" stopColor="rgba(218,165,32,0.8)" />
-            <stop offset="100%" stopColor="rgba(0,0,0,1)" />
+            <stop offset="0%" stopColor="rgba(0,0,0,0.8)" />
+            <stop offset="18%" stopColor="rgba(218,165,32,0.28)" />
+            <stop offset="82%" stopColor="rgba(218,165,32,0.28)" />
+            <stop offset="100%" stopColor="rgba(0,0,0,0.8)" />
           </linearGradient>
 
-          {/* Neon glow filter */}
+          {/* Soft glow filter - reduced blur */}
           <filter id="neonGlow" x="-50%" y="-50%" width="200%" height="200%">
-            <feGaussianBlur stdDeviation="2" result="coloredBlur" />
+            <feGaussianBlur stdDeviation="1" result="coloredBlur" />
             <feMerge>
               <feMergeNode in="coloredBlur" />
               <feMergeNode in="SourceGraphic" />

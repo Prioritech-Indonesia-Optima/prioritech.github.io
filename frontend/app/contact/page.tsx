@@ -4,16 +4,13 @@ import { useState } from "react"
 import { Navbar } from "@/components/common/Navbar"
 import { Footer } from "@/components/common/Footer"
 import { PageHero } from "@/components/common/PageHero"
+import { ModernCard } from "@/components/common/ModernCard"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
-import { MovingBorder } from "@/components/aceternity/moving-border"
-import { TextGenerateEffect } from "@/components/aceternity/text-generate-effect"
-import { TracingBeam } from "@/components/aceternity/tracing-beam"
-import { CardSpotlight } from "@/components/aceternity/card-spotlight"
 import { StructuredData } from "@/components/common/StructuredData"
-import { Mail, MapPin, Building2, Phone, Send, Rocket, Layers, Eye, Brain } from "lucide-react"
+import { Mail, MapPin, Building2, Phone, Send, Zap, Layers, Eye, Brain } from "lucide-react"
 
 /**
  * LocalBusiness structured data for contact page.
@@ -121,6 +118,7 @@ export default function ContactPage() {
           title="We design systems that help you excel — not temporary fixes."
           subtitle="Get in Touch"
           description="Systems that perform and scale."
+          variant="minimal"
         />
 
         {/* Contact Information & Form */}
@@ -135,65 +133,48 @@ export default function ContactPage() {
                 
                 <div className="space-y-8">
                   {contactInfo.map((info, index) => (
-                    <CardSpotlight key={index}>
-                      <div className="bg-main/80 backdrop-blur-sm border border-accent/20 rounded-lg p-6 hover:border-accent/50 transition-all duration-300 font-mono terminal-window relative">
-                        {/* Terminal header bar */}
-                        <div className="absolute top-0 left-0 right-0 h-10 flex items-center gap-2 px-3 border-b border-accent/20 bg-main/50">
-                          <div className="flex gap-1.5">
-                            <div className="w-2 h-2 rounded-full bg-red-500/50" />
-                            <div className="w-2 h-2 rounded-full bg-yellow-500/50" />
-                            <div className="w-2 h-2 rounded-full bg-green-500/50" />
-                          </div>
-                        </div>
-
-                        <div className="pt-12 flex items-start space-x-4">
-                          <div className="flex items-center justify-center w-10 h-10 bg-accent/10 rounded-lg flex-shrink-0">
-                            <div className="text-accent">
-                              {info.icon}
-                            </div>
-                          </div>
-                          <div>
-                            <h3 className="text-secondary font-semibold text-lg mb-2 font-mono">
-                              {info.title}
-                            </h3>
-                            {info.details.map((detail, detailIndex) => (
-                              <p key={detailIndex} className="text-secondary/70 text-sm mb-1 font-mono">
-                                <span className="text-accent">&gt;</span> {detail}
-                              </p>
-                            ))}
-                          </div>
-                        </div>
+                    <ModernCard
+                      key={index}
+                      title={info.title}
+                      icon={<div className="text-accent">{info.icon}</div>}
+                      className="h-full"
+                      delay={index * 0.1}
+                    >
+                      <div className="space-y-1">
+                        {info.details.map((detail, detailIndex) => (
+                          <p key={detailIndex} className="text-secondary/70 text-sm font-mono">
+                            {detail}
+                          </p>
+                        ))}
                       </div>
-                    </CardSpotlight>
+                    </ModernCard>
                   ))}
                 </div>
 
                 {/* Additional Info */}
-                <TracingBeam>
-                  <div className="mt-12 bg-main/80 backdrop-blur-sm border border-accent/20 rounded-xl p-6 font-mono">
-                    <h3 className="text-secondary font-semibold text-lg mb-4 font-mono">
-                      Why Choose Prioritech?
-                    </h3>
-                    <div className="grid grid-cols-2 gap-4">
-                      <div className="flex flex-col items-center gap-2 p-3 bg-main/50 border border-accent/20 rounded-lg">
-                        <Rocket className="w-6 h-6 text-accent" />
-                        <span className="text-secondary/70 text-xs font-mono text-center">Production-Grade</span>
-                      </div>
-                      <div className="flex flex-col items-center gap-2 p-3 bg-main/50 border border-accent/20 rounded-lg">
-                        <Layers className="w-6 h-6 text-accent" />
-                        <span className="text-secondary/70 text-xs font-mono text-center">Scalable</span>
-                      </div>
-                      <div className="flex flex-col items-center gap-2 p-3 bg-main/50 border border-accent/20 rounded-lg">
-                        <Eye className="w-6 h-6 text-accent" />
-                        <span className="text-secondary/70 text-xs font-mono text-center">Monitored</span>
-                      </div>
-                      <div className="flex flex-col items-center gap-2 p-3 bg-main/50 border border-accent/20 rounded-lg">
-                        <Brain className="w-6 h-6 text-accent" />
-                        <span className="text-secondary/70 text-xs font-mono text-center">Expertise</span>
-                      </div>
+                <div className="mt-12 bg-main/80 backdrop-blur-sm border border-accent/20 rounded-xl p-6 font-mono">
+                  <h3 className="text-secondary font-semibold text-lg mb-4 font-mono">
+                    Why Choose Prioritech?
+                  </h3>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="flex flex-col items-center gap-2 p-3 bg-main/50 border border-accent/20 rounded-lg">
+                      <Zap className="w-6 h-6 text-accent" />
+                      <span className="text-secondary/70 text-xs font-mono text-center">Production-Grade</span>
+                    </div>
+                    <div className="flex flex-col items-center gap-2 p-3 bg-main/50 border border-accent/20 rounded-lg">
+                      <Layers className="w-6 h-6 text-accent" />
+                      <span className="text-secondary/70 text-xs font-mono text-center">Scalable</span>
+                    </div>
+                    <div className="flex flex-col items-center gap-2 p-3 bg-main/50 border border-accent/20 rounded-lg">
+                      <Eye className="w-6 h-6 text-accent" />
+                      <span className="text-secondary/70 text-xs font-mono text-center">Monitored</span>
+                    </div>
+                    <div className="flex flex-col items-center gap-2 p-3 bg-main/50 border border-accent/20 rounded-lg">
+                      <Brain className="w-6 h-6 text-accent" />
+                      <span className="text-secondary/70 text-xs font-mono text-center">Expertise</span>
                     </div>
                   </div>
-                </TracingBeam>
+                </div>
               </div>
 
               {/* Contact Form */}
@@ -215,7 +196,7 @@ export default function ContactPage() {
                         required
                         value={formData.name}
                         onChange={handleInputChange}
-                        className="bg-main/50 border-accent/20 text-secondary placeholder:text-secondary/50 focus:border-accent font-mono hover:glow-gold"
+                        className="bg-main/50 border-accent/20 text-secondary placeholder:text-secondary/50 focus:border-accent font-mono hover:border-accent/50 transition-colors"
                         placeholder="Your full name"
                       />
                     </div>
@@ -231,7 +212,7 @@ export default function ContactPage() {
                         required
                         value={formData.email}
                         onChange={handleInputChange}
-                        className="bg-main/50 border-accent/20 text-secondary placeholder:text-secondary/50 focus:border-accent font-mono hover:glow-gold"
+                        className="bg-main/50 border-accent/20 text-secondary placeholder:text-secondary/50 focus:border-accent font-mono hover:border-accent/50 transition-colors"
                         placeholder="your.email@company.com"
                       />
                     </div>
@@ -263,16 +244,15 @@ export default function ContactPage() {
                       rows={6}
                       value={formData.message}
                       onChange={handleInputChange}
-                      className="bg-main/50 border-accent/20 text-secondary placeholder:text-secondary/50 focus:border-accent resize-none font-mono hover:glow-gold"
+                      className="bg-main/50 border-accent/20 text-secondary placeholder:text-secondary/50 focus:border-accent resize-none font-mono hover:border-accent/50 transition-colors"
                       placeholder="Tell us about your project, requirements, or how we can help..."
                     />
                   </div>
 
-                  <MovingBorder borderRadius="8px">
                     <Button
                       type="submit"
                       disabled={isSubmitting}
-                      className="w-full bg-accent hover:bg-accent/90 text-main font-semibold py-3 rounded-lg transition-all font-mono hover:glow-gold disabled:opacity-50"
+                      className="w-full bg-accent hover:bg-accent/90 text-main font-semibold py-3 rounded-lg transition-all font-mono hover:shadow-lg hover:shadow-accent/25 disabled:opacity-50"
                     >
                       {isSubmitting ? (
                         <span className="flex items-center justify-center">
@@ -286,7 +266,6 @@ export default function ContactPage() {
                         </span>
                       )}
                     </Button>
-                  </MovingBorder>
                 </form>
               </div>
             </div>

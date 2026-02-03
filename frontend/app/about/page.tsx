@@ -3,12 +3,11 @@
 import { Navbar } from "@/components/common/Navbar"
 import { Footer } from "@/components/common/Footer"
 import { PageHero } from "@/components/common/PageHero"
-import { SectionCard } from "@/components/common/SectionCard"
+import { ModernCard } from "@/components/common/ModernCard"
+import { PrimaryButton, SecondaryButton } from "@/components/common/ModernButton"
 import { DivisionIcon } from "@/components/common/IconComponents"
 import { TextGenerateEffect } from "@/components/aceternity/text-generate-effect"
-import { TracingBeam } from "@/components/aceternity/tracing-beam"
 import { Timeline } from "@/components/aceternity/timeline"
-import { MovingBorder } from "@/components/aceternity/moving-border"
 import { 
   Target, 
   Users, 
@@ -24,7 +23,6 @@ import {
   TrendingUp,
   Layers
 } from "lucide-react"
-import Link from "next/link"
 
 /**
  * About page for Prioritech Indonesia Optima.
@@ -69,6 +67,7 @@ export default function AboutPage() {
         title="Precision. Elegance. Systems."
         subtitle="About Prioritech"
         description="Engineering firm that blends AI, automation, and data infrastructure into working systems."
+        variant="gradient"
       />
 
         {/* Company Overview */}
@@ -193,23 +192,12 @@ export default function AboutPage() {
               Performance speaks louder than promises.
             </div>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <MovingBorder borderRadius="8px">
-                <Link 
-                  href="/contact"
-                  className="inline-flex items-center justify-center bg-accent hover:bg-accent/90 text-main px-6 py-3 rounded-lg font-semibold transition-all font-mono hover:glow-gold"
-                >
-                  $ Contact Us
-                  <ArrowRight className="w-4 h-4 ml-2" />
-                </Link>
-              </MovingBorder>
-              <MovingBorder borderRadius="8px">
-                <Link 
-                  href="/projects"
-                  className="inline-flex items-center justify-center border border-accent/30 hover:border-accent text-secondary hover:text-accent px-6 py-3 rounded-lg font-semibold transition-all font-mono hover:glow-gold"
-                >
-                  $ View Our Work
-                </Link>
-              </MovingBorder>
+              <PrimaryButton href="/contact" icon>
+                $ Contact Us
+              </PrimaryButton>
+              <SecondaryButton href="/projects">
+                $ View Our Work
+              </SecondaryButton>
             </div>
           </div>
         </section>

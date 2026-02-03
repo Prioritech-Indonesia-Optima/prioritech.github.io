@@ -3,12 +3,11 @@
 import { Navbar } from "@/components/common/Navbar"
 import { Footer } from "@/components/common/Footer"
 import { PageHero } from "@/components/common/PageHero"
-import { SectionCard } from "@/components/common/SectionCard"
+import { ModernCard } from "@/components/common/ModernCard"
+import { ImageSection } from "@/components/common/ImageSection"
 import { DivisionIcon } from "@/components/common/IconComponents"
-import { MovingBorder } from "@/components/aceternity/moving-border"
-import { CardSpotlight } from "@/components/aceternity/card-spotlight"
-import { ArrowRight, Target, CheckCircle, Search, Code2, Rocket, Brain, GitBranch, Database, Workflow, Shield, TrendingUp, Cog, Layers, Network, Zap, Eye, FileText, Cpu } from "lucide-react"
-import Link from "next/link"
+import { ArrowRight, Brain, Workflow, Database, Shield, TrendingUp, Cog, Layers, Zap, GitBranch, Eye, Search, Code2, Rocket, Network, Cpu, CheckCircle } from "lucide-react"
+import { PrimaryButton, SecondaryButton } from "@/components/common/ModernButton"
 
 /**
  * Divisions page for Prioritech Indonesia Optima.
@@ -163,86 +162,87 @@ export default function DivisionsPage() {
           title="Our Engineering Divisions"
           subtitle="Specialized Expertise"
           description="Five core engineering disciplines."
+          variant="image"
+          imageSrc="/hero-divisions.jpg"
+          imageAlt="Technology circuit board"
         />
 
         {/* Divisions Grid */}
         <section className="py-16">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-              {divisions.map((division) => (
-                <CardSpotlight key={division.id}>
-                  <div className="bg-main/80 backdrop-blur-sm border border-accent/20 rounded-lg p-8 hover:border-accent/50 hover:bg-main/90 transition-all duration-300 font-mono terminal-window relative">
-                    {/* Terminal header bar */}
-                    <div className="absolute top-0 left-0 right-0 h-10 flex items-center gap-2 px-3 border-b border-accent/20 bg-main/50">
-                      <div className="flex gap-1.5">
-                        <div className="w-2 h-2 rounded-full bg-red-500/50" />
-                        <div className="w-2 h-2 rounded-full bg-yellow-500/50" />
-                        <div className="w-2 h-2 rounded-full bg-green-500/50" />
+              {divisions.map((division, index) => (
+                <ModernCard
+                  key={division.id}
+                  title={division.title}
+                  icon={<DivisionIcon division={division.icon} size={24} />}
+                  className="h-full"
+                  delay={index * 0.1}
+                >
+                  {/* Division Content */}
+                  <div className="space-y-6">
+                    {/* Engineering Approach */}
+                    {division.engineeringApproach && (
+                      <div className="border-t border-accent/10 pt-4">
+                        <div className="flex items-center gap-2 bg-accent/10 border border-accent/20 rounded-lg px-3 py-2 w-fit">
+                          <Zap className="w-4 h-4 text-accent" />
+                          <span className="text-accent text-xs font-mono">Engineering Approach</span>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Capabilities */}
+                    <div>
+                      <h4 className="text-secondary font-medium text-sm mb-3 font-mono">Key Capabilities</h4>
+                      <div className="grid grid-cols-3 gap-2">
+                        {division.capabilities.slice(0, 6).map((capability, idx) => {
+                          const { icon: Icon, label } = getCapabilityIcon(capability)
+                          return (
+                            <div 
+                              key={idx} 
+                              className="flex flex-col items-center gap-1 p-2 bg-main/50 border border-accent/20 rounded-lg hover:border-accent/50 transition-all"
+                              title={capability}
+                            >
+                              <Icon className="w-4 h-4 text-accent" />
+                              <span className="text-secondary/70 text-[10px] font-mono text-center leading-tight">{label}</span>
+                            </div>
+                          )
+                        })}
                       </div>
                     </div>
 
-                    <div className="pt-12">
-                      {/* Division Header */}
-                      <div className="flex items-start space-x-4 mb-6">
-                        <div className="flex items-center justify-center w-12 h-12 bg-accent/10 rounded-lg flex-shrink-0">
-                          <DivisionIcon division={division.icon} size={24} />
-                        </div>
-                        <div className="flex-1">
-                          <h3 className="text-secondary text-xl font-semibold mb-2 font-mono">
-                            {division.title}
-                          </h3>
-                        </div>
-                      </div>
-
-                      {/* Engineering Approach */}
-                      {division.engineeringApproach && (
-                        <div className="mb-6 border-t border-accent/10 pt-4">
-                          <div className="flex items-center gap-2 bg-accent/10 border border-accent/20 rounded-lg px-3 py-2 w-fit">
-                            <Target className="w-4 h-4 text-accent" />
-                            <span className="text-accent text-xs font-mono">Engineering Approach</span>
-                          </div>
-                        </div>
-                      )}
-
-                      {/* Capabilities */}
-                      <div className="mb-6">
-                        <h4 className="text-secondary font-medium text-sm mb-3 font-mono">Key Capabilities</h4>
-                        <div className="grid grid-cols-3 gap-2">
-                          {division.capabilities.map((capability, index) => {
-                            const { icon: Icon, label } = getCapabilityIcon(capability)
-                            return (
-                              <div 
-                                key={index} 
-                                className="flex flex-col items-center gap-1 p-2 bg-main/50 border border-accent/20 rounded-lg hover:border-accent/50 transition-all"
-                                title={capability}
-                              >
-                                <Icon className="w-4 h-4 text-accent" />
-                                <span className="text-secondary/70 text-[10px] font-mono text-center leading-tight">{label}</span>
-                              </div>
-                            )
-                          })}
-                        </div>
-                      </div>
-
-                      {/* Related Projects */}
-                      <div className="border-t border-accent/10 pt-4">
-                        <h4 className="text-secondary font-medium text-sm mb-3 font-mono">Featured Projects</h4>
-                        <div className="flex flex-wrap gap-2">
-                          {division.projects.map((project, index) => (
-                            <span 
-                              key={index}
-                              className="bg-accent/10 text-accent px-3 py-1 rounded-full text-xs font-medium font-mono"
-                            >
-                              ${" "}{project}
-                            </span>
-                          ))}
-                        </div>
+                    {/* Related Projects */}
+                    <div className="border-t border-accent/10 pt-4">
+                      <h4 className="text-secondary font-medium text-sm mb-3 font-mono">Featured Projects</h4>
+                      <div className="flex flex-wrap gap-2">
+                        {division.projects.map((project, idx) => (
+                          <span 
+                            key={idx}
+                            className="bg-accent/10 text-accent px-3 py-1 rounded-full text-xs font-medium font-mono"
+                          >
+                            ${" "}{project}
+                          </span>
+                        ))}
                       </div>
                     </div>
                   </div>
-                </CardSpotlight>
+                </ModernCard>
               ))}
             </div>
+          </div>
+        </section>
+
+        {/* AI Systems Showcase */}
+        <section className="py-8">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <ImageSection
+              src="/divisions-ai.jpg"
+              alt="AI and neural network visualization"
+              title="Intelligent Systems"
+              description="From neural networks to autonomous agents — we architect AI that thinks."
+              height="md"
+              textPosition="bottom-right"
+            />
           </div>
         </section>
 
@@ -292,23 +292,12 @@ export default function DivisionsPage() {
               with intelligent, production-grade solutions.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <MovingBorder borderRadius="8px">
-                <Link 
-                  href="/projects"
-                  className="inline-flex items-center justify-center bg-accent hover:bg-accent/90 text-main px-6 py-3 rounded-lg font-semibold transition-all font-mono hover:glow-gold"
-                >
-                  $ View Our Projects
-                  <ArrowRight className="w-4 h-4 ml-2" />
-                </Link>
-              </MovingBorder>
-              <MovingBorder borderRadius="8px">
-                <Link 
-                  href="/contact"
-                  className="inline-flex items-center justify-center border border-accent/30 hover:border-accent text-secondary hover:text-accent px-6 py-3 rounded-lg font-semibold transition-all font-mono hover:glow-gold"
-                >
-                  $ Contact Our Teams
-                </Link>
-              </MovingBorder>
+              <PrimaryButton href="/projects" icon>
+                $ View Our Projects
+              </PrimaryButton>
+              <SecondaryButton href="/contact">
+                $ Contact Our Teams
+              </SecondaryButton>
             </div>
           </div>
         </section>
