@@ -8,6 +8,7 @@ import { ModernCard } from "@/components/common/ModernCard"
 import { ImageSection } from "@/components/common/ImageSection"
 import { PrimaryButton, SecondaryButton } from "@/components/common/ModernButton"
 import { ProjectCategoryIcon, TechStackIcon } from "@/components/common/IconComponents"
+import { ProjectDemoModal } from "@/components/projects/ProjectDemoModal"
 import { LampEffect } from "@/components/aceternity/lamp-effect"
 import { ArrowRight, ExternalLink, Brain, Cog, TrendingUp, Shield, Zap, BarChart3, Layers, Target, Search, Code2, Rocket, Eye } from "lucide-react"
 
@@ -212,7 +213,7 @@ export default function ProjectsPage() {
                               className="flex items-center gap-2 px-3 py-1.5 bg-accent/10 border border-accent/20 rounded-lg hover:border-accent/50 hover:bg-accent/20 transition-all group"
                               title={tech}
                             >
-                              <TechStackIcon tech={tech.toLowerCase()} size={16} className="text-accent" />
+                              <TechStackIcon tech={tech.toLowerCase()} size={16} />
                               <span className="text-secondary/80 text-xs font-mono">{tech}</span>
                             </div>
                           ))}
