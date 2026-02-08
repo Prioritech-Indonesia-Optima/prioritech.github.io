@@ -134,7 +134,9 @@ export default function TechPage() {
           title="Tools change. Principles don't."
           subtitle="How We Build"
           description="Comprehensive technology stack."
-          variant="gradient"
+          variant="image"
+          imageSrc="/images/stock/tech-hero.jpg"
+          imageAlt="Technology data flows"
         />
 
         {/* Tech Stack Overview */}

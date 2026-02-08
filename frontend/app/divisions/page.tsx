@@ -163,7 +163,7 @@ export default function DivisionsPage() {
           subtitle="Specialized Expertise"
           description="Five core engineering disciplines."
           variant="image"
-          imageSrc="/hero-divisions.jpg"
+          imageSrc="/images/stock/divisions-hero.jpg"
           imageAlt="Technology circuit board"
         />
 

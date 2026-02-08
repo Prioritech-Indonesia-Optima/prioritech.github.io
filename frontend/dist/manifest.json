@@ -1,0 +1,28 @@
+{
+  "name": "Prioritech Indonesia Optima",
+  "short_name": "Prioritech",
+  "description": "Indonesian AI and engineering company focused on creating production-grade systems",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#2d2c2c",
+  "theme_color": "#daa520",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/prioritech-favicon.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/prioritech-favicon-v2.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["business", "technology", "productivity"],
+  "lang": "en-US",
+  "dir": "ltr",
+  "scope": "/"
+}

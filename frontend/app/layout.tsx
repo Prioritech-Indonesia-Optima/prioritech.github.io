@@ -99,7 +99,7 @@ const organizationSchema = {
   },
   contactPoint: {
     '@type': 'ContactPoint' as const,
-    email: 'ivan.aurelius@prioritech.co.id',
+    email: 'business@prioritech.co.id',
     contactType: 'Business Inquiries',
   },
 }

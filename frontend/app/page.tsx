@@ -16,6 +16,12 @@ import { TextGenerateEffect } from "@/components/aceternity/text-generate-effect
 import { motion, useScroll, useTransform } from "framer-motion"
 import { MovingBorder } from "@/components/aceternity/moving-border"
 import { LampEffect } from "@/components/aceternity/lamp-effect"
+import { TechStackBar } from "@/components/sections/TechStackBar"
+import { ProblemSolution } from "@/components/sections/ProblemSolution"
+import { ProcessTimeline } from "@/components/sections/ProcessTimeline"
+import { Testimonials } from "@/components/sections/Testimonials"
+import { TeamCredibility } from "@/components/sections/TeamCredibility"
+import { TrustBadges } from "@/components/sections/TrustBadges"
 import Link from "next/link"
 
 // Lazy load below-fold components to reduce initial bundle size
@@ -47,8 +53,8 @@ function HeroSectionWithParallax() {
       <div className="absolute inset-0 z-0">
         {/* Space background image */}
         <Image
-          src="/hero-bg.jpg"
-          alt="Space background"
+          src="/images/stock/tech-hero.jpg"
+          alt="Technology network"
           fill
           priority
           className="object-cover"
@@ -208,6 +214,7 @@ export default function HomePage(): JSX.Element {
       <ScrollProgress />
       <Navbar />
       <HeroSectionWithParallax />
+      <TechStackBar />
 
       {/* Content Sections - outside hero, no animation interference */}
       
@@ -261,6 +268,8 @@ export default function HomePage(): JSX.Element {
         </SectionReveal>
       </Suspense>
 
+      <ProblemSolution />
+
       {/* Divisions Summary */}
       <Suspense fallback={<section className="py-16 bg-main/50"><div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" /></section>}>
         <SectionReveal delay={0.1}>
@@ -300,6 +309,8 @@ export default function HomePage(): JSX.Element {
       </section>
         </SectionReveal>
       </Suspense>
+
+      <ProcessTimeline />
 
       {/* Featured Projects */}
       <Suspense fallback={<section className="py-16 bg-main"><div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" /></section>}>
@@ -369,6 +380,12 @@ export default function HomePage(): JSX.Element {
       </section>
         </SectionReveal>
       </Suspense>
+
+      <Testimonials />
+
+      <TeamCredibility />
+
+      <TrustBadges />
 
       {/* Tech Stack Summary */}
       <Suspense fallback={<section className="py-16 bg-main/50"><div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8" /></section>}>

@@ -1,0 +1,4 @@
+:HL["/_next/static/chunks/b0241f0722045bbe.css","style"]
+:HL["/_next/static/chunks/df47fe927654887c.css","style"]
+:HL["/logos/new/Asset%2010.png","image",{"type":"image/png"}]
+0:{"buildId":"SjF653Gn09__BrZTvK8mH","tree":{"name":"","paramType":null,"paramKey":"","hasRuntimePrefetch":false,"slots":{"children":{"name":"/_not-found","paramType":null,"paramKey":"/_not-found","hasRuntimePrefetch":false,"slots":{"children":{"name":"__PAGE__","paramType":null,"paramKey":"__PAGE__","hasRuntimePrefetch":false,"slots":null,"isRootLayout":false}},"isRootLayout":false}},"isRootLayout":true},"staleTime":300}

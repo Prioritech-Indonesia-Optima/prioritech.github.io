@@ -64,7 +64,7 @@ export function SectionCard({
         
         {description && (
           <p className="text-secondary/60 text-xs sm:text-sm mb-4 leading-relaxed font-mono">
-            <span className="text-accent">></span> {description}
+            <span className="text-accent">{'>'}</span> {description}
           </p>
         )}
         

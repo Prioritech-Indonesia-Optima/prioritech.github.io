@@ -164,10 +164,12 @@ export default function ProjectsPage() {
       <main>
         {/* Hero Section */}
         <PageHero
-          title="What We've Built"
-          subtitle="Technical Portfolio"
-          description="Systems in production."
-          variant="gradient"
+          title="Systems in Production"
+          subtitle="Our Work"
+          description="Real systems deployed. Real results delivered."
+          variant="image"
+          imageSrc="/images/stock/projects-hero.jpg"
+          imageAlt="Analytics dashboard"
         />
 
         {/* Project Categories */}

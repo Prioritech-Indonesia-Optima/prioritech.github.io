@@ -67,7 +67,9 @@ export default function AboutPage() {
         title="Precision. Elegance. Systems."
         subtitle="About Prioritech"
         description="Engineering firm that blends AI, automation, and data infrastructure into working systems."
-        variant="gradient"
+        variant="image"
+        imageSrc="/images/stock/about-abstract.jpg"
+        imageAlt="Abstract technology"
       />
 
         {/* Company Overview */}

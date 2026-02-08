@@ -53,12 +53,14 @@ export function Footer() {
                   Jakarta Barat, DKI Jakarta 11470
                 </span>
               </div>
+              {/*
               <div className="flex items-center space-x-3 text-secondary/70">
                 <Mail className="w-4 h-4 text-accent" />
-                <a href="mailto:ivan.aurelius@prioritech.co.id" className="text-sm hover:text-accent transition-colors">
-                  ivan.aurelius@prioritech.co.id
+                <a href="mailto:business@prioritech.co.id" className="text-sm hover:text-accent transition-colors">
+                  business@prioritech.co.id
                 </a>
               </div>
+              */}
             </div>
           </div>
 

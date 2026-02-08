@@ -31,7 +31,7 @@ const localBusinessSchema = {
   },
   contactPoint: {
     '@type': 'ContactPoint' as const,
-    email: 'ivan.aurelius@prioritech.co.id',
+    email: 'business@prioritech.co.id',
     contactType: 'Business Inquiries',
   },
 }
@@ -66,23 +66,39 @@ export default function ContactPage() {
     e.preventDefault()
     setIsSubmitting(true)
     
-    // TODO: Implement actual form submission logic
-    // This would typically send data to a backend API or email service
-    console.log('Form submitted:', formData)
-    
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1000))
-    
-    setIsSubmitting(false)
-    alert('Thank you for your message! We\'ll get back to you soon.')
-    
-    // Reset form
-    setFormData({
-      name: '',
-      email: '',
-      company: '',
-      message: ''
-    })
+    try {
+      // Submit to Formspree - replace FORMSPREE_ENDPOINT with your actual endpoint
+      const response = await fetch('https://formspree.io/f/FORMSPREE_ENDPOINT', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          company: formData.company,
+          message: formData.message,
+        }),
+      })
+      
+      if (response.ok) {
+        setIsSubmitting(false)
+        alert('Thank you for your message! We\'ll get back to you soon.')
+        
+        // Reset form
+        setFormData({
+          name: '',
+          email: '',
+          company: '',
+          message: ''
+        })
+      } else {
+        throw new Error('Form submission failed')
+      }
+    } catch (error) {
+      setIsSubmitting(false)
+      alert('Oops! Something went wrong in sending the email. You can contact us directly by sending to ivan.aurelius@prioritech.co.id')
+    }
   }
 
   const contactInfo = [
@@ -100,11 +116,13 @@ export default function ContactPage() {
         'Jakarta Barat, DKI Jakarta 11470'
       ]
     },
+    /*
     {
       icon: <Mail size={20} />,
       title: 'Email',
-      details: ['ivan.aurelius@prioritech.co.id']
+      details: ['business@prioritech.co.id']
     }
+    */
   ]
 
   return (
@@ -118,7 +136,9 @@ export default function ContactPage() {
           title="We design systems that help you excel — not temporary fixes."
           subtitle="Get in Touch"
           description="Systems that perform and scale."
-          variant="minimal"
+          variant="image"
+          imageSrc="/images/stock/contact-hero.jpg"
+          imageAlt="Modern architecture"
         />
 
         {/* Contact Information & Form */}
