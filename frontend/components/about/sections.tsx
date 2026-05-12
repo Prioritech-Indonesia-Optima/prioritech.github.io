@@ -163,6 +163,7 @@ export function CompanyStats() {
     { v: 3, suffix: "",  label: "systems live",         caption: "AI hosting · marketplace · FX ERP" },
     { v: 5, suffix: "",  label: "engineering divisions", caption: "in-house, cross-disciplinary" },
     { v: 0, suffix: "",  label: "subcontractors",       caption: "every engineer is in-house" },
+    { v: 1, suffix: "",  label: "office · Jakarta",     caption: "Tanjung Duren · ships globally" },
   ]
   return (
     <section className="relative py-16 sm:py-20 border-y border-accent/15 bg-main/40 backdrop-blur-sm overflow-hidden">
