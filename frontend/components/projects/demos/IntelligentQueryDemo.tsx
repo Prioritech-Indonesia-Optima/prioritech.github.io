@@ -1,86 +1,76 @@
 "use client"
 
-import { useMemo } from "react"
-import { TerminalWindow } from "./shared/TerminalWindow"
-import { TerminalLine } from "./shared/TerminalLine"
-import { useUnifiedDemo, DemoLine } from "@/hooks/use-unified-demo"
-import { useRandomData } from "@/hooks/use-random-data"
+import { DemoShell, Bar, StatusPill } from "./shared/DemoShell"
+import { AnimatedTerminal, Panel, TermLine, AnimatedNumber } from "./shared/primitives"
 
 /**
- * Intelligent Query Assistant demo component.
- * 
- * Simulates natural language query processing with SQL generation and results display.
- * Uses unified fade-in animation system with pre-computed data.
+ * Intelligent Query Assistant — natural language → SQL → results
  */
 export function IntelligentQueryDemo() {
-  const randomData = useRandomData()
-  
-  // Pre-compute demo data
-  const demoData = useMemo(() => {
-    const sampleQueries = [
-      "Show me sales by region for last quarter",
-      "What are the top 10 customers by revenue?",
-      "Analyze inventory levels for electronics category"
-    ]
-    
-    const sampleSQL = [
-      "SELECT region, SUM(amount) as sales FROM orders WHERE date >= NOW() - INTERVAL '3 months' GROUP BY region;",
-      "SELECT customer_name, SUM(total) as revenue FROM orders GROUP BY customer_name ORDER BY revenue DESC LIMIT 10;",
-      "SELECT category, SUM(quantity) as stock FROM inventory WHERE category = 'electronics' GROUP BY category;"
-    ]
-    
-    const sampleResults = [
-      [["North", "$1.2M"], ["South", "$950K"], ["East", "$1.1M"], ["West", "$1.3M"]],
-      [["Acme Corp", "$450K"], ["TechCo", "$380K"], ["Global Inc", "$320K"]],
-      [["electronics", "12,450 units"]]
-    ]
-    
-    const index = Math.floor(Math.random() * sampleQueries.length)
-    
-    return {
-      query: sampleQueries[index],
-      sql: sampleSQL[index],
-      results: sampleResults[index]
-    }
-  }, [])
-  
-  // Build lines array with pre-computed data
-  const lines: DemoLine[] = useMemo(() => [
-    { prefix: "$", text: "Intelligent Query Assistant", color: "text-accent", instant: true },
-    { prefix: "$", text: "User Query:", color: "text-accent", instant: true },
-    { text: demoData.query },
-    { prefix: ">", text: "Generated SQL:", color: "text-green-500", instant: true },
-    { color: "text-secondary/80", text: demoData.sql },
-    { prefix: ">", text: "Executing query...", color: "text-info", instant: true },
-    { text: "Query plan: Index Scan (cost=0.42..12.48 rows=100)" },
-    { text: `Rows matched: ${demoData.results.length}` },
-    { prefix: "✓", text: "Query completed in 45ms", color: "text-green-500", instant: true },
-    { text: "Results:", instant: true },
-    ...demoData.results.map(row => ({
-      text: `${row[0]}: ${row[1]}`
-    }))
-  ], [demoData])
-  
-  const { visibleLines, showCursor } = useUnifiedDemo(lines, {
-    lineDelay: 300,
-    shouldLoop: true,
-    freezeDuration: 5000
-  })
+  const lines: TermLine[] = [
+    { kind: "cmd", text: "iqa --query \"show me sales by region for last quarter\"" },
+    { kind: "info", text: "Parsing intent... entities=[sales, region, last_quarter]" },
+    { kind: "ok", text: "Schema match found: orders.amount, orders.region, orders.created_at" },
+    { kind: "out", text: "Generated SQL:", tone: "info" },
+    { kind: "out", text: "  SELECT region, SUM(amount) AS total", tone: "default" },
+    { kind: "out", text: "  FROM orders", tone: "default" },
+    { kind: "out", text: "  WHERE created_at >= NOW() - INTERVAL '3 months'", tone: "default" },
+    { kind: "out", text: "  GROUP BY region ORDER BY total DESC;", tone: "default" },
+    { kind: "rule" },
+    { kind: "info", text: "Executing on warehouse-primary..." },
+    { kind: "ok", text: "Plan: Parallel Index Scan, cost=12.48, rows=4" },
+    { kind: "ok", text: "Query completed in 43ms" },
+  ]
+
+  const rows = [
+    { region: "West", total: 1320, pct: 100 },
+    { region: "North", total: 1180, pct: 89 },
+    { region: "East", total: 1090, pct: 83 },
+    { region: "South", total: 940, pct: 71 },
+  ]
 
   return (
-    <TerminalWindow title="intelligent-query-assistant">
-      {visibleLines.map((line, i) => (
-        <TerminalLine
-          key={i}
-          text={line.text}
-          prefix={line.prefix}
-          color={line.color}
-          isAnimating={line.isAnimating}
-        />
-      ))}
-      {showCursor && (
-        <span className="animate-cursor-blink text-accent">▊</span>
-      )}
-    </TerminalWindow>
+    <DemoShell
+      title="Intelligent Query Assistant"
+      subtitle="Natural-language analytics over structured enterprise data"
+      status="live"
+      kpis={[
+        { label: "Queries / day", value: "12.4k", trend: "up" },
+        { label: "Avg latency", value: "43ms", trend: "down", hint: "↓ 78% vs SQL" },
+        { label: "Accuracy", value: "97.2%", trend: "up" },
+        { label: "Data sources", value: "8", hint: "warehouses" },
+      ]}
+    >
+      <div className="grid lg:grid-cols-5 gap-4">
+        <div className="lg:col-span-3">
+          <AnimatedTerminal lines={lines} height={340} />
+        </div>
+        <Panel
+          title="Results · Q4 sales by region"
+          right={<StatusPill label="USD k" tone="muted" />}
+          className="lg:col-span-2"
+        >
+          <div className="space-y-3">
+            {rows.map((r, i) => (
+              <div key={r.region}>
+                <div className="flex items-baseline justify-between mb-1">
+                  <span className="text-sm text-secondary/80">{r.region}</span>
+                  <span className="text-sm text-accent font-medium">
+                    $<AnimatedNumber value={r.total} />k
+                  </span>
+                </div>
+                <Bar pct={r.pct} tone={i === 0 ? "accent" : "accent"} />
+              </div>
+            ))}
+            <div className="pt-2 mt-2 border-t border-accent/10 flex items-center justify-between">
+              <span className="text-xs text-secondary/55">Total</span>
+              <span className="text-sm text-secondary font-bold">
+                $<AnimatedNumber value={4530} />k
+              </span>
+            </div>
+          </div>
+        </Panel>
+      </div>
+    </DemoShell>
   )
 }

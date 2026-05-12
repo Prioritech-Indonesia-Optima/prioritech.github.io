@@ -1,43 +1,34 @@
 "use client"
 
-import { ReactNode, useEffect, useRef, useState } from "react"
+import { ReactNode, useRef } from "react"
 import { motion, useInView, useReducedMotion } from "framer-motion"
+import { duration as motionDuration, easing } from "@/lib/motion"
 
-/**
- * SectionReveal wrapper component for scroll-triggered animations.
- * 
- * Wraps sections with fade-in and slide-up animations when they enter
- * the viewport. Respects prefers-reduced-motion and provides configurable
- * animation options.
- * 
- * @param children - Child elements to animate
- * @param className - Optional CSS classes
- * @param delay - Animation delay in seconds (default: 0)
- * @param duration - Animation duration in seconds (default: 0.6)
- * @param yOffset - Vertical offset for slide animation (default: 30)
- * 
- * @returns JSX element with scroll-triggered animations
- */
 interface SectionRevealProps {
   children: ReactNode
   className?: string
   delay?: number
   duration?: number
   yOffset?: number
+  direction?: "up" | "left" | "right" | "scale"
 }
 
+/**
+ * Scroll-triggered reveal. Respects prefers-reduced-motion. Uses shared
+ * easing/duration tokens from lib/motion for consistent choreography.
+ */
 export function SectionReveal({
   children,
   className = "",
   delay = 0,
-  duration = 0.6,
-  yOffset = 30,
+  duration,
+  yOffset = 24,
+  direction = "up",
 }: SectionRevealProps) {
-  const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: "-100px" })
+  const ref = useRef<HTMLDivElement>(null)
+  const isInView = useInView(ref, { once: true, margin: "-80px" })
   const prefersReducedMotion = useReducedMotion()
 
-  // If reduced motion is preferred, show content immediately without animation
   if (prefersReducedMotion) {
     return (
       <div ref={ref} className={className}>
@@ -46,20 +37,31 @@ export function SectionReveal({
     )
   }
 
+  const initial =
+    direction === "up"
+      ? { opacity: 0, y: yOffset }
+      : direction === "left"
+      ? { opacity: 0, x: -yOffset }
+      : direction === "right"
+      ? { opacity: 0, x: yOffset }
+      : { opacity: 0, scale: 0.94 }
+
+  const animateTo =
+    direction === "scale" ? { opacity: 1, scale: 1 } : { opacity: 1, x: 0, y: 0 }
+
   return (
     <motion.div
       ref={ref}
       className={className}
-      initial={{ opacity: 0, y: yOffset }}
-      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: yOffset }}
+      initial={initial}
+      animate={isInView ? animateTo : initial}
       transition={{
-        duration,
+        duration: duration ?? motionDuration.slow,
         delay,
-        ease: [0.25, 0.1, 0.25, 1], // Custom easing for smooth Prioritech aesthetic
+        ease: easing.outExpo,
       }}
     >
       {children}
     </motion.div>
   )
 }
-

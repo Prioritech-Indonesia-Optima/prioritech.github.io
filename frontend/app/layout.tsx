@@ -61,6 +61,11 @@ export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
   maximumScale: 5,
+  themeColor: [
+    { media: '(prefers-color-scheme: dark)', color: '#2d2c2c' },
+    { media: '(prefers-color-scheme: light)', color: '#2d2c2c' },
+  ],
+  colorScheme: 'dark',
 }
 
 /**
@@ -156,6 +161,9 @@ export default function RootLayout({
         />
       </head>
       <body className={`font-sans antialiased ${GeistSans.variable} ${GeistMono.variable}`}>
+        <a href="#main-content" className="skip-link">
+          Skip to content
+        </a>
         <SplashScreenWrapper>
           {children}
           <Analytics />

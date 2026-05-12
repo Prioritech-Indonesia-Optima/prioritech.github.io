@@ -233,6 +233,66 @@
       background-position: 0% 50%;
     }
   }
+
+  /* Aurora drift — slow, large-radius gradient orb motion for hero backdrops */
+  --animate-aurora-drift: aurora-drift 24s ease-in-out infinite;
+
+  @keyframes aurora-drift {
+    0%, 100% {
+      transform: translate3d(-10%, -5%, 0) scale(1);
+      opacity: 0.55;
+    }
+    33% {
+      transform: translate3d(5%, 10%, 0) scale(1.15);
+      opacity: 0.75;
+    }
+    66% {
+      transform: translate3d(8%, -8%, 0) scale(0.95);
+      opacity: 0.6;
+    }
+  }
+
+  /* Glow pulse — soft gold halo for primary CTAs and accents */
+  --animate-glow-pulse: glow-pulse 3.2s ease-in-out infinite;
+
+  @keyframes glow-pulse {
+    0%, 100% {
+      box-shadow: 0 0 0 0 rgba(218, 165, 32, 0.35),
+                  0 0 20px rgba(218, 165, 32, 0.18);
+    }
+    50% {
+      box-shadow: 0 0 0 8px rgba(218, 165, 32, 0),
+                  0 0 32px rgba(218, 165, 32, 0.32);
+    }
+  }
+
+  /* Sweeping shimmer across text — one-shot reveal */
+  --animate-text-sweep: text-sweep 2.4s ease-out 0.4s 1 both;
+
+  @keyframes text-sweep {
+    0% {
+      background-position: -200% 50%;
+    }
+    100% {
+      background-position: 200% 50%;
+    }
+  }
+
+  /* Slow marquee for division strip */
+  --animate-marquee: marquee 38s linear infinite;
+  --animate-marquee-slow: marquee 64s linear infinite;
+
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  /* Number count-up isn't a CSS animation, but reserved underline grow */
+  --animate-underline-grow: underline-grow 0.6s ease-out forwards;
+  @keyframes underline-grow {
+    from { transform: scaleX(0); }
+    to   { transform: scaleX(1); }
+  }
 }
 
 @layer base {
@@ -302,5 +362,104 @@
 
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
+  }
+
+  /* Skip-to-content link for screen readers / keyboard users */
+  .skip-link {
+    position: absolute;
+    top: -100px;
+    left: 1rem;
+    z-index: 100;
+    background: var(--accent);
+    color: var(--main);
+    padding: 0.75rem 1.25rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    transition: top 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .skip-link:focus {
+    top: 1rem;
+    outline: 2px solid var(--secondary);
+    outline-offset: 2px;
+  }
+
+  /* Standard focus-visible ring across interactive elements */
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+    border-radius: 0.25rem;
+  }
+
+  /* Text-gradient sweep — gold shimmer across headlines on first paint */
+  .text-sweep {
+    background: linear-gradient(
+      90deg,
+      var(--secondary) 0%,
+      var(--secondary) 30%,
+      var(--accent) 50%,
+      var(--secondary) 70%,
+      var(--secondary) 100%
+    );
+    background-size: 200% 100%;
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    animation: text-sweep 2.4s ease-out 0.3s 1 both;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .text-sweep {
+      animation: none;
+      color: var(--secondary);
+      -webkit-text-fill-color: var(--secondary);
+    }
+  }
+
+  /* Aurora orb — apply to a positioned div for a slow drifting gradient bubble */
+  .aurora-orb {
+    position: absolute;
+    border-radius: 9999px;
+    filter: blur(80px);
+    pointer-events: none;
+    will-change: transform, opacity;
+    animation: aurora-drift 24s ease-in-out infinite;
+  }
+  .aurora-orb--gold {
+    background: radial-gradient(circle, rgba(218, 165, 32, 0.45) 0%, rgba(218, 165, 32, 0) 70%);
+  }
+  .aurora-orb--silver {
+    background: radial-gradient(circle, rgba(217, 217, 217, 0.25) 0%, rgba(217, 217, 217, 0) 70%);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .aurora-orb {
+      animation: none;
+    }
+  }
+
+  /* Marquee strip — paired with translateX containers */
+  .marquee {
+    display: flex;
+    gap: 3rem;
+    animation: marquee 38s linear infinite;
+  }
+  .marquee:hover {
+    animation-play-state: paused;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .marquee {
+      animation: none;
+    }
+  }
+
+  /* Underline reveal — apply with .animate-underline-grow */
+  .animate-underline-grow {
+    transform-origin: left center;
+    animation: underline-grow 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  /* Card tilt support */
+  .tilt-wrap {
+    transform-style: preserve-3d;
+    perspective: 1000px;
   }
 }

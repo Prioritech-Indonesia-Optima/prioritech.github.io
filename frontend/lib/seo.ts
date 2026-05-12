@@ -17,7 +17,7 @@ export const siteConfig = {
   shortName: 'Prioritech',
   description: 'Indonesian AI and engineering company focused on creating production-grade systems. Intelligent automation, network defense, and applied quantitative analytics.',
   url: 'https://prioritech.co.id',
-  ogImage: '/prioritech-logo-navbar.png',
+  ogImage: '/opengraph-image',
   twitterHandle: '@prioritech',
   author: 'Prioritech Indonesia Optima',
   keywords: [
@@ -167,7 +167,7 @@ export function generateMetadata(
         index: true,
         follow: true,
         'max-video-preview': -1,
-        'max-image-preview': 'large',
+        'max-image-preview': 'large' as const,
         'max-snippet': -1,
       },
     },

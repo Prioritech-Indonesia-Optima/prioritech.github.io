@@ -125,7 +125,7 @@ export function StructuredData({
   organization, 
   website, 
   localBusiness 
-}: StructuredDataProps): JSX.Element[] {
+}: StructuredDataProps): JSX.Element {
   const scripts: JSX.Element[] = []
 
   if (organization) {

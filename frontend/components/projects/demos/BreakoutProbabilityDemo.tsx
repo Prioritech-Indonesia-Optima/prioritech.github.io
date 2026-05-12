@@ -1,106 +1,122 @@
 "use client"
 
-import { useMemo } from "react"
-import { useRandomData } from "@/hooks/use-random-data"
-import { MarketBreakoutIndicator } from "./visualizations/MarketBreakoutIndicator"
+import { useEffect, useState, useMemo } from "react"
+import { motion } from "framer-motion"
+import { DemoShell, StatusPill, Bar } from "./shared/DemoShell"
+import { Panel, Sparkline, AnimatedNumber, PulseDot } from "./shared/primitives"
 
 /**
- * Breakout Probability Model demo component.
- * 
- * Displays predictive market breakout indicator showing PST (Predictive Signal Threshold)
- * that signals breakouts BEFORE they occur. PST goes to +1 for upward breakouts or -1
- * for downward breakouts ahead of actual price peaks/bottoms.
+ * Breakout Probability — radial gauge + real-time signal indicator.
  */
 export function BreakoutProbabilityDemo() {
-  const randomData = useRandomData()
-  
-  // Pre-compute demo data
-  const demoData = useMemo(() => {
-    const basePrice = 145.50
-    const dataPoints = 30
-    
-    // Generate price data with eventual breakout
-    const priceData: Array<{ time: string; price: number }> = []
-    const indicatorData: Array<{ time: string; pst: number }> = []
-    
-    let currentPrice = basePrice
-    const breakoutType = Math.random() > 0.5 ? "bottom" : "peak" // "bottom" = price bottoms then goes up, "peak" = price peaks then goes down
-    let breakoutPoint = Math.floor(dataPoints * 0.7) // Breakout happens at 70% of data
-    
-    for (let i = 0; i < dataPoints; i++) {
-      const time = `T${i + 1}`
-      
-      // Price movement - build to peak/bottom then breakout
-      if (i < breakoutPoint) {
-        // Before breakout: move toward peak or bottom
-        if (breakoutType === "bottom") {
-          // Price declining toward bottom
-          const change = -0.02 - Math.random() * 0.03 // -2% to -5%
-          currentPrice *= 1 + change
-        } else {
-          // Price rising toward peak
-          const change = 0.02 + Math.random() * 0.03 // +2% to +5%
-          currentPrice *= 1 + change
-        }
-      } else if (i === breakoutPoint) {
-        // At breakout point: reverse direction
-        if (breakoutType === "bottom") {
-          // Hit bottom, now break upward
-          currentPrice += Math.abs((Math.random() - 0.5) * 10) + 5
-        } else {
-          // Hit peak, now break downward
-          currentPrice -= Math.abs((Math.random() - 0.5) * 10) + 5
-        }
-      } else {
-        // After breakout: continue in breakout direction
-        if (breakoutType === "bottom") {
-          // Upward after bottom
-          currentPrice += 1 + Math.random() * 3
-        } else {
-          // Downward after peak
-          currentPrice -= 1 + Math.random() * 3
-        }
-      }
-      
-      priceData.push({ time, price: Number(currentPrice.toFixed(2)) })
-      
-      // PST Indicator: Predicts breakout BEFORE it happens
-      // PST goes to -1 before price bottoms (breakout down), +1 before price peaks (breakout up)
-      let pst = 0
-      const predictionStart = breakoutPoint - 5 // PST starts predicting 5 points before
-      
-      if (i < predictionStart) {
-        // Early: neutral, slight noise
-        pst = (Math.random() - 0.5) * 0.2 // -0.1 to 0.1
-      } else if (i < breakoutPoint) {
-        // Before breakout: PST gradually signals
-        const progress = (i - predictionStart) / (breakoutPoint - predictionStart) // 0 to 1
-        if (breakoutType === "bottom") {
-          // Price heading to bottom → PST predicts -1 (breakout down to bottom)
-          pst = -1 * progress // Gradually move to -1
-        } else {
-          // Price heading to peak → PST predicts +1 (breakout up to peak)
-          pst = 1 * progress // Gradually move to +1
-        }
-      } else {
-        // After breakout: PST maintains signal
-        if (breakoutType === "bottom") {
-          pst = -1.0 // Was -1 before bottom, stays at -1
-        } else {
-          pst = 1.0 // Was +1 before peak, stays at +1
-        }
-      }
-      
-      indicatorData.push({ time, pst: Number(pst.toFixed(2)) })
-    }
-    
-    return { priceData, indicatorData }
-  }, [randomData])
+  const [prob, setProb] = useState(0.62)
+  const [pulse, setPulse] = useState(0)
+  useEffect(() => {
+    const id = setInterval(() => {
+      setProb((p) => {
+        const drift = (Math.random() - 0.5) * 0.08
+        return Math.max(0.1, Math.min(0.95, p + drift))
+      })
+      setPulse((x) => x + 1)
+    }, 1300)
+    return () => clearInterval(id)
+  }, [])
+
+  // Radial gauge
+  const R = 40, C = Math.PI * 2 * R
+  const angle = prob * 270 - 135 // -135deg to +135deg
+  const stroke = prob > 0.75 ? "#10b981" : prob > 0.5 ? "#daa520" : "#f59e0b"
+
+  // Tape (recent prices)
+  const tape = useMemo(() => Array.from({ length: 28 }, (_, i) => 100 + Math.sin(i * 0.5) * 8 + Math.cos(i * 0.2) * 4 + i * 0.4), [])
+
+  const signals = [
+    { ts: "now",      sym: "BTC", side: "LONG",  edge: "+2.1σ" },
+    { ts: "−12s",     sym: "ETH", side: "LONG",  edge: "+1.4σ" },
+    { ts: "−38s",     sym: "SOL", side: "SHORT", edge: "−1.7σ" },
+    { ts: "−1m02s",   sym: "BTC", side: "LONG",  edge: "+0.9σ" },
+  ]
 
   return (
-    <MarketBreakoutIndicator
-      priceData={demoData.priceData}
-      indicatorData={demoData.indicatorData}
-    />
+    <DemoShell
+      title="Breakout Probability Model"
+      subtitle="Real-time signal recognition · momentum + volatility regime"
+      status="live"
+      accentTextClass="text-accent"
+      kpis={[
+        { label: "Live signals", value: "412" },
+        { label: "Hit rate",     value: "74%",  trend: "up" },
+        { label: "Edge",         value: "+1.9σ", trend: "up" },
+        { label: "Latency",      value: "8ms",  trend: "down" },
+      ]}
+    >
+      <div className="grid lg:grid-cols-5 gap-4">
+        <Panel title="Probability of breakout · BTC/USD"
+          right={<PulseDot color="bg-emerald-400" />}
+          className="lg:col-span-2">
+          <div className="flex flex-col items-center py-2">
+            <svg viewBox="0 0 100 100" className="w-44 h-44">
+              <circle cx={50} cy={50} r={R} fill="none" stroke="rgba(217,217,217,0.08)" strokeWidth={6} />
+              <motion.circle
+                cx={50} cy={50} r={R}
+                fill="none" stroke={stroke} strokeWidth={6} strokeLinecap="round"
+                style={{ rotate: -90, transformOrigin: "50% 50%" }}
+                animate={{ strokeDasharray: `${prob * C} ${C}` }}
+                transition={{ type: "spring", stiffness: 110, damping: 18 }}
+                key={`gauge-${pulse}`}
+              />
+              {/* Needle */}
+              <motion.line
+                x1={50} y1={50} x2={50} y2={14}
+                stroke="#daa520" strokeWidth={1.5} strokeLinecap="round"
+                animate={{ rotate: angle }} transition={{ type: "spring", stiffness: 80, damping: 14 }}
+                style={{ transformOrigin: "50% 50%" }}
+              />
+              <circle cx={50} cy={50} r={2.5} fill="#daa520" />
+            </svg>
+            <div className="text-center mt-2">
+              <div className="text-3xl font-bold text-accent tabular-nums">
+                <AnimatedNumber value={Math.round(prob * 100)} suffix="%" />
+              </div>
+              <div className="text-[10px] uppercase tracking-wider text-secondary/55">probability · 5m window</div>
+            </div>
+          </div>
+        </Panel>
+
+        <Panel title="Price tape · 28 ticks" className="lg:col-span-3">
+          <div className="text-accent w-full">
+            <Sparkline points={tape} height={120} width={460} className="w-full h-32" stroke="#daa520" />
+          </div>
+          <div className="mt-3 grid grid-cols-3 gap-3">
+            <Bar pct={Math.round(prob * 100)} label="Momentum" value={`${(prob * 2).toFixed(2)}σ`} tone="accent" />
+            <Bar pct={68} label="Volatility regime" value="HIGH" tone="warn" />
+            <Bar pct={42} label="Order-book pressure" value="+0.18" tone="success" />
+          </div>
+        </Panel>
+
+        <Panel title="Recent signals" className="lg:col-span-5">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            {signals.map((s, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.08 }}
+                className="rounded border border-accent/15 bg-main/50 p-2.5"
+              >
+                <div className="text-[10px] text-secondary/40 font-mono">{s.ts}</div>
+                <div className="flex items-baseline justify-between mt-1">
+                  <span className="text-accent font-semibold">{s.sym}</span>
+                  <span className={`text-xs ${s.side === "LONG" ? "text-emerald-300" : "text-rose-300"}`}>
+                    {s.side}
+                  </span>
+                </div>
+                <div className="text-[11px] text-secondary/70 mt-0.5">edge {s.edge}</div>
+              </motion.div>
+            ))}
+          </div>
+        </Panel>
+      </div>
+    </DemoShell>
   )
 }

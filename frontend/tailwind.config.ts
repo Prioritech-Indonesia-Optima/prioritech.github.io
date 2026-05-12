@@ -35,7 +35,6 @@ const config: Config = {
         'popover-foreground': 'var(--popover-foreground)',
         primary: 'var(--primary)',
         'primary-foreground': 'var(--primary-foreground)',
-        secondary: 'var(--secondary)',
         'secondary-foreground': 'var(--secondary-foreground)',
         muted: 'var(--muted)',
         'muted-foreground': 'var(--muted-foreground)',

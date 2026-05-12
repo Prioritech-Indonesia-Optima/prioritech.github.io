@@ -102,6 +102,8 @@ export function ProjectCategoryIcon({ category, size = 24 }: { category: string;
     'quantitative': <TrendingUp size={size} />,
     'automation': <Cog size={size} />,
     'ai-platforms': <Code2 size={size} />,
+    'ai-systems': <Brain size={size} />,
+    'enterprise': <Layers size={size} />,
   }
 
   return iconMap[category] || <Code2 size={size} />

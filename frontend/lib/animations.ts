@@ -5,7 +5,7 @@
  * and CSS transforms. GPU-accelerated and performant.
  */
 
-import { useEffect, useRef, useState, RefObject } from 'react'
+import { useEffect, useRef, useState, useCallback, RefObject } from 'react'
 
 /**
  * Hook to detect when an element is in viewport.
@@ -182,6 +182,85 @@ export function useScrolled(threshold: number = 50): boolean {
  * @param speed - Characters per second (default: 20)
  * @returns Current displayed text
  */
+/**
+ * Magnetic hover effect — element gently follows the cursor when near it.
+ * Returns a ref to attach and a style object with the current translate.
+ *
+ * @param strength - Pull strength (0-1). 0.3 is subtle, 0.6 noticeable.
+ * @param radius - Activation radius in pixels.
+ */
+export function useMagneticHover<T extends HTMLElement = HTMLDivElement>(
+  strength: number = 0.3,
+  radius: number = 120
+): {
+  ref: RefObject<T>
+  style: React.CSSProperties
+} {
+  const ref = useRef<T>(null)
+  const [offset, setOffset] = useState({ x: 0, y: 0 })
+
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+
+    // Skip on touch devices (no hover) and reduced motion users
+    if (typeof window !== 'undefined') {
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+      if (window.matchMedia('(hover: none)').matches) return
+    }
+
+    let frame = 0
+    const handleMove = (e: MouseEvent) => {
+      const rect = el.getBoundingClientRect()
+      const cx = rect.left + rect.width / 2
+      const cy = rect.top + rect.height / 2
+      const dx = e.clientX - cx
+      const dy = e.clientY - cy
+      const dist = Math.sqrt(dx * dx + dy * dy)
+      if (dist > radius) {
+        if (offset.x !== 0 || offset.y !== 0) setOffset({ x: 0, y: 0 })
+        return
+      }
+      cancelAnimationFrame(frame)
+      frame = requestAnimationFrame(() => {
+        setOffset({ x: dx * strength, y: dy * strength })
+      })
+    }
+
+    const handleLeave = () => {
+      cancelAnimationFrame(frame)
+      setOffset({ x: 0, y: 0 })
+    }
+
+    window.addEventListener('mousemove', handleMove, { passive: true })
+    el.addEventListener('mouseleave', handleLeave)
+
+    return () => {
+      window.removeEventListener('mousemove', handleMove)
+      el.removeEventListener('mouseleave', handleLeave)
+      cancelAnimationFrame(frame)
+    }
+  }, [strength, radius, offset.x, offset.y])
+
+  return {
+    ref,
+    style: {
+      transform: `translate3d(${offset.x}px, ${offset.y}px, 0)`,
+      transition: 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+      willChange: 'transform',
+    },
+  }
+}
+
+/**
+ * Smooth scroll to top with reduced-motion fallback.
+ */
+export function scrollToTop(): void {
+  if (typeof window === 'undefined') return
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  window.scrollTo({ top: 0, behavior: reduced ? 'auto' : 'smooth' })
+}
+
 export function useTypewriter(text: string, speed: number = 20): string {
   const [displayedText, setDisplayedText] = useState('')
 

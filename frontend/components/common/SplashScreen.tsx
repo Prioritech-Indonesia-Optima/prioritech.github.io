@@ -58,7 +58,7 @@ export function SplashScreen({ onComplete, show }: SplashScreenProps) {
             alt="Prioritech Logo"
             width={600}
             height={300}
-            sizes="(max-width: 640px) 360px, (max-width: 768px) 440px, 600px"
+            sizes="(max-width: 360px) 80vw, (max-width: 640px) 70vw, (max-width: 1024px) 50vw, 600px"
             className="splash-logo"
             priority
           />
@@ -108,32 +108,34 @@ export function SplashScreen({ onComplete, show }: SplashScreenProps) {
           display: flex;
           align-items: center;
           justify-content: center;
+          padding: 1.5rem;
           animation: splash-fade-out 0.2s ease-in 1.3s forwards;
         }
-        
+
         .splash-logo-wrapper {
           position: relative;
+          width: 100%;
+          max-width: 600px;
+          display: flex;
+          justify-content: center;
           opacity: 0;
           transform: scale(0.95);
           animation: logo-reveal 0.7s cubic-bezier(0.4, 0, 0.2, 1) 0.3s forwards;
           will-change: opacity, transform;
         }
-        
+
+        /* Fluid logo sizing — never overflows, scales smoothly across viewports */
         .splash-logo {
-          width: 360px;
+          width: clamp(220px, 70vw, 600px);
+          max-width: 100%;
           height: auto;
           filter: drop-shadow(0 0 20px rgba(218, 165, 32, 0.3));
         }
-        
-        @media (min-width: 640px) {
+
+        /* Slightly tighter on landscape phones so logo fits above keyboard area */
+        @media (orientation: landscape) and (max-height: 500px) {
           .splash-logo {
-            width: 440px;
-          }
-        }
-        
-        @media (min-width: 1024px) {
-          .splash-logo {
-            width: 600px;
+            width: clamp(180px, 38vh, 360px);
           }
         }
         
