@@ -46,14 +46,20 @@ export function AnimatedTerminal({
 }) {
   const [count, setCount] = useState(0)
   const [iter, setIter] = useState(0)
+  const [fading, setFading] = useState(false)
   const ref = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     if (count >= lines.length) {
       if (!loop) return
       const t = setTimeout(() => {
-        setCount(0)
-        setIter((i) => i + 1)
+        setFading(true)
+        const reset = setTimeout(() => {
+          setCount(0)
+          setIter((i) => i + 1)
+          setFading(false)
+        }, 280)
+        return () => clearTimeout(reset)
       }, 2400)
       return () => clearTimeout(t)
     }
@@ -69,7 +75,7 @@ export function AnimatedTerminal({
     <div
       ref={ref}
       className={`relative overflow-hidden rounded-lg border border-accent/15 bg-main/70 backdrop-blur-sm font-mono text-[12px] sm:text-[13px] leading-relaxed overflow-y-auto scrollbar-hide ${className}`}
-      style={{ height }}
+      style={{ height, opacity: fading ? 0 : 1, transition: "opacity 0.28s ease" }}
     >
       {/* faint scanlines */}
       <div

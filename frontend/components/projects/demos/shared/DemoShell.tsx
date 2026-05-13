@@ -50,7 +50,7 @@ export function DemoShell({
     <motion.div
       initial="hidden"
       animate="visible"
-      variants={revealContainer(0.05, 0.06)}
+      variants={revealContainer(0.25, 0.06)}
       className={`relative w-full rounded-xl border border-accent/20 bg-gradient-to-br from-main via-main to-main/95 overflow-hidden font-mono ${className}`}
     >
       {/* Glow accent */}

@@ -115,7 +115,7 @@ export function ProjectDemoModal({ open, onOpenChange, projectTitle }: ProjectDe
         </div>
 
         {/* Scrollable content */}
-        <div className="flex-1 overflow-y-auto overflow-x-auto p-4 sm:p-6 scrollbar-hide">
+        <div className="flex-1 overflow-y-auto overflow-x-hidden overscroll-contain p-4 sm:p-6 scrollbar-hide">
           {DemoComponent ? (
             <Suspense
               fallback={

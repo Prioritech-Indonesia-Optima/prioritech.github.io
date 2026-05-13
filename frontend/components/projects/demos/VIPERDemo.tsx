@@ -49,11 +49,11 @@ export function VIPERDemo() {
         { label: "Time saved", value: "−72%", hint: "vs manual" },
       ]}
     >
-      <div className="grid lg:grid-cols-5 gap-4">
-        <div className="lg:col-span-3">
+      <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-4">
+        <div className="md:col-span-1 lg:col-span-3">
           <AnimatedTerminal lines={lines} height={360} />
         </div>
-        <div className="lg:col-span-2 space-y-4">
+        <div className="md:col-span-1 lg:col-span-2 space-y-4">
           <Panel
             title="Attack chain"
             right={

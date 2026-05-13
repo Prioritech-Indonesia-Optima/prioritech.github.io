@@ -1,6 +1,5 @@
 "use client"
 
-import { useEffect, useState } from "react"
 import { motion } from "framer-motion"
 import { DemoShell, StatusPill, Bar } from "./shared/DemoShell"
 import { Panel, PulseDot } from "./shared/primitives"
@@ -30,12 +29,6 @@ export function ThreatGraphDemo() {
   const toneGlow = { ok: "rgba(16,185,129,0.4)", warn: "rgba(245,158,11,0.4)", alert: "rgba(218,165,32,0.6)" }
   const lookup = Object.fromEntries(nodes.map((n) => [n.id, n]))
 
-  const [pulse, setPulse] = useState(0)
-  useEffect(() => {
-    const id = setInterval(() => setPulse((p) => p + 1), 1400)
-    return () => clearInterval(id)
-  }, [])
-
   const events: { time: string; text: string; tone: "warn" | "alert" | "ok" }[] = [
     { time: "13:42:18", text: "Lateral movement · worker → cache-eu", tone: "warn" },
     { time: "13:42:21", text: "Repeated 401s · auth → api-edge",      tone: "warn" },
@@ -55,7 +48,7 @@ export function ThreatGraphDemo() {
         { label: "MTTR", value: "−61%", trend: "down" },
       ]}
     >
-      <div className="grid lg:grid-cols-5 gap-4">
+      <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-4">
         <Panel
           title="Live correlation graph"
           right={
@@ -64,7 +57,7 @@ export function ThreatGraphDemo() {
               <span className="text-[10px] uppercase tracking-wider text-accent">streaming</span>
             </div>
           }
-          className="lg:col-span-3"
+          className="md:col-span-1 lg:col-span-3"
         >
           <div className="relative w-full" style={{ aspectRatio: "5 / 3" }}>
             <svg viewBox="0 0 100 100" preserveAspectRatio="none" className="absolute inset-0 w-full h-full">
@@ -79,12 +72,17 @@ export function ThreatGraphDemo() {
                       strokeDasharray={active ? "0.8 0.6" : undefined} />
                     {active && (
                       <motion.circle
-                        key={`p-${i}-${pulse}`}
+                        key={`p-${i}`}
                         r={0.7}
                         fill="#daa520"
-                        initial={{ cx: A.x, cy: A.y, opacity: 0 }}
-                        animate={{ cx: B.x, cy: B.y, opacity: [0, 1, 0] }}
-                        transition={{ duration: 1.2, ease: "easeInOut" }}
+                        animate={{ cx: [A.x, B.x], cy: [A.y, B.y], opacity: [0, 1, 0] }}
+                        transition={{
+                          duration: 1.2,
+                          ease: "easeInOut",
+                          repeat: Infinity,
+                          repeatDelay: 0.6,
+                          delay: i * 0.28,
+                        }}
                       />
                     )}
                   </g>
@@ -117,7 +115,7 @@ export function ThreatGraphDemo() {
           </div>
         </Panel>
 
-        <div className="lg:col-span-2 space-y-4">
+        <div className="md:col-span-1 lg:col-span-2 space-y-4">
           <Panel title="Correlated events">
             <ul className="space-y-2">
               {events.map((e, i) => (
