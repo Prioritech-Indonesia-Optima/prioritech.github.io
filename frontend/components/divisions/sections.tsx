@@ -13,6 +13,8 @@ import {
   AnimatedNumber, PulseDot, Sparkline,
 } from "@/components/projects/demos/shared/primitives"
 import { Bar } from "@/components/projects/demos/shared/DemoShell"
+import { DotMatrix } from "@/components/lattice/DotMatrix"
+import { MicroLabel } from "@/components/lattice/MicroLabel"
 import { revealContainer, revealItem, easing, duration } from "@/lib/motion"
 
 // ============================================================================
@@ -28,20 +30,19 @@ export function DivisionsHero() {
     { id: "applied",    name: "Applied",       Icon: Layers },
   ]
   return (
-    <section className="relative pt-16 pb-12 sm:pt-20 sm:pb-16 lg:pt-28 lg:pb-20 overflow-hidden">
-      <div className="aurora-orb aurora-orb--gold" style={{ width: "65vw", height: "65vw", top: "-20vw", left: "-15vw", opacity: 0.25 }} />
-      <div className="aurora-orb aurora-orb--silver" style={{ width: "45vw", height: "45vw", bottom: "-10vw", right: "-10vw", opacity: 0.15, animationDelay: "-12s" }} />
+    <section className="relative overflow-hidden border-b border-line pt-16 pb-12 sm:pt-20 sm:pb-16 lg:pt-28 lg:pb-20">
+      <DotMatrix fade="radial" />
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div initial="hidden" animate="visible" variants={revealContainer(0.1, 0.12)}>
-          <motion.p variants={revealItem} className="text-accent font-mono text-sm tracking-widest mb-4">
-            $ five engineering divisions
-          </motion.p>
+          <motion.div variants={revealItem} className="mb-4">
+            <MicroLabel index="020" live>FIVE ENGINEERING DIVISIONS</MicroLabel>
+          </motion.div>
           <motion.h1 variants={revealItem}
             className="text-secondary text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold font-mono leading-[1.05] tracking-tight mb-6 max-w-4xl"
           >
             Specialized teams.{" "}
-            <span className="text-sweep">Shared infrastructure.</span>
+            <span className="text-accent">Shared infrastructure.</span>
           </motion.h1>
           <motion.p variants={revealItem} className="text-secondary/65 text-lg sm:text-xl leading-relaxed mb-12 max-w-3xl">
             Each division ships independently — but they share observability, CI/CD, audit trails, and engineering principles. Cross-disciplinary by design, single-platform by choice.
@@ -525,7 +526,7 @@ export function DivisionsCTA() {
       >
         <p className="text-accent font-mono text-sm tracking-widest mb-6">$ work with a division</p>
         <h2 className="text-secondary text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold font-mono leading-[1.05] tracking-tight mb-8">
-          Tell us which <span className="text-sweep">division</span> you need.
+          Tell us which <span className="text-accent">division</span> you need.
         </h2>
         <p className="text-secondary/65 text-lg sm:text-xl leading-relaxed mb-12 max-w-2xl mx-auto">
           Or describe the problem — we'll route you to the right team. Cross-disciplinary engagements are the norm, not the exception.

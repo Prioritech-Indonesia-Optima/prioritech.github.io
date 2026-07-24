@@ -6,6 +6,9 @@ import { Mail, MapPin, Building2, ArrowRight, Clock, MessageSquare, FileText } f
 import { Navbar } from "@/components/common/Navbar"
 import { SectionLead } from "@/components/shared/SectionLead"
 import { PrimaryButton } from "@/components/common/ModernButton"
+import { DotMatrix } from "@/components/lattice/DotMatrix"
+import { MicroLabel } from "@/components/lattice/MicroLabel"
+import { MonoTimer } from "@/components/lattice/MonoTimer"
 import { revealContainer, revealItem, easing } from "@/lib/motion"
 
 const Footer = lazy(() =>
@@ -83,22 +86,15 @@ const FAQS = [
 
 export default function ContactClient() {
   return (
-    <div className="min-h-screen bg-main">
+    <div className="min-h-screen bg-canvas">
       <Navbar />
 
       <main id="main-content">
         {/* ============================================================ */}
         {/* HERO                                                          */}
         {/* ============================================================ */}
-        <section className="relative pt-28 pb-20 sm:pt-36 sm:pb-24 overflow-hidden">
-          <div
-            className="aurora-orb aurora-orb--gold"
-            style={{ width: "65vw", height: "65vw", top: "-25vw", left: "-15vw", opacity: 0.28 }}
-          />
-          <div
-            className="aurora-orb aurora-orb--silver"
-            style={{ width: "50vw", height: "50vw", bottom: "-20vw", right: "-10vw", opacity: 0.14, animationDelay: "-10s" }}
-          />
+        <section className="relative overflow-hidden border-b border-line pt-28 pb-20 sm:pt-36 sm:pb-24">
+          <DotMatrix fade="radial" />
 
           <motion.div
             initial="hidden"
@@ -106,19 +102,18 @@ export default function ContactClient() {
             variants={revealContainer(0.1, 0.14)}
             className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center"
           >
-            <motion.p
-              variants={revealItem}
-              className="text-accent font-mono text-sm tracking-widest mb-5"
-            >
-              $ let&apos;s build together
-            </motion.p>
+            <motion.div variants={revealItem} className="mb-5 flex justify-center">
+              <MicroLabel index="050" live>
+                LET&apos;S BUILD TOGETHER · WIB&nbsp;<MonoTimer mode="wallclock" className="text-accent" />
+              </MicroLabel>
+            </motion.div>
 
             <motion.h1
               variants={revealItem}
               className="text-secondary text-4xl sm:text-5xl md:text-6xl font-bold font-mono leading-[1.05] tracking-tight mb-6"
             >
               Tell us what you need to{" "}
-              <span className="text-sweep">ship next.</span>
+              <span className="text-accent">ship next.</span>
             </motion.h1>
 
             <motion.p
@@ -294,7 +289,7 @@ export default function ContactClient() {
           >
             <p className="text-accent font-mono text-sm tracking-widest mb-5">$ ready when you are</p>
             <h2 className="text-secondary text-3xl sm:text-4xl md:text-5xl font-bold font-mono leading-[1.1] mb-6 tracking-tight">
-              Stop shipping <span className="text-sweep">prototypes.</span>
+              Stop shipping <span className="text-accent">prototypes.</span>
             </h2>
             <p className="text-secondary/60 text-base sm:text-lg leading-relaxed mb-10">
               One email. Tell us what you need to outlast its requirements.
@@ -306,7 +301,7 @@ export default function ContactClient() {
         </section>
       </main>
 
-      <Suspense fallback={<footer className="py-8 bg-main border-t border-accent/20" />}>
+      <Suspense fallback={<footer className="py-8 bg-canvas border-t border-line" />}>
         <Footer />
       </Suspense>
     </div>

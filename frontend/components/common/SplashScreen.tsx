@@ -44,13 +44,15 @@ export function SplashScreen({ onComplete, show }: SplashScreenProps) {
     <div className="splash-screen-container">
       {/* Iris reveal overlay */}
       <div className="splash-iris" />
-      
-      {/* Background with subtle gradient */}
+
+      {/* Background — canvas + dot-matrix + crosshair */}
       <div className="splash-background">
-        <div className="splash-gradient" />
+        <div className="splash-dots" />
+        <div className="splash-crosshair-v" />
+        <div className="splash-crosshair-h" />
       </div>
-      
-      {/* Logo container */}
+
+      {/* Logo + boot label */}
       <div className="splash-content">
         <div className="splash-logo-wrapper">
           <Image
@@ -62,9 +64,10 @@ export function SplashScreen({ onComplete, show }: SplashScreenProps) {
             className="splash-logo"
             priority
           />
+          <div className="splash-boot">INITIALIZING · SYSTEMS ONLINE · v2026.07</div>
         </div>
       </div>
-      
+
       <style jsx>{`
         .splash-screen-container {
           position: fixed;
@@ -73,35 +76,56 @@ export function SplashScreen({ onComplete, show }: SplashScreenProps) {
           overflow: hidden;
           pointer-events: none;
         }
-        
+
         .splash-background {
           position: absolute;
           inset: 0;
-          background-color: #2d2c2c;
+          background-color: #161515;
           animation: splash-fade-out 0.3s ease-in 1.2s forwards;
         }
-        
-        .splash-gradient {
+
+        .splash-dots {
           position: absolute;
           inset: 0;
-          background: radial-gradient(
-            circle at center,
-            rgba(218, 165, 32, 0.12) 0%,
-            rgba(218, 165, 32, 0.06) 30%,
-            rgba(45, 44, 44, 0) 70%
-          );
-          animation: splash-pulse 2s ease-in-out infinite;
+          background-image: radial-gradient(rgba(217, 217, 217, 0.08) 1px, transparent 1px);
+          background-size: 22px 22px;
+          -webkit-mask-image: radial-gradient(ellipse 60% 60% at 50% 50%, black 0%, transparent 75%);
+          mask-image: radial-gradient(ellipse 60% 60% at 50% 50%, black 0%, transparent 75%);
         }
-        
+
+        .splash-crosshair-v,
+        .splash-crosshair-h {
+          position: absolute;
+          background: rgba(218, 165, 32, 0.25);
+        }
+        .splash-crosshair-v {
+          top: 0;
+          bottom: 0;
+          left: 50%;
+          width: 1px;
+          transform: scaleY(0);
+          transform-origin: center;
+          animation: line-grow-v 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.15s forwards;
+        }
+        .splash-crosshair-h {
+          left: 0;
+          right: 0;
+          top: 50%;
+          height: 1px;
+          transform: scaleX(0);
+          transform-origin: center;
+          animation: line-grow-h 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.15s forwards;
+        }
+
         .splash-iris {
           position: absolute;
           inset: 0;
-          background-color: #2d2c2c;
+          background-color: #161515;
           clip-path: circle(0% at center);
           animation: iris-open 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
           will-change: clip-path;
         }
-        
+
         .splash-content {
           position: absolute;
           inset: 0;
@@ -114,77 +138,73 @@ export function SplashScreen({ onComplete, show }: SplashScreenProps) {
 
         .splash-logo-wrapper {
           position: relative;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 1.25rem;
           width: 100%;
           max-width: 600px;
-          display: flex;
-          justify-content: center;
           opacity: 0;
-          transform: scale(0.95);
-          animation: logo-reveal 0.7s cubic-bezier(0.4, 0, 0.2, 1) 0.3s forwards;
+          transform: scale(0.97);
+          animation: logo-reveal 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
           will-change: opacity, transform;
         }
 
-        /* Fluid logo sizing — never overflows, scales smoothly across viewports */
         .splash-logo {
           width: clamp(220px, 70vw, 600px);
           max-width: 100%;
           height: auto;
-          filter: drop-shadow(0 0 20px rgba(218, 165, 32, 0.3));
         }
 
-        /* Slightly tighter on landscape phones so logo fits above keyboard area */
+        .splash-boot {
+          font-family: var(--font-mono), ui-monospace, monospace;
+          font-size: 10px;
+          letter-spacing: 0.2em;
+          text-transform: uppercase;
+          color: rgba(217, 217, 217, 0.55);
+          opacity: 0;
+          animation: boot-in 0.5s ease-out 0.7s forwards;
+        }
+
         @media (orientation: landscape) and (max-height: 500px) {
           .splash-logo {
             width: clamp(180px, 38vh, 360px);
           }
         }
-        
+
         @keyframes iris-open {
-          0% {
-            clip-path: circle(0% at center);
-          }
-          100% {
-            clip-path: circle(150% at center);
-          }
+          0% { clip-path: circle(0% at center); }
+          100% { clip-path: circle(150% at center); }
         }
-        
         @keyframes logo-reveal {
-          0% {
-            opacity: 0;
-            transform: scale(0.95);
-          }
-          100% {
-            opacity: 1;
-            transform: scale(1);
-          }
+          0% { opacity: 0; transform: scale(0.97); }
+          100% { opacity: 1; transform: scale(1); }
         }
-        
+        @keyframes boot-in {
+          0% { opacity: 0; }
+          100% { opacity: 1; }
+        }
+        @keyframes line-grow-v {
+          0% { transform: scaleY(0); }
+          100% { transform: scaleY(1); }
+        }
+        @keyframes line-grow-h {
+          0% { transform: scaleX(0); }
+          100% { transform: scaleX(1); }
+        }
         @keyframes splash-fade-out {
-          0% {
-            opacity: 1;
-          }
-          100% {
-            opacity: 0;
-          }
+          0% { opacity: 1; }
+          100% { opacity: 0; }
         }
-        
-        @keyframes splash-pulse {
-          0%, 100% {
-            opacity: 0.6;
-            transform: scale(1);
-          }
-          50% {
-            opacity: 1;
-            transform: scale(1.05);
-          }
-        }
-        
+
         @media (prefers-reduced-motion: reduce) {
           .splash-iris,
           .splash-logo-wrapper,
           .splash-background,
           .splash-content,
-          .splash-gradient {
+          .splash-boot,
+          .splash-crosshair-v,
+          .splash-crosshair-h {
             animation-duration: 0.01ms !important;
             animation-iteration-count: 1 !important;
           }

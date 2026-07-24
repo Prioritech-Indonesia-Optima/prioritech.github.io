@@ -9,12 +9,25 @@
   --secondary: #d9d9d9;
   --accent: #daa520;
 
+  /* Instrument-panel surfaces & lattice — "The Machine Turns On" design language */
+  --canvas: #161515;                         /* page background (darkened graphite) */
+  --panel: #1e1d1d;                          /* cell / plate surfaces */
+  --line: rgba(217, 217, 217, 0.08);         /* hairline lattice */
+  --line-strong: rgba(217, 217, 217, 0.16);  /* hover / active hairline */
+  --dot: rgba(217, 217, 217, 0.07);          /* dot-matrix */
+  --accent-dim: rgba(218, 165, 32, 0.45);    /* ticks, dimmed gold borders */
+
+  /* Blueprint paper — light scenes (exploded technical drawings) */
+  --paper: #dcdad5;                          /* warm silver paper */
+  --paper-ink: #262424;                      /* graphite line/ink on paper */
+  --paper-line: rgba(45, 44, 44, 0.16);      /* hairlines on paper */
+
   /* Dark theme as default (Prioritech style) */
-  --background: #2d2c2c;
+  --background: var(--canvas);
   --foreground: #d9d9d9;
-  --card: #2d2c2c;
+  --card: var(--panel);
   --card-foreground: #d9d9d9;
-  --popover: #2d2c2c;
+  --popover: var(--panel);
   --popover-foreground: #d9d9d9;
   --primary: #daa520;
   --primary-foreground: #2d2c2c;
@@ -48,6 +61,12 @@
 
 .light {
   /* Light theme variant */
+  --canvas: #ffffff;
+  --panel: #f7f7f7;
+  --line: rgba(45, 44, 44, 0.12);
+  --line-strong: rgba(45, 44, 44, 0.24);
+  --dot: rgba(45, 44, 44, 0.08);
+  --accent-dim: rgba(218, 165, 32, 0.55);
   --background: #ffffff;
   --foreground: #2d2c2c;
   --card: #ffffff;
@@ -87,42 +106,15 @@
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 
-  --animate-line-shadow: line-shadow 15s linear infinite;
-
-  @keyframes line-shadow {
-    0% {
-      background-position: 0 0;
-    }
-    100% {
-      background-position: 100% -100%;
-    }
-  }
-
-  --animate-shimmer-slide: shimmer-slide var(--speed) ease-in-out infinite alternate;
-  --animate-spin-around: spin-around calc(var(--speed) * 2) infinite linear;
-
-  @keyframes shimmer-slide {
-    to {
-      transform: translate(calc(100cqw - 100%), 0);
-    }
-  }
-  @keyframes spin-around {
-    0% {
-      transform: translateZ(0) rotate(0);
-    }
-    15%,
-    35% {
-      transform: translateZ(0) rotate(90deg);
-    }
-    65%,
-    85% {
-      transform: translateZ(0) rotate(270deg);
-    }
-    100% {
-      transform: translateZ(0) rotate(360deg);
-    }
-  }
-
+  --color-main: var(--main);
+  --color-canvas: var(--canvas);
+  --color-panel: var(--panel);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-accent-dim: var(--accent-dim);
+  --color-paper: var(--paper);
+  --color-paper-ink: var(--paper-ink);
+  --color-paper-line: var(--paper-line);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -161,26 +153,9 @@
   --color-sidebar-ring: var(--sidebar-ring);
 
 
-  /* Splash screen animations */
-  --animate-splash-fade: splash-fade 1s ease-in-out;
-  --animate-pulse-slow: pulse-slow 8s ease-in-out infinite;
-  
-  @keyframes splash-fade {
-    0% { opacity: 0; }
-    100% { opacity: 1; }
-  }
-
-  @keyframes pulse-slow {
-    0%, 100% { opacity: 0.4; transform: scale(1); }
-    50% { opacity: 0.8; transform: scale(1.05); }
-  }
-
-  /* Modern entrance animations */
+  /* Modern entrance animations (still referenced by tw-animate utilities) */
   --animate-fade-up: fade-up 0.5s ease-out forwards;
   --animate-scale-in: scale-in 0.4s ease-out forwards;
-  --animate-float: float 6s ease-in-out infinite;
-  --animate-line-draw: line-draw 0.8s ease-out forwards;
-  --animate-gradient-shift: gradient-shift 12s ease infinite;
 
   @keyframes fade-up {
     from {
@@ -201,80 +176,6 @@
     to {
       opacity: 1;
       transform: scale(1);
-    }
-  }
-
-  @keyframes float {
-    0%, 100% {
-      transform: translateY(0);
-    }
-    50% {
-      transform: translateY(-10px);
-    }
-  }
-
-  @keyframes line-draw {
-    from {
-      width: 0%;
-    }
-    to {
-      width: 100%;
-    }
-  }
-
-  @keyframes gradient-shift {
-    0% {
-      background-position: 0% 50%;
-    }
-    50% {
-      background-position: 100% 50%;
-    }
-    100% {
-      background-position: 0% 50%;
-    }
-  }
-
-  /* Aurora drift — slow, large-radius gradient orb motion for hero backdrops */
-  --animate-aurora-drift: aurora-drift 24s ease-in-out infinite;
-
-  @keyframes aurora-drift {
-    0%, 100% {
-      transform: translate3d(-10%, -5%, 0) scale(1);
-      opacity: 0.55;
-    }
-    33% {
-      transform: translate3d(5%, 10%, 0) scale(1.15);
-      opacity: 0.75;
-    }
-    66% {
-      transform: translate3d(8%, -8%, 0) scale(0.95);
-      opacity: 0.6;
-    }
-  }
-
-  /* Glow pulse — soft gold halo for primary CTAs and accents */
-  --animate-glow-pulse: glow-pulse 3.2s ease-in-out infinite;
-
-  @keyframes glow-pulse {
-    0%, 100% {
-      box-shadow: 0 0 0 0 rgba(218, 165, 32, 0.35),
-                  0 0 20px rgba(218, 165, 32, 0.18);
-    }
-    50% {
-      box-shadow: 0 0 0 8px rgba(218, 165, 32, 0),
-                  0 0 32px rgba(218, 165, 32, 0.32);
-    }
-  }
-
-  /* Sweeping shimmer across text — one-shot reveal */
-  --animate-text-sweep: text-sweep 2.4s ease-out 0.4s 1 both;
-
-  @keyframes text-sweep {
-    0% {
-      background-position: -200% 50%;
-    }
-    100% {
-      background-position: 200% 50%;
     }
   }
 
@@ -343,17 +244,6 @@
     font-family: var(--font-mono);
   }
 
-  /* Glow effects - reduced intensity */
-  .glow-gold {
-    box-shadow: 0 0 5px rgba(218, 165, 32, 0.25),
-                0 0 10px rgba(218, 165, 32, 0.15);
-  }
-
-  .glow-gold-strong {
-    box-shadow: 0 0 8px rgba(218, 165, 32, 0.3),
-                0 0 15px rgba(218, 165, 32, 0.2);
-  }
-
   /* Hide scrollbar but keep scrolling functional */
   .scrollbar-hide {
     -ms-overflow-style: none;
@@ -390,50 +280,12 @@
     border-radius: 0.25rem;
   }
 
-  /* Text-gradient sweep — gold shimmer across headlines on first paint */
-  .text-sweep {
-    background: linear-gradient(
-      90deg,
-      var(--secondary) 0%,
-      var(--secondary) 30%,
-      var(--accent) 50%,
-      var(--secondary) 70%,
-      var(--secondary) 100%
-    );
-    background-size: 200% 100%;
-    background-clip: text;
-    -webkit-background-clip: text;
-    color: transparent;
-    -webkit-text-fill-color: transparent;
-    animation: text-sweep 2.4s ease-out 0.3s 1 both;
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .text-sweep {
-      animation: none;
-      color: var(--secondary);
-      -webkit-text-fill-color: var(--secondary);
-    }
-  }
-
-  /* Aurora orb — apply to a positioned div for a slow drifting gradient bubble */
+  /* Aurora orb — RETIRED in the instrument-panel redesign. Kept as a no-op so
+     vestigial <div className="aurora-orb"> backdrops render nothing while
+     staying absolutely positioned (no layout shift). The soft gradient/blur
+     aesthetic is intentionally gone; backdrops are now dot-matrix + hairlines. */
   .aurora-orb {
-    position: absolute;
-    border-radius: 9999px;
-    filter: blur(80px);
-    pointer-events: none;
-    will-change: transform, opacity;
-    animation: aurora-drift 24s ease-in-out infinite;
-  }
-  .aurora-orb--gold {
-    background: radial-gradient(circle, rgba(218, 165, 32, 0.45) 0%, rgba(218, 165, 32, 0) 70%);
-  }
-  .aurora-orb--silver {
-    background: radial-gradient(circle, rgba(217, 217, 217, 0.25) 0%, rgba(217, 217, 217, 0) 70%);
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .aurora-orb {
-      animation: none;
-    }
+    display: none !important;
   }
 
   /* Marquee strip — paired with translateX containers */
@@ -461,5 +313,83 @@
   .tilt-wrap {
     transform-style: preserve-3d;
     perspective: 1000px;
+  }
+
+  /* ============================================================ */
+  /* Instrument-panel lattice utilities                           */
+  /* ============================================================ */
+
+  /* A bordered cell in the hairline lattice */
+  .lattice-cell {
+    border: 1px solid var(--line);
+    background: var(--panel);
+  }
+
+  /* Vertical content rails (page-edge lattice lines) */
+  .lattice-line-y {
+    border-inline: 1px solid var(--line);
+  }
+
+  /* Dot-matrix graph-paper backdrop (compositor-cheap, zero requests) */
+  .dot-matrix {
+    background-image: radial-gradient(var(--dot) 1px, transparent 1px);
+    background-size: 16px 16px;
+  }
+  .dot-matrix--wide {
+    background-size: 24px 24px;
+  }
+
+  /* Mono micro-label grammar — tiny uppercase indexed captions */
+  .micro-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    line-height: 1.2;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: color-mix(in srgb, var(--secondary) 55%, transparent);
+  }
+
+  /* Marquee reverse direction modifier */
+  .marquee-reverse {
+    animation-direction: reverse;
+  }
+
+  /* Scene-adaptive content card — restyles as the engine cinematic
+     cross-fades between the dark scene and the paper blueprint scene */
+  .scene-card {
+    background: color-mix(in srgb, var(--canvas) 78%, transparent);
+    border: 1px solid var(--line);
+    color: var(--secondary);
+    backdrop-filter: blur(6px);
+    transition: background-color 0.5s ease, color 0.5s ease, border-color 0.5s ease;
+  }
+  body[data-scene="paper"] .scene-card {
+    background: color-mix(in srgb, var(--paper) 84%, transparent);
+    border-color: var(--paper-line);
+    color: var(--paper-ink);
+  }
+  body[data-scene="paper"] {
+    --callout-ink: var(--paper-ink);
+  }
+  body[data-scene="dark"] {
+    --callout-ink: rgba(217, 217, 217, 0.8);
+  }
+
+  /* Blinking terminal caret */
+  .caret-blink {
+    animation: caret-blink 1.05s steps(1) infinite;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .caret-blink {
+      animation: none;
+    }
+  }
+}
+
+@theme inline {
+  --animate-caret-blink: caret-blink 1.05s steps(1) infinite;
+  @keyframes caret-blink {
+    0%, 50% { opacity: 1; }
+    50.01%, 100% { opacity: 0; }
   }
 }

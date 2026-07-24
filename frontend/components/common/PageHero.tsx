@@ -3,14 +3,18 @@
 import { ReactNode } from "react"
 import Image from "next/image"
 import { motion } from "framer-motion"
-import { TextGenerateEffect } from "@/components/aceternity/text-generate-effect"
-import { AnimatedThreadBackground } from "./AnimatedThreadBackground"
 import { revealContainer, revealItem } from "@/lib/motion"
+import { SplitTextHeading } from "@/components/lattice/SplitTextHeading"
+import { DotMatrix } from "@/components/lattice/DotMatrix"
+import { MicroLabel } from "@/components/lattice/MicroLabel"
+import { CornerTicks } from "@/components/lattice/CornerTicks"
 
 interface PageHeroProps {
   title: string
   subtitle?: string
   description?: string
+  /** Blueprint index, e.g. "030" — rendered in the header micro-label. */
+  index?: string
   children?: ReactNode
   className?: string
   variant?: "minimal" | "gradient" | "image"
@@ -19,132 +23,70 @@ interface PageHeroProps {
 }
 
 /**
- * Unified hero with three backdrops (minimal, gradient, image). Headline gets a
- * one-time gold sweep on gradient variant. Content staggers via shared motion
- * variants from lib/motion.
+ * Unified page hero as a lattice header cell: mono index/label rail, dot-matrix
+ * (or image) backdrop, split-text title entrance, corner ticks. Content
+ * staggers via shared motion variants.
  */
 export function PageHero({
   title,
   subtitle,
   description,
+  index,
   children,
   className = "",
   variant = "minimal",
   imageSrc,
   imageAlt = "",
 }: PageHeroProps) {
-  const renderBackground = () => {
-    switch (variant) {
-      case "image":
-        return imageSrc ? (
-          <>
-            <div className="absolute inset-0 z-0">
-              <Image
-                src={imageSrc}
-                alt={imageAlt}
-                fill
-                priority
-                className="object-cover"
-                sizes="100vw"
-              />
-              <div className="absolute inset-0 bg-black/55" />
-              <div className="absolute inset-0 bg-gradient-to-t from-main/70 via-transparent to-main/30" />
-            </div>
-            <div className="absolute inset-0 z-[1] opacity-25">
-              <AnimatedThreadBackground showHeroBackground={false} threadCount={4} />
-            </div>
-          </>
-        ) : null
-      case "gradient":
-        return (
-          <>
-            <div className="absolute inset-0 bg-main z-0" />
-            {/* Aurora orbs — large blurred gradient bubbles */}
-            <div
-              className="aurora-orb aurora-orb--gold z-[1]"
-              style={{ width: "70vw", height: "70vw", top: "-30vw", left: "-15vw", opacity: 0.4 }}
-            />
-            <div
-              className="aurora-orb aurora-orb--silver z-[1]"
-              style={{
-                width: "55vw",
-                height: "55vw",
-                bottom: "-20vw",
-                right: "-10vw",
-                opacity: 0.25,
-                animationDelay: "-12s",
-              }}
-            />
-            <div className="absolute inset-0 z-[2] opacity-30">
-              <AnimatedThreadBackground showHeroBackground={false} threadCount={4} />
-            </div>
-          </>
-        )
-      case "minimal":
-      default:
-        return (
-          <>
-            <div className="absolute inset-0 bg-main z-0" />
-            <div
-              className="aurora-orb aurora-orb--gold z-[1]"
-              style={{
-                width: "50vw",
-                height: "50vw",
-                top: "-20vw",
-                right: "-10vw",
-                opacity: 0.2,
-              }}
-            />
-          </>
-        )
-    }
-  }
-
   return (
     <section
-      className={`relative py-20 sm:py-24 lg:py-32 overflow-hidden ${className}`}
-      aria-labelledby="page-hero-title"
+      className={`relative overflow-hidden border-b border-line bg-canvas py-20 sm:py-24 lg:py-28 ${className}`}
+      aria-label={title}
     >
-      {renderBackground()}
+      {/* Backdrop */}
+      {variant === "image" && imageSrc ? (
+        <div className="absolute inset-0 z-0">
+          <Image src={imageSrc} alt={imageAlt} fill priority className="object-cover opacity-40" sizes="100vw" />
+          <div className="absolute inset-0 bg-canvas/70" />
+        </div>
+      ) : (
+        <DotMatrix fade="radial" />
+      )}
+      <CornerTicks color="line" inset={16} />
 
       <motion.div
-        className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center"
+        className="relative z-10 mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8"
         initial="hidden"
         animate="visible"
-        variants={revealContainer(0.1, 0.12)}
+        variants={revealContainer(0.05, 0.1)}
       >
-        {subtitle && (
-          <motion.p
-            variants={revealItem}
-            className="text-accent font-medium text-sm sm:text-base mb-4 font-mono tracking-wider"
-          >
-            ${" "}{subtitle}
-          </motion.p>
-        )}
+        <motion.div variants={revealItem} className="mb-6 flex justify-center">
+          <MicroLabel index={index} live>
+            {subtitle ?? "PRIORITECH"}
+          </MicroLabel>
+        </motion.div>
 
-        <motion.h1
-          id="page-hero-title"
-          variants={revealItem}
-          className={`text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight font-mono drop-shadow-lg ${
-            variant === "gradient" ? "text-sweep" : "text-secondary"
-          }`}
+        <SplitTextHeading
+          as="h1"
+          trigger="immediate"
+          className="mb-6 font-mono text-3xl font-bold uppercase leading-tight tracking-tight text-secondary sm:text-4xl md:text-5xl lg:text-6xl"
         >
           {title}
-        </motion.h1>
+        </SplitTextHeading>
 
         {description && (
-          <motion.div
+          <motion.p
             variants={revealItem}
-            className="text-secondary/70 text-base sm:text-lg lg:text-xl mb-8 max-w-3xl mx-auto leading-relaxed font-mono"
+            className="mx-auto mb-8 max-w-3xl font-mono text-base leading-relaxed text-secondary/65 sm:text-lg"
           >
-            <TextGenerateEffect words={description} delayMultiple={0.04} />
-          </motion.div>
+            {description}
+          </motion.p>
         )}
 
         {children && (
           <motion.div
             variants={revealItem}
-            className="flex flex-col sm:flex-row items-center justify-center gap-4"
+            className="flex flex-col items-center justify-center gap-4 sm:flex-row"
           >
             {children}
           </motion.div>

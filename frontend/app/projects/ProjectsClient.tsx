@@ -9,7 +9,6 @@ import { ImageSection } from "@/components/common/ImageSection"
 import { PrimaryButton, SecondaryButton } from "@/components/common/ModernButton"
 import { ProjectCategoryIcon, TechStackIcon } from "@/components/common/IconComponents"
 import { ProjectDemoModal } from "@/components/projects/ProjectDemoModal"
-import { LampEffect } from "@/components/aceternity/lamp-effect"
 import { ArrowRight, ExternalLink, Brain, Cog, TrendingUp, Shield, Zap, BarChart3, Layers, Target, Search, Code2, Rocket, Eye } from "lucide-react"
 
 /**
@@ -221,7 +220,7 @@ export default function ProjectsPage() {
   ]
 
   return (
-    <div className="min-h-screen bg-main">
+    <div className="min-h-screen bg-canvas">
       <Navbar />
       
       <main id="main-content">
@@ -229,6 +228,7 @@ export default function ProjectsPage() {
         <PageHero
           title="What We've Built"
           subtitle="Technical Portfolio"
+          index="030"
           description="Systems in production."
           variant="gradient"
         />
@@ -243,8 +243,8 @@ export default function ProjectsPage() {
                   <div className="w-12 h-12 bg-accent/10 rounded-lg flex items-center justify-center mr-4">
                     <ProjectCategoryIcon category={category.id} size={24} />
                   </div>
-                  <h2 className="text-secondary text-2xl sm:text-3xl font-bold font-mono">
-                    <LampEffect>{category.title}</LampEffect>
+                  <h2 className="text-secondary text-2xl sm:text-3xl font-bold font-mono uppercase tracking-tight">
+                    {category.title}
                   </h2>
                 </div>
               </div>

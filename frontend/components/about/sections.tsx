@@ -5,7 +5,10 @@ import Link from "next/link"
 import { ArrowRight, X, MapPin, Mail, Building2 } from "lucide-react"
 import { SectionLead } from "@/components/shared/SectionLead"
 import { PrimaryButton, SecondaryButton } from "@/components/common/ModernButton"
-import { AnimatedNumber, PulseDot } from "@/components/projects/demos/shared/primitives"
+import { PulseDot } from "@/components/projects/demos/shared/primitives"
+import { DotMatrix } from "@/components/lattice/DotMatrix"
+import { MicroLabel } from "@/components/lattice/MicroLabel"
+import { OdometerNumber } from "@/components/lattice/OdometerNumber"
 import { revealContainer, revealItem, easing, duration } from "@/lib/motion"
 
 // ============================================================================
@@ -14,11 +17,8 @@ import { revealContainer, revealItem, easing, duration } from "@/lib/motion"
 
 export function AboutHero() {
   return (
-    <section className="relative pt-16 pb-20 sm:pt-20 sm:pb-24 lg:pt-28 lg:pb-32 overflow-hidden">
-      <div className="aurora-orb aurora-orb--gold"
-        style={{ width: "70vw", height: "70vw", top: "-25vw", right: "-20vw", opacity: 0.25 }} />
-      <div className="aurora-orb aurora-orb--silver"
-        style={{ width: "45vw", height: "45vw", bottom: "-15vw", left: "-10vw", opacity: 0.15, animationDelay: "-12s" }} />
+    <section className="relative overflow-hidden border-b border-line pt-16 pb-20 sm:pt-20 sm:pb-24 lg:pt-28 lg:pb-32">
+      <DotMatrix fade="radial" />
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
@@ -28,14 +28,14 @@ export function AboutHero() {
           className="grid lg:grid-cols-5 gap-10 lg:gap-16 items-center"
         >
           <div className="lg:col-span-3">
-            <motion.p variants={revealItem} className="text-accent font-mono text-sm tracking-widest mb-4">
-              $ about prioritech
-            </motion.p>
+            <motion.div variants={revealItem} className="mb-4">
+              <MicroLabel index="010" live>ABOUT PRIORITECH</MicroLabel>
+            </motion.div>
             <motion.h1 variants={revealItem}
               className="text-secondary text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold font-mono leading-[1.05] tracking-tight mb-6"
             >
               We build the systems other firms{" "}
-              <span className="text-sweep">ship around.</span>
+              <span className="text-accent">ship around.</span>
             </motion.h1>
             <motion.p variants={revealItem}
               className="text-secondary/65 text-lg sm:text-xl leading-relaxed max-w-2xl"
@@ -166,7 +166,7 @@ export function CompanyStats() {
     { v: 1, suffix: "",  label: "office · Jakarta",     caption: "Tanjung Duren · ships globally" },
   ]
   return (
-    <section className="relative py-16 sm:py-20 border-y border-accent/15 bg-main/40 backdrop-blur-sm overflow-hidden">
+    <section className="relative py-16 sm:py-20 border-y border-line bg-panel/40 overflow-hidden">
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial="hidden"
@@ -176,9 +176,9 @@ export function CompanyStats() {
           className="grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8"
         >
           {stats.map((s) => (
-            <motion.div key={s.label} variants={revealItem} className="border-l-2 border-accent/30 pl-4 sm:pl-5">
+            <motion.div key={s.label} variants={revealItem} className="border-l border-accent/30 pl-4 sm:pl-5">
               <div className="text-4xl sm:text-5xl lg:text-6xl font-bold text-accent tabular-nums font-mono leading-none">
-                <AnimatedNumber value={s.v} suffix={s.suffix} />
+                <OdometerNumber value={s.v} suffix={s.suffix} />
               </div>
               <div className="text-xs sm:text-sm uppercase tracking-wider text-secondary/75 mt-3 font-mono font-semibold">
                 {s.label}
@@ -461,7 +461,7 @@ export function AboutCTA() {
       >
         <p className="text-accent font-mono text-sm tracking-widest mb-6">$ work with us</p>
         <h2 className="text-secondary text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold font-mono leading-[1.05] tracking-tight mb-8">
-          Performance speaks <span className="text-sweep">louder than promises.</span>
+          Performance speaks <span className="text-accent">louder than promises.</span>
         </h2>
         <p className="text-secondary/65 text-lg sm:text-xl leading-relaxed mb-12 max-w-2xl mx-auto">
           Tell us the system you need to outlast its requirements. We'll tell you whether we're the right team to build it.

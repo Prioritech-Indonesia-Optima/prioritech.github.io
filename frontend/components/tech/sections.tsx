@@ -9,6 +9,8 @@ import {
 import { SectionLead } from "@/components/shared/SectionLead"
 import { PrimaryButton, SecondaryButton } from "@/components/common/ModernButton"
 import { PulseDot } from "@/components/projects/demos/shared/primitives"
+import { DotMatrix } from "@/components/lattice/DotMatrix"
+import { MicroLabel } from "@/components/lattice/MicroLabel"
 import { revealContainer, revealItem, easing } from "@/lib/motion"
 
 // ============================================================================
@@ -17,19 +19,19 @@ import { revealContainer, revealItem, easing } from "@/lib/motion"
 
 export function TechHero() {
   return (
-    <section className="relative pt-16 pb-12 sm:pt-20 sm:pb-16 lg:pt-28 lg:pb-20 overflow-hidden">
-      <div className="aurora-orb aurora-orb--gold" style={{ width: "65vw", height: "65vw", top: "-25vw", left: "-15vw", opacity: 0.22 }} />
+    <section className="relative overflow-hidden border-b border-line pt-16 pb-12 sm:pt-20 sm:pb-16 lg:pt-28 lg:pb-20">
+      <DotMatrix fade="radial" />
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div initial="hidden" animate="visible" variants={revealContainer(0.1, 0.12)}>
-          <motion.p variants={revealItem} className="text-accent font-mono text-sm tracking-widest mb-4">
-            $ technology stack
-          </motion.p>
+          <motion.div variants={revealItem} className="mb-4">
+            <MicroLabel index="040" live>TECHNOLOGY STACK</MicroLabel>
+          </motion.div>
           <motion.h1 variants={revealItem}
             className="text-secondary text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold font-mono leading-[1.05] tracking-tight mb-6 max-w-4xl"
           >
             Tools change.{" "}
-            <span className="text-sweep">Principles don't.</span>
+            <span className="text-accent">Principles don't.</span>
           </motion.h1>
           <motion.p variants={revealItem} className="text-secondary/65 text-lg sm:text-xl leading-relaxed mb-8 max-w-3xl">
             Six layers, one operating philosophy. We pick the boring, proven stack for production paths — and the sharp edge only where it earns its place.
@@ -409,7 +411,7 @@ export function TechCTA() {
         <p className="text-accent font-mono text-sm tracking-widest mb-6">$ build with us</p>
         <h2 className="text-secondary text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold font-mono leading-[1.05] tracking-tight mb-8">
           Pick the boring stack.{" "}
-          <span className="text-sweep">Ship the sharp system.</span>
+          <span className="text-accent">Ship the sharp system.</span>
         </h2>
         <p className="text-secondary/65 text-lg sm:text-xl leading-relaxed mb-12 max-w-2xl mx-auto">
           We pick proven tools for the production path. The sharp edge only where it earns its place. The result is a system you can rely on for years.

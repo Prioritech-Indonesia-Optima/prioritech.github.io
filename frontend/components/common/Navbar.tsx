@@ -5,8 +5,8 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { Menu, X } from "lucide-react"
 import { motion, AnimatePresence, LayoutGroup } from "framer-motion"
-import { ShimmerButton } from "@/components/shimmer-button"
 import { spring, duration as motionDuration, easing } from "@/lib/motion"
+import { DotMatrix } from "@/components/lattice/DotMatrix"
 
 /**
  * Responsive navigation with animated active-route indicator (shared layoutId),
@@ -96,7 +96,7 @@ export function Navbar() {
       <motion.header
         className={`sticky top-0 z-50 border-b transition-colors ${
           isScrolled
-            ? "bg-main/95 backdrop-blur-lg border-accent/15 shadow-lg shadow-accent/5"
+            ? "bg-canvas/90 backdrop-blur-lg border-line"
             : "bg-transparent border-transparent"
         }`}
         animate={{
@@ -106,7 +106,7 @@ export function Navbar() {
         transition={spring.soft}
       >
         <motion.div
-          className={`mx-auto flex items-center justify-between px-4 ${
+          className={`mx-auto flex items-center justify-between px-4 sm:px-6 lg:px-8 ${
             isScrolled ? "max-w-5xl" : "max-w-7xl"
           }`}
           transition={spring.soft}
@@ -130,24 +130,25 @@ export function Navbar() {
           {/* Desktop nav */}
           <LayoutGroup id="navbar-active">
             <nav className="hidden md:flex items-center gap-1 lg:gap-2 font-mono" aria-label="Primary">
-              {navigation.map((item) => {
+              {navigation.map((item, i) => {
                 const active = isActive(item.href)
                 return (
                   <Link
                     key={item.name}
                     href={item.href}
                     aria-current={active ? "page" : undefined}
-                    className={`relative px-3 py-2 text-sm lg:text-base rounded-md transition-colors ${
+                    className={`relative px-3 py-2 text-xs lg:text-[13px] uppercase tracking-[0.14em] transition-colors ${
                       active
                         ? "text-accent"
-                        : "text-secondary/80 hover:text-secondary hover:bg-secondary/5"
+                        : "text-secondary/70 hover:text-secondary"
                     }`}
                   >
+                    <span className="mr-1.5 text-[10px] text-accent/50 tabular-nums">{String(i).padStart(2, "0")}</span>
                     {item.name}
                     {active && (
                       <motion.span
                         layoutId="nav-underline"
-                        className="absolute left-3 right-3 -bottom-1 h-[2px] rounded-full bg-accent"
+                        className="absolute left-3 right-3 -bottom-1 h-px bg-accent"
                         transition={{ type: "spring", stiffness: 380, damping: 30 }}
                       />
                     )}
@@ -158,10 +159,11 @@ export function Navbar() {
           </LayoutGroup>
 
           {/* Desktop CTA */}
-          <Link href="/contact" className="hidden md:block">
-            <ShimmerButton className="bg-accent hover:bg-accent/90 text-main px-4 py-2 rounded-lg text-sm font-medium font-mono">
-              Get in touch
-            </ShimmerButton>
+          <Link
+            href="/contact"
+            className="hidden md:inline-flex items-center gap-2 whitespace-nowrap border border-accent/40 bg-accent/5 px-4 py-2 font-mono text-xs uppercase tracking-[0.14em] text-accent transition-colors hover:border-accent hover:bg-accent hover:text-main"
+          >
+            Get in touch
           </Link>
 
           {/* Mobile menu trigger */}
@@ -186,17 +188,16 @@ export function Navbar() {
             role="dialog"
             aria-modal="true"
             aria-label="Site navigation"
-            className="md:hidden fixed inset-0 z-50 bg-main/95 backdrop-blur-lg overflow-hidden"
+            className="md:hidden fixed inset-0 z-50 bg-canvas/98 backdrop-blur-lg overflow-hidden"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: motionDuration.base, ease: easing.outQuart }}
           >
-            <div className="aurora-orb aurora-orb--gold" style={{ width: 560, height: 560, top: -180, left: -120, opacity: 0.35 }} />
-            <div className="aurora-orb aurora-orb--silver" style={{ width: 460, height: 460, bottom: -160, right: -120, opacity: 0.25, animationDelay: "-12s" }} />
+            <DotMatrix fade="none" className="opacity-60" />
 
             <div
-              className="relative flex items-center justify-between p-6"
+              className="relative flex items-center justify-between border-b border-line p-6"
               onClick={(e) => e.stopPropagation()}
             >
               <Link href="/" onClick={() => setMobileMenuOpen(false)} aria-label="Prioritech — home">
@@ -217,46 +218,50 @@ export function Navbar() {
 
             <nav
               aria-label="Mobile primary"
-              className="relative flex flex-col items-center justify-center h-[calc(100vh-200px)] space-y-6"
+              className="relative flex flex-col justify-center h-[calc(100vh-200px)] px-6"
             >
               {navigation.map((item, index) => {
                 const active = isActive(item.href)
                 return (
                   <motion.div
                     key={item.name}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
+                    initial={{ opacity: 0, x: -16 }}
+                    animate={{ opacity: 1, x: 0 }}
                     transition={{
                       delay: index * 0.06,
                       duration: motionDuration.base,
                       ease: easing.outExpo,
                     }}
+                    className="border-b border-line"
                   >
                     <Link
                       href={item.href}
                       aria-current={active ? "page" : undefined}
-                      className={`text-2xl font-medium transition-colors font-mono ${
+                      className={`flex items-baseline gap-3 py-4 font-mono uppercase tracking-[0.12em] transition-colors ${
                         active ? "text-accent" : "text-secondary hover:text-accent"
                       }`}
                       onClick={() => setMobileMenuOpen(false)}
                     >
-                      {item.name}
+                      <span className="text-[11px] text-accent/50 tabular-nums">{String(index).padStart(2, "0")}</span>
+                      <span className="text-2xl font-medium">{item.name}</span>
                     </Link>
                   </motion.div>
                 )
               })}
             </nav>
 
-            <div className="absolute bottom-8 left-1/2 -translate-x-1/2">
+            <div className="absolute bottom-8 left-6 right-6">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.45, duration: motionDuration.base, ease: easing.outExpo }}
               >
-                <Link href="/contact" onClick={() => setMobileMenuOpen(false)}>
-                  <ShimmerButton className="bg-accent hover:bg-accent/90 text-main px-8 py-4 rounded-lg text-lg font-medium font-mono">
-                    Get in touch
-                  </ShimmerButton>
+                <Link
+                  href="/contact"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="flex items-center justify-center gap-2 border border-accent/40 bg-accent/5 px-8 py-4 font-mono text-sm uppercase tracking-[0.14em] text-accent transition-colors hover:border-accent hover:bg-accent hover:text-main"
+                >
+                  Get in touch
                 </Link>
               </motion.div>
             </div>

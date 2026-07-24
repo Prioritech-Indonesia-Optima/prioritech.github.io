@@ -21,7 +21,7 @@ const nextConfig = {
   compress: true,
   // Enable experimental features for better tree shaking
   experimental: {
-    optimizePackageImports: ['framer-motion', 'lucide-react', '@radix-ui/react-accordion', '@radix-ui/react-dialog', '@radix-ui/react-tooltip'],
+    optimizePackageImports: ['framer-motion', 'animejs', 'lucide-react', '@radix-ui/react-accordion', '@radix-ui/react-dialog', '@radix-ui/react-tooltip'],
     optimizeCss: true,
   },
   // Modularize imports for better tree shaking
@@ -58,6 +58,20 @@ const nextConfig = {
               test: /[\\/]node_modules[\\/]framer-motion[\\/]/,
               chunks: 'all',
               priority: 30,
+            },
+            // Separate chunk for anime.js (keeps it out of the 244KB-capped vendor group)
+            animejs: {
+              name: 'animejs',
+              test: /[\\/]node_modules[\\/]animejs[\\/]/,
+              chunks: 'all',
+              priority: 30,
+            },
+            // Separate chunk for the 3D stack (lazy-loaded, largest vendor)
+            three: {
+              name: 'three',
+              test: /[\\/]node_modules[\\/](three|@react-three)[\\/]/,
+              chunks: 'all',
+              priority: 31,
             },
             // Common chunk for shared code
             common: {

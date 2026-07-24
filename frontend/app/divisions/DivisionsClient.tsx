@@ -133,7 +133,7 @@ const PANELS = [
 
 export default function DivisionsClient() {
   return (
-    <div className="min-h-screen bg-main">
+    <div className="min-h-screen bg-canvas">
       <Navbar />
       <main id="main-content">
         <DivisionsHero />
@@ -156,7 +156,7 @@ export default function DivisionsClient() {
         <MethodologyStrip />
         <DivisionsCTA />
       </main>
-      <Suspense fallback={<footer className="py-8 bg-main border-t border-accent/20" />}>
+      <Suspense fallback={<footer className="py-8 bg-canvas border-t border-line" />}>
         <Footer />
       </Suspense>
     </div>

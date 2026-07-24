@@ -5,6 +5,7 @@ import { Analytics } from '@vercel/analytics/next'
 import { SplashScreenWrapper } from '@/components/common/SplashScreenWrapper'
 import { StructuredData } from '@/components/common/StructuredData'
 import { ResourceHints } from '@/components/common/ResourceHints'
+import { EngineStageClient } from '@/components/three/EngineStageClient'
 import { generateMetadata as generateSEOMetadata, siteConfig, getCanonicalUrl } from '@/lib/seo'
 import './globals.css'
 
@@ -164,6 +165,7 @@ export default function RootLayout({
           Skip to content
         </a>
         <SplashScreenWrapper>
+          <EngineStageClient />
           {children}
           <Analytics />
         </SplashScreenWrapper>

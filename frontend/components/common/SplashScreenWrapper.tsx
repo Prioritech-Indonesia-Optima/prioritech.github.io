@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { SplashScreen } from "./SplashScreen"
+import { signalSplashDone } from "@/lib/splash-signal"
 
 /**
  * Wrapper component that manages splash screen display logic.
@@ -30,12 +31,14 @@ export function SplashScreenWrapper({ children }: { children: React.ReactNode })
     } else {
       // Skip splash, show content immediately
       setContentVisible(true)
+      signalSplashDone()
     }
   }, [])
 
   const handleSplashComplete = () => {
     setShowSplash(false)
     setContentVisible(true)
+    signalSplashDone()
   }
 
   return (

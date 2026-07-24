@@ -18,7 +18,7 @@ const Footer = lazy(() =>
 
 export default function AboutClient() {
   return (
-    <div className="min-h-screen bg-main">
+    <div className="min-h-screen bg-canvas">
       <Navbar />
       <main id="main-content">
         <AboutHero />
@@ -29,7 +29,7 @@ export default function AboutClient() {
         <LocationBand />
         <AboutCTA />
       </main>
-      <Suspense fallback={<footer className="py-8 bg-main border-t border-accent/20" />}>
+      <Suspense fallback={<footer className="py-8 bg-canvas border-t border-line" />}>
         <Footer />
       </Suspense>
     </div>

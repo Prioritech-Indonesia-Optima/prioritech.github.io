@@ -1,12 +1,16 @@
 "use client"
 
 import Link from "next/link"
-import { Mail, MapPin, Building2, ArrowUp } from "lucide-react"
+import { ArrowUp } from "lucide-react"
 import { scrollToTop } from "@/lib/animations"
+import { MicroLabel } from "@/components/lattice/MicroLabel"
+import { MonoTimer } from "@/components/lattice/MonoTimer"
+import { CornerTicks } from "@/components/lattice/CornerTicks"
 
 /**
- * Footer with 4-column grid at lg, signature gold rail, and back-to-top control.
- * Keeps content static for SEO; only the back-to-top is interactive.
+ * Footer as a full lattice block: giant dimmed wordmark, mono link columns,
+ * Jakarta coordinates, and a live WIB wall-clock. Keeps content static for SEO;
+ * back-to-top and the clock are the only live elements.
  */
 export function Footer() {
   const currentYear = new Date().getFullYear()
@@ -27,64 +31,53 @@ export function Footer() {
   }
 
   return (
-    <footer className="relative bg-main border-t border-secondary/10 font-mono overflow-hidden">
-      {/* Gold rail */}
-      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-accent/40 to-transparent" />
+    <footer className="relative bg-canvas border-t border-line font-mono">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        {/* Header rail */}
+        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-line py-3">
+          <MicroLabel index="//" >PT PRIORITECH INDONESIA OPTIMA</MicroLabel>
+          <div className="flex items-center gap-5">
+            <MicroLabel>LAT -6.2088 · LNG 106.8456</MicroLabel>
+            <MicroLabel live>
+              WIB&nbsp;<MonoTimer mode="wallclock" timeZone="Asia/Jakarta" className="text-accent" />
+            </MicroLabel>
+          </div>
+        </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
-          {/* Brand + blurb */}
+        <div className="grid grid-cols-1 gap-10 py-12 md:grid-cols-2 lg:grid-cols-4 lg:py-16">
+          {/* Brand + address */}
           <div className="lg:col-span-2">
-            <div className="flex items-center mb-4">
-              <img
-                src="/prioritech-logo-footer.png"
-                alt="Prioritech Indonesia Optima logo"
-                className="h-20"
-              />
-            </div>
-            <p className="text-secondary/70 text-sm mb-6 max-w-md leading-relaxed">
+            <img
+              src="/prioritech-logo-footer.png"
+              alt="Prioritech Indonesia Optima logo"
+              className="mb-5 h-16"
+            />
+            <p className="mb-6 max-w-md text-sm leading-relaxed text-secondary/65">
               Engineering systems that make intelligence practical. An Indonesian AI and
               engineering company focused on production-grade systems for enterprise scale.
             </p>
-
-            <address className="not-italic space-y-3">
-              <div className="flex items-center gap-3 text-secondary/70">
-                <Building2 className="w-4 h-4 text-accent flex-shrink-0" />
-                <span className="text-sm">PT PRIORITECH INDONESIA OPTIMA</span>
-              </div>
-              <div className="flex items-start gap-3 text-secondary/70">
-                <MapPin className="w-4 h-4 text-accent flex-shrink-0 mt-0.5" />
-                <span className="text-sm leading-relaxed">
-                  NEO SOHO PODOMORO CITY UNIT 3106
-                  <br />
-                  Jl. Letjen S. Parman Kav. 28, Tanjung Duren Selatan
-                  <br />
-                  Jakarta Barat, DKI Jakarta 11470
-                </span>
-              </div>
-              <div className="flex items-center gap-3 text-secondary/70">
-                <Mail className="w-4 h-4 text-accent flex-shrink-0" />
-                <a
-                  href="mailto:ivan.aurelius@prioritech.co.id"
-                  className="text-sm hover:text-accent transition-colors"
-                >
-                  ivan.aurelius@prioritech.co.id
-                </a>
-              </div>
+            <address className="not-italic space-y-1 text-[13px] leading-relaxed text-secondary/60">
+              <div>NEO SOHO PODOMORO CITY UNIT 3106</div>
+              <div>Jl. Letjen S. Parman Kav. 28, Tanjung Duren Selatan</div>
+              <div>Jakarta Barat, DKI Jakarta 11470</div>
+              <a
+                href="mailto:ivan.aurelius@prioritech.co.id"
+                className="mt-2 inline-block text-accent transition-colors hover:text-accent/80"
+              >
+                ivan.aurelius@prioritech.co.id
+              </a>
             </address>
           </div>
 
           {/* Company */}
           <div>
-            <h3 className="text-secondary font-semibold text-sm mb-4 uppercase tracking-wider">
-              Company
-            </h3>
+            <MicroLabel className="mb-4 block">01 / COMPANY</MicroLabel>
             <ul className="space-y-3">
               {footerLinks.company.map((link) => (
                 <li key={link.name}>
                   <Link
                     href={link.href}
-                    className="text-secondary/70 hover:text-accent transition-colors text-sm"
+                    className="text-sm text-secondary/70 transition-colors hover:text-accent"
                   >
                     {link.name}
                   </Link>
@@ -95,44 +88,48 @@ export function Footer() {
 
           {/* Solutions */}
           <div>
-            <h3 className="text-secondary font-semibold text-sm mb-4 uppercase tracking-wider">
-              Solutions
-            </h3>
+            <MicroLabel className="mb-4 block">02 / SOLUTIONS</MicroLabel>
             <ul className="space-y-3">
               {footerLinks.solutions.map((link) => (
                 <li key={link.name}>
                   <Link
                     href={link.href}
-                    className="text-secondary/70 hover:text-accent transition-colors text-sm"
+                    className="text-sm text-secondary/70 transition-colors hover:text-accent"
                   >
                     {link.name}
                   </Link>
                 </li>
               ))}
             </ul>
-            <div className="mt-6">
-              <Link
-                href="/contact"
-                className="inline-flex items-center gap-2 text-accent hover:text-accent/80 text-sm font-medium transition-colors"
-              >
-                $ Start a build →
-              </Link>
-            </div>
+            <Link
+              href="/contact"
+              className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-accent transition-colors hover:text-accent/80"
+            >
+              $ Start a build →
+            </Link>
+          </div>
+        </div>
+
+        {/* Giant dimmed wordmark */}
+        <div className="relative overflow-hidden border-t border-line py-6">
+          <CornerTicks color="line" />
+          <div className="select-none whitespace-nowrap text-center text-[13vw] font-bold uppercase leading-none tracking-tighter text-secondary/[0.04]">
+            PRIORITECH
           </div>
         </div>
 
         {/* Bottom bar */}
-        <div className="border-t border-secondary/10 mt-12 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4">
-          <p className="text-secondary/50 text-sm text-center sm:text-left">
+        <div className="flex flex-col items-center justify-between gap-4 border-t border-line py-6 sm:flex-row">
+          <p className="text-center text-xs text-secondary/50 sm:text-left">
             © {currentYear} PT Prioritech Indonesia Optima — Progress. Precision. Prioritech.
           </p>
           <button
             type="button"
             onClick={scrollToTop}
-            className="group inline-flex items-center gap-2 text-secondary/60 hover:text-accent text-sm transition-colors rounded-full border border-accent/20 hover:border-accent/60 px-4 py-2"
+            className="group inline-flex items-center gap-2 border border-line px-4 py-2 text-xs uppercase tracking-[0.12em] text-secondary/60 transition-colors hover:border-accent/50 hover:text-accent"
             aria-label="Scroll to top"
           >
-            <ArrowUp className="w-4 h-4 transition-transform duration-300 group-hover:-translate-y-1" />
+            <ArrowUp className="h-4 w-4 transition-transform duration-300 group-hover:-translate-y-1" />
             Back to top
           </button>
         </div>
