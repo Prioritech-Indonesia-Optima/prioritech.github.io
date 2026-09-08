@@ -1,202 +1,348 @@
 "use client"
 
-import { Suspense, lazy } from "react"
+import { Suspense, lazy, useCallback } from "react"
 import Link from "next/link"
 import { motion } from "framer-motion"
-import { ArrowRight, Brain, Shield, TrendingUp, Cog, Layers } from "lucide-react"
+import { ArrowRight, ArrowUpRight } from "lucide-react"
 import { Navbar } from "@/components/common/Navbar"
-import { ScrollProgress } from "@/components/common/ScrollProgress"
-import { PrimaryButton, SecondaryButton } from "@/components/common/ModernButton"
-import { HeroControlPanel } from "@/components/home/HeroControlPanel"
-import { LiveProducts } from "@/components/home/LiveProducts"
-import { DivisionBento } from "@/components/home/DivisionBento"
-import { ProcessStrip } from "@/components/home/ProcessStrip"
-import { revealContainer, revealItem, easing } from "@/lib/motion"
+import { ScrollCanvas, SectionIndicator, ScrollProgress, useScrollProgress } from "@/components/three/ScrollScene"
 
 const Footer = lazy(() => import("@/components/common/Footer").then((m) => ({ default: m.Footer })))
 
-/**
- * Home — completely redesigned. Lead with a live control room, not a tagline.
- * Demos are the marketing.
- */
-export default function HomePage(): JSX.Element {
+const DIVISIONS = [
+  { num: "01", name: "AI Systems & Orchestration", desc: "LLM pipelines, agent frameworks, RAG architectures" },
+  { num: "02", name: "Cybersecurity Intelligence", desc: "Threat modeling, SOC automation, red teaming" },
+  { num: "03", name: "Quantitative Engineering", desc: "Pricing models, risk engines, execution systems" },
+  { num: "04", name: "Automation & Robotics", desc: "Edge vision, PLC integration, physical AI" },
+  { num: "05", name: "Applied Product Engineering", desc: "Full-stack systems, data platforms, integrations" },
+]
+
+const CAPABILITIES = [
+  { label: "Architecture", detail: "System design that survives contact with production" },
+  { label: "Implementation", detail: "Type-safe, tested, documented — not just working" },
+  { label: "Operations", detail: "Monitoring, alerting, and runbooks from day one" },
+  { label: "Evolution", detail: "Systems designed to be modified, not replaced" },
+]
+
+const PROCESS = [
+  { phase: "Discover", desc: "We map your domain, constraints, and failure modes before writing a line of code." },
+  { phase: "Architect", desc: "System design with explicit tradeoffs. You see the blueprint before build." },
+  { phase: "Build", desc: "Incremental delivery. Working software in production within weeks, not quarters." },
+  { phase: "Operate", desc: "We stay. Monitoring, iteration, and evolution are part of the engagement." },
+]
+
+export default function HomePage() {
+  const [containerRef, progress, activeSection] = useScrollProgress()
+
+  const handleProgress = useCallback(() => {}, [])
+
   return (
-    <div className="min-h-screen bg-main">
-      <ScrollProgress />
+    <div ref={containerRef} className="relative">
+      <ScrollCanvas onProgress={handleProgress} />
+
+      <div className="fixed inset-0 z-[1] pointer-events-none vignette" />
+
+      <ScrollProgress progress={progress} />
+      <SectionIndicator activeIndex={activeSection} />
       <Navbar />
 
-      <main id="main-content">
-        {/* ============================================================ */}
-        {/* HERO — left copy, right live control panel                  */}
-        {/* ============================================================ */}
-        <section className="relative pt-12 pb-16 sm:pt-16 sm:pb-20 lg:pt-24 lg:pb-28 overflow-hidden">
-          {/* Aurora backdrop */}
-          <div className="aurora-orb aurora-orb--gold"
-            style={{ width: "70vw", height: "70vw", top: "-25vw", left: "-15vw", opacity: 0.3 }} />
-          <div className="aurora-orb aurora-orb--silver"
-            style={{ width: "50vw", height: "50vw", bottom: "-20vw", right: "-10vw", opacity: 0.18, animationDelay: "-12s" }} />
-
-          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid lg:grid-cols-5 gap-10 lg:gap-12 items-center">
-              {/* Left: copy (3 cols) */}
-              <motion.div
-                initial="hidden"
-                animate="visible"
-                variants={revealContainer(0.15, 0.12)}
-                className="lg:col-span-3"
-              >
-                <motion.div variants={revealItem} className="inline-flex items-center gap-2 px-3 py-1.5 mb-6 rounded-full border border-accent/30 bg-main/60 backdrop-blur-sm">
-                  <span className="relative flex w-2 h-2">
-                    <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-60 animate-ping" />
-                    <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400" />
-                  </span>
-                  <span className="text-[11px] uppercase tracking-widest text-secondary/85 font-mono">
-                    Jakarta · AI Engineering
-                  </span>
-                </motion.div>
-
-                <motion.h1 variants={revealItem}
-                  className="text-secondary text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold font-mono leading-[1.05] mb-6 tracking-tight"
-                >
-                  Production systems for{" "}
-                  <span className="text-sweep">AI, automation, and defense.</span>
-                </motion.h1>
-
-                <motion.p variants={revealItem}
-                  className="text-secondary/65 text-lg sm:text-xl leading-relaxed mb-8 max-w-2xl"
-                >
-                  We build the systems other engineering firms ship around. Auditable, production-grade, and designed to outlast their requirements — from a single Jakarta office.
-                </motion.p>
-
-                {/* Stat strip — honest numbers */}
-                <motion.div variants={revealItem} className="grid grid-cols-3 gap-4 sm:gap-6 mb-10 max-w-xl">
-                  {[
-                    { v: "3", l: "systems live in production" },
-                    { v: "5", l: "engineering divisions" },
-                    { v: "0", l: "subcontractors · ever" },
-                  ].map((s) => (
-                    <div key={s.l} className="border-l border-accent/30 pl-3 sm:pl-4">
-                      <div className="text-2xl sm:text-3xl font-bold text-accent tabular-nums font-mono leading-none">
-                        {s.v}
-                      </div>
-                      <div className="text-[10px] sm:text-xs uppercase tracking-wider text-secondary/55 mt-1.5 font-mono">
-                        {s.l}
-                      </div>
-                    </div>
-                  ))}
-                </motion.div>
-
-                {/* CTAs */}
-                <motion.div variants={revealItem} className="flex flex-col sm:flex-row gap-3">
-                  <PrimaryButton href="/projects" icon>
-                    $ Explore Live Demos
-                  </PrimaryButton>
-                  <SecondaryButton href="/contact" icon>
-                    $ Start a Build
-                  </SecondaryButton>
-                </motion.div>
-              </motion.div>
-
-              {/* Right: live control panel (2 cols) */}
-              <div className="lg:col-span-2">
-                <HeroControlPanel />
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* ============================================================ */}
-        {/* CAPABILITY STRIP — quick categorical glance                 */}
-        {/* ============================================================ */}
-        <section className="relative py-10 sm:py-12 border-y border-accent/10 bg-main/40 backdrop-blur-sm overflow-hidden">
-          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-6 sm:gap-8">
-              {[
-                { Icon: Brain,      title: "Intelligence",      caption: "AI retrieval · agents · automation" },
-                { Icon: Shield,     title: "Defense",            caption: "pentesting · threat graphs · SOC" },
-                { Icon: TrendingUp, title: "Quant",              caption: "forecasting · trading · risk" },
-                { Icon: Cog,        title: "Automation",         caption: "PLC · robotics · edge vision" },
-                { Icon: Layers,     title: "Enterprise",         caption: "ERP · WMS · SCM · CRM" },
-              ].map((c, i) => (
-                <motion.div
-                  key={c.title}
-                  initial={{ opacity: 0, y: 12 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-60px" }}
-                  transition={{ duration: 0.5, delay: i * 0.06, ease: easing.outExpo }}
-                  className="flex items-start gap-3"
-                >
-                  <div className="flex items-center justify-center w-9 h-9 flex-shrink-0 rounded-lg bg-accent/10 border border-accent/20">
-                    <c.Icon size={18} className="text-accent" />
-                  </div>
-                  <div className="min-w-0">
-                    <div className="text-secondary font-semibold text-sm font-mono">{c.title}</div>
-                    <div className="text-secondary/45 text-[11px] font-mono mt-0.5 truncate">{c.caption}</div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* ============================================================ */}
-        {/* DIVISION BENTO — 5 tiles with mini live previews            */}
-        {/* ============================================================ */}
-        <DivisionBento />
-
-        {/* ============================================================ */}
-        {/* LIVE PRODUCTS — the 3 systems we actually run today          */}
-        {/* ============================================================ */}
-        <LiveProducts />
-
-        {/* ============================================================ */}
-        {/* PROCESS — three phases                                       */}
-        {/* ============================================================ */}
-        <ProcessStrip />
-
-        {/* ============================================================ */}
-        {/* CLOSING CTA — punchy, single message                         */}
-        {/* ============================================================ */}
-        <section className="relative py-28 sm:py-32 lg:py-40 overflow-hidden border-t border-accent/10">
-          <div className="aurora-orb aurora-orb--gold"
-            style={{ width: "70vw", height: "70vw", top: "-20vw", left: "-20vw", opacity: 0.4 }} />
-          <div className="aurora-orb aurora-orb--silver"
-            style={{ width: "55vw", height: "55vw", bottom: "-20vw", right: "-15vw", opacity: 0.22, animationDelay: "-12s" }} />
-
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.8, ease: easing.outExpo }}
-            className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center"
-          >
-            <p className="text-accent font-mono text-sm tracking-widest mb-6">$ let's build something that lasts</p>
-            <h2 className="text-secondary text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold font-mono leading-[1.05] mb-8 tracking-tight">
-              Stop shipping{" "}
-              <span className="text-sweep">prototypes.</span>
-            </h2>
-            <p className="text-secondary/65 text-lg sm:text-xl leading-relaxed mb-12 max-w-2xl mx-auto">
-              Tell us what you need to outlast its requirements. We'll architect the system that gets there.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <PrimaryButton href="/contact" icon>
-                $ Start a Build
-              </PrimaryButton>
-              <Link
-                href="/projects"
-                className="inline-flex items-center justify-center gap-2 text-secondary/70 hover:text-accent text-base font-mono px-6 py-3 transition-colors group"
-              >
-                See the demos first
-                <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
-              </Link>
-            </div>
-          </motion.div>
-        </section>
+      <main id="main-content" className="relative z-10">
+        <HeroSection />
+        <DivisionsSection />
+        <EngineeringSection />
+        <ProcessSection />
+        <ContactSection />
       </main>
 
-      <Suspense fallback={<footer className="py-8 bg-main border-t border-accent/20" />}>
+      <Suspense fallback={null}>
         <Footer />
       </Suspense>
     </div>
+  )
+}
+
+function HeroSection() {
+  return (
+    <section id="hero" className="relative min-h-screen flex items-end pb-20 sm:pb-28 px-6 sm:px-12 lg:px-20">
+      <div className="vignette-bottom absolute inset-x-0 bottom-0 h-64 pointer-events-none" />
+
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+        className="relative max-w-4xl text-backdrop p-8 sm:p-10"
+      >
+        <div className="flex items-center gap-3 mb-8">
+          <span className="w-2 h-2 rounded-full bg-accent animate-pulse-dot" />
+          <span className="text-[11px] font-mono tracking-[0.2em] uppercase text-foreground/50 text-shadow-subtle">
+            Prioritech Indonesia Optima
+          </span>
+        </div>
+
+        <h1 className="text-5xl sm:text-7xl lg:text-8xl font-mono font-bold leading-[0.9] tracking-tight mb-8 text-shadow-deep">
+          <span className="block">Engineering</span>
+          <span className="block text-foreground/40">that endures.</span>
+        </h1>
+
+        <p className="text-base sm:text-lg text-foreground/50 max-w-lg leading-relaxed font-mono text-shadow-subtle">
+          We build production systems for AI, automation, and defense.
+          Designed in Jakarta. Built to outlast their requirements.
+        </p>
+
+        <div className="mt-12 flex items-center gap-6">
+          <Link
+            href="#divisions"
+            className="group inline-flex items-center gap-2 text-sm font-mono text-foreground/70 hover:text-accent transition-colors text-shadow-subtle"
+          >
+            <span className="w-8 h-px bg-foreground/30 group-hover:bg-accent transition-colors" />
+            Explore
+          </Link>
+          <Link
+            href="/projects"
+            className="group inline-flex items-center gap-2 text-sm font-mono text-foreground/70 hover:text-accent transition-colors text-shadow-subtle"
+          >
+            Live Demos
+            <ArrowUpRight size={14} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+          </Link>
+        </div>
+      </motion.div>
+
+      <div className="absolute bottom-8 left-6 sm:left-12 lg:left-20 flex items-center gap-2 text-foreground/30">
+        <span className="text-[10px] font-mono tracking-wider">SCROLL</span>
+        <span className="w-px h-4 bg-foreground/20 animate-pulse" />
+      </div>
+    </section>
+  )
+}
+
+function DivisionsSection() {
+  return (
+    <section id="divisions" className="relative min-h-screen flex items-center px-6 sm:px-12 lg:px-20 py-32">
+      <div className="vignette-bottom absolute inset-x-0 bottom-0 h-64 pointer-events-none" />
+
+      <div className="w-full max-w-6xl mx-auto">
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8 }}
+          className="mb-16 text-backdrop p-6 sm:p-8"
+        >
+          <span className="text-[10px] font-mono tracking-[0.3em] uppercase text-accent/70 block mb-4 text-shadow-subtle">
+            02 — Divisions
+          </span>
+          <h2 className="text-3xl sm:text-5xl font-mono font-bold tracking-tight text-shadow-deep">
+            Five disciplines.<br />
+            <span className="text-foreground/40">One standard.</span>
+          </h2>
+        </motion.div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-border/30">
+          {DIVISIONS.map((d, i) => (
+            <motion.div
+              key={d.num}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.6, delay: i * 0.08, ease: [0.16, 1, 0.3, 1] }}
+              className={`relative bg-background/40 backdrop-blur-[4px] p-6 sm:p-8 group hover:bg-background/60 transition-colors duration-300 ${i === DIVISIONS.length - 1 ? "lg:col-span-2" : ""}`}
+            >
+              <span className="text-[10px] font-mono text-accent/50 block mb-4">
+                {d.num}
+              </span>
+              <h3 className="text-sm sm:text-base font-mono font-semibold text-foreground/90 mb-2 leading-snug text-shadow-subtle">
+                {d.name}
+              </h3>
+              <p className="text-xs sm:text-sm text-foreground/40 font-mono leading-relaxed text-shadow-subtle">
+                {d.desc}
+              </p>
+              <div className="absolute top-6 right-6 w-1 h-1 rounded-full bg-foreground/20 group-hover:bg-accent transition-colors" />
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+function EngineeringSection() {
+  return (
+    <section id="engineering" className="relative min-h-screen flex items-center px-6 sm:px-12 lg:px-20 py-32">
+      <div className="vignette-bottom absolute inset-x-0 bottom-0 h-64 pointer-events-none" />
+
+      <div className="w-full max-w-6xl mx-auto">
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8 }}
+          className="mb-16 text-backdrop p-6 sm:p-8"
+        >
+          <span className="text-[10px] font-mono tracking-[0.3em] uppercase text-accent/70 block mb-4 text-shadow-subtle">
+            03 — Engineering
+          </span>
+          <h2 className="text-3xl sm:text-5xl font-mono font-bold tracking-tight text-shadow-deep">
+            Built like<br />
+            <span className="text-foreground/40">infrastructure.</span>
+          </h2>
+        </motion.div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-12 sm:gap-16">
+          {CAPABILITIES.map((c, i) => (
+            <motion.div
+              key={c.label}
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.6, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
+              className="relative pl-6"
+            >
+              <div className="absolute left-0 top-0 bottom-0 w-px bg-gradient-to-b from-accent/40 to-transparent" />
+              <h3 className="text-lg sm:text-xl font-mono font-semibold text-foreground/90 mb-3 text-shadow-subtle">
+                {c.label}
+              </h3>
+              <p className="text-sm text-foreground/45 font-mono leading-relaxed max-w-sm text-shadow-subtle">
+                {c.detail}
+              </p>
+            </motion.div>
+          ))}
+        </div>
+
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.8, delay: 0.4 }}
+          className="mt-20 p-6 sm:p-8 border border-border/50 bg-background/30 backdrop-blur-[4px]"
+        >
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <p className="text-sm font-mono text-foreground/60 text-shadow-subtle">
+              <span className="text-accent">3</span> systems live in production.
+              <span className="text-foreground/30 mx-2">·</span>
+              <span className="text-accent">0</span> subcontractors, ever.
+            </p>
+            <Link
+              href="/projects"
+              className="group inline-flex items-center gap-2 text-sm font-mono text-foreground/70 hover:text-accent transition-colors text-shadow-subtle"
+            >
+              See the work
+              <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
+            </Link>
+          </div>
+        </motion.div>
+      </div>
+    </section>
+  )
+}
+
+function ProcessSection() {
+  return (
+    <section id="process" className="relative min-h-screen flex items-center px-6 sm:px-12 lg:px-20 py-32">
+      <div className="vignette-bottom absolute inset-x-0 bottom-0 h-64 pointer-events-none" />
+
+      <div className="w-full max-w-4xl mx-auto">
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8 }}
+          className="mb-20 text-backdrop p-6 sm:p-8"
+        >
+          <span className="text-[10px] font-mono tracking-[0.3em] uppercase text-accent/70 block mb-4 text-shadow-subtle">
+            04 — Process
+          </span>
+          <h2 className="text-3xl sm:text-5xl font-mono font-bold tracking-tight text-shadow-deep">
+            Four phases.<br />
+            <span className="text-foreground/40">No surprises.</span>
+          </h2>
+        </motion.div>
+
+        <div className="relative">
+          <div className="absolute left-0 top-0 bottom-0 w-px bg-border/50" />
+
+          {PROCESS.map((p, i) => (
+            <motion.div
+              key={p.phase}
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{ duration: 0.7, delay: i * 0.15, ease: [0.16, 1, 0.3, 1] }}
+              className="relative pl-8 sm:pl-12 pb-16 last:pb-0"
+            >
+              <div className="absolute left-[-3px] top-1 w-[7px] h-[7px] rounded-full bg-accent" />
+              <div className="text-backdrop p-5 sm:p-6">
+                <span className="text-[10px] font-mono text-foreground/30 block mb-2">
+                  PHASE {String(i + 1).padStart(2, "0")}
+                </span>
+                <h3 className="text-xl sm:text-2xl font-mono font-semibold text-foreground/90 mb-3 text-shadow-subtle">
+                  {p.phase}
+                </h3>
+                <p className="text-sm text-foreground/45 font-mono leading-relaxed max-w-md text-shadow-subtle">
+                  {p.desc}
+                </p>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+function ContactSection() {
+  return (
+    <section id="contact" className="relative min-h-screen flex items-end pb-24 sm:pb-32 px-6 sm:px-12 lg:px-20">
+      <div className="vignette-bottom absolute inset-x-0 bottom-0 h-64 pointer-events-none" />
+
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+        className="relative max-w-3xl w-full text-backdrop p-8 sm:p-10"
+      >
+        <span className="text-[10px] font-mono tracking-[0.3em] uppercase text-accent/70 block mb-6 text-shadow-subtle">
+          05 — Contact
+        </span>
+
+        <h2 className="text-4xl sm:text-6xl lg:text-7xl font-mono font-bold leading-[0.95] tracking-tight mb-8 text-shadow-deep">
+          <span className="block">Ready to build</span>
+          <span className="block text-foreground/40">something real?</span>
+        </h2>
+
+        <p className="text-base sm:text-lg text-foreground/50 font-mono leading-relaxed mb-12 max-w-lg text-shadow-subtle">
+          Tell us what you need to outlast its requirements.
+          We&apos;ll architect the system that gets there.
+        </p>
+
+        <div className="flex flex-col sm:flex-row gap-4">
+          <Link
+            href="/contact"
+            className="inline-flex items-center justify-center gap-3 px-8 py-4 bg-accent text-background font-mono text-sm font-semibold hover:bg-accent/90 transition-colors"
+          >
+            Start a conversation
+            <ArrowRight size={16} />
+          </Link>
+          <Link
+            href="/projects"
+            className="inline-flex items-center justify-center gap-3 px-8 py-4 border border-border/50 text-foreground/70 font-mono text-sm hover:border-foreground/30 hover:text-foreground transition-colors bg-background/30 backdrop-blur-[4px]"
+          >
+            View live demos
+          </Link>
+        </div>
+
+        <div className="mt-16 pt-8 border-t border-border/50 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <span className="text-[11px] font-mono text-foreground/30 text-shadow-subtle">
+            Jakarta, Indonesia — operating since 2024
+          </span>
+          <a
+            href="mailto:ivan.aurelius@prioritech.co.id"
+            className="text-[11px] font-mono text-foreground/40 hover:text-accent transition-colors text-shadow-subtle"
+          >
+            ivan.aurelius@prioritech.co.id
+          </a>
+        </div>
+      </motion.div>
+    </section>
   )
 }

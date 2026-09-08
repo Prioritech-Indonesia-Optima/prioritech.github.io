@@ -4,13 +4,9 @@ import { Suspense, lazy } from "react"
 import { motion } from "framer-motion"
 import { Mail, MapPin, Building2, ArrowRight, Clock, MessageSquare, FileText } from "lucide-react"
 import { Navbar } from "@/components/common/Navbar"
-import { SectionLead } from "@/components/shared/SectionLead"
-import { PrimaryButton } from "@/components/common/ModernButton"
-import { revealContainer, revealItem, easing } from "@/lib/motion"
+import { SubPageScene } from "@/components/three/SubPageScene"
 
-const Footer = lazy(() =>
-  import("@/components/common/Footer").then((m) => ({ default: m.Footer }))
-)
+const Footer = lazy(() => import("@/components/common/Footer").then((m) => ({ default: m.Footer })))
 
 const MAILTO =
   "mailto:ivan.aurelius@prioritech.co.id" +
@@ -60,8 +56,8 @@ const PROCESS_STEPS = [
 
 const FAQS = [
   {
-    q: "How quickly does Prioritech respond to inquiries?",
-    a: "We typically respond within one business day from our Jakarta office.",
+    q: "How quickly do you respond?",
+    a: "Within one business day from our Jakarta office. Usually the same afternoon.",
   },
   {
     q: "Where are you based?",
@@ -83,111 +79,79 @@ const FAQS = [
 
 export default function ContactClient() {
   return (
-    <div className="min-h-screen bg-main">
+    <div className="min-h-screen bg-background">
+      <SubPageScene pageId="contact" />
+      <div className="fixed inset-0 z-[1] pointer-events-none vignette" />
       <Navbar />
-
-      <main id="main-content">
-        {/* ============================================================ */}
-        {/* HERO                                                          */}
-        {/* ============================================================ */}
-        <section className="relative pt-28 pb-20 sm:pt-36 sm:pb-24 overflow-hidden">
-          <div
-            className="aurora-orb aurora-orb--gold"
-            style={{ width: "65vw", height: "65vw", top: "-25vw", left: "-15vw", opacity: 0.28 }}
-          />
-          <div
-            className="aurora-orb aurora-orb--silver"
-            style={{ width: "50vw", height: "50vw", bottom: "-20vw", right: "-10vw", opacity: 0.14, animationDelay: "-10s" }}
-          />
-
+      <main id="main-content" className="relative z-10 pt-16">
+        <section className="px-6 sm:px-12 lg:px-20 py-24 sm:py-32">
           <motion.div
-            initial="hidden"
-            animate="visible"
-            variants={revealContainer(0.1, 0.14)}
-            className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            className="max-w-3xl"
           >
-            <motion.p
-              variants={revealItem}
-              className="text-accent font-mono text-sm tracking-widest mb-5"
+            <span className="text-[10px] font-mono tracking-[0.3em] uppercase text-accent/70 block mb-6">
+              Contact
+            </span>
+            <h1 className="text-4xl sm:text-6xl font-mono font-bold leading-[0.95] tracking-tight mb-8">
+              <span className="block">Tell us what you</span>
+              <span className="block text-foreground/40">need to ship.</span>
+            </h1>
+            <p className="text-base sm:text-lg text-foreground/50 font-mono leading-relaxed max-w-xl mb-10">
+              No forms. No ticketing. Just an email — straight to the engineers
+              who will actually build it.
+            </p>
+            <a
+              href={MAILTO}
+              className="inline-flex items-center gap-3 px-8 py-4 bg-accent text-background font-mono text-sm font-semibold hover:bg-accent/90 transition-colors"
             >
-              $ let&apos;s build together
-            </motion.p>
-
-            <motion.h1
-              variants={revealItem}
-              className="text-secondary text-4xl sm:text-5xl md:text-6xl font-bold font-mono leading-[1.05] tracking-tight mb-6"
-            >
-              Tell us what you need to{" "}
-              <span className="text-sweep">ship next.</span>
-            </motion.h1>
-
-            <motion.p
-              variants={revealItem}
-              className="text-secondary/60 text-lg sm:text-xl leading-relaxed mb-10 max-w-2xl mx-auto"
-            >
-              No forms. No ticketing system. Just an email — straight to the engineers who will actually build it.
-            </motion.p>
-
-            <motion.div variants={revealItem}>
-              <a
-                href={MAILTO}
-                className="inline-flex items-center gap-3 px-8 py-4 rounded-xl bg-accent text-main font-bold font-mono text-base hover:bg-accent/90 hover:shadow-2xl hover:shadow-accent/30 transition-all duration-300 group"
-              >
-                <Mail size={18} />
-                Open email template
-                <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
-              </a>
-            </motion.div>
-
-            <motion.p
-              variants={revealItem}
-              className="mt-5 text-secondary/40 text-sm font-mono"
-            >
-              Opens your email client with a pre-filled message template.
-            </motion.p>
+              <Mail size={16} />
+              Open email template
+              <ArrowRight size={14} />
+            </a>
+            <p className="mt-4 text-foreground/30 text-xs font-mono">
+              Opens your email client with a pre-filled message.
+            </p>
           </motion.div>
         </section>
 
-        {/* ============================================================ */}
-        {/* CONTACT CARDS                                                 */}
-        {/* ============================================================ */}
-        <section className="relative py-16 sm:py-20 border-t border-accent/10">
-          <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-            <SectionLead
-              eyebrow="find us"
-              title="Where we are."
-            />
-
-            <motion.div
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, margin: "-60px" }}
-              variants={revealContainer(0.15, 0.12)}
-              className="grid sm:grid-cols-3 gap-5 mt-10"
+        <section className="px-6 sm:px-12 lg:px-20 py-16 border-t border-border">
+          <div className="max-w-5xl">
+            <motion.span
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="text-[10px] font-mono tracking-[0.3em] uppercase text-accent/70 block mb-10"
             >
+              Find us
+            </motion.span>
+
+            <div className="grid sm:grid-cols-3 gap-px bg-border/30">
               {CONTACT_CARDS.map(({ Icon, label, lines, href }) => (
                 <motion.div
                   key={label}
-                  variants={revealItem}
-                  className="group relative rounded-2xl border border-accent/20 bg-gradient-to-br from-main/95 via-main to-main/85 backdrop-blur-md p-6 hover:border-accent/50 hover:-translate-y-1 hover:shadow-2xl hover:shadow-accent/15 transition-all duration-500 overflow-hidden"
+                  initial={{ opacity: 0, y: 16 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-40px" }}
+                  transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                  className="bg-background/60 p-6"
                 >
-                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-accent/0 to-accent/8 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                  <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-accent/10 border border-accent/30 mb-4 group-hover:bg-accent/20 transition-colors">
-                    <Icon size={20} className="text-accent" />
+                  <div className="flex items-center gap-3 mb-4">
+                    <Icon size={16} className="text-accent" />
+                    <span className="text-[10px] font-mono tracking-[0.2em] uppercase text-foreground/40">
+                      {label}
+                    </span>
                   </div>
-                  <p className="text-accent font-mono text-[11px] tracking-widest mb-2">$ {label.toLowerCase()}</p>
-                  <div className="space-y-0.5">
+                  <div className="space-y-1">
                     {lines.map((line) =>
                       href ? (
-                        <a
-                          key={line}
-                          href={href}
-                          className="block text-secondary/80 text-sm font-mono hover:text-accent transition-colors"
-                        >
+                        <a key={line} href={href} className="block text-xs text-foreground/60 font-mono hover:text-accent transition-colors">
                           {line}
                         </a>
                       ) : (
-                        <p key={line} className="text-secondary/75 text-sm font-mono leading-relaxed">
+                        <p key={line} className="text-xs text-foreground/50 font-mono leading-relaxed">
                           {line}
                         </p>
                       )
@@ -195,118 +159,74 @@ export default function ContactClient() {
                   </div>
                 </motion.div>
               ))}
-            </motion.div>
+            </div>
           </div>
         </section>
 
-        {/* ============================================================ */}
-        {/* WHAT TO EXPECT                                                */}
-        {/* ============================================================ */}
-        <section className="relative py-16 sm:py-20 border-t border-accent/10 overflow-hidden">
-          <div
-            className="aurora-orb aurora-orb--gold"
-            style={{ width: "40vw", height: "40vw", top: "-10vw", right: "-10vw", opacity: 0.12 }}
-          />
-
-          <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-            <SectionLead
-              eyebrow="the process"
-              title="What happens after you hit send."
-            />
-
-            <motion.div
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, margin: "-60px" }}
-              variants={revealContainer(0.2, 0.14)}
-              className="grid sm:grid-cols-3 gap-6 mt-10"
+        <section className="px-6 sm:px-12 lg:px-20 py-16 border-t border-border">
+          <div className="max-w-5xl">
+            <motion.span
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="text-[10px] font-mono tracking-[0.3em] uppercase text-accent/70 block mb-10"
             >
+              What happens next
+            </motion.span>
+
+            <div className="grid sm:grid-cols-3 gap-8">
               {PROCESS_STEPS.map(({ Icon, title, body }, i) => (
                 <motion.div
                   key={title}
-                  variants={revealItem}
-                  className="relative"
+                  initial={{ opacity: 0, y: 16 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-40px" }}
+                  transition={{ duration: 0.5, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
                 >
-                  <div className="flex items-start gap-4">
-                    <div className="flex-shrink-0 flex items-center justify-center w-10 h-10 rounded-lg bg-accent/10 border border-accent/25">
-                      <Icon size={18} className="text-accent" />
-                    </div>
-                    <div>
-                      <p className="text-accent font-mono text-[10px] tracking-widest mb-1">
-                        0{i + 1}
-                      </p>
-                      <h3 className="text-secondary font-bold font-mono text-base mb-2">{title}</h3>
-                      <p className="text-secondary/60 text-sm leading-relaxed">{body}</p>
-                    </div>
-                  </div>
+                  <span className="text-[10px] font-mono text-accent/50 block mb-3">
+                    0{i + 1}
+                  </span>
+                  <h3 className="text-sm font-mono font-semibold text-foreground/90 mb-2">{title}</h3>
+                  <p className="text-xs text-foreground/45 font-mono leading-relaxed">{body}</p>
                 </motion.div>
               ))}
-            </motion.div>
+            </div>
           </div>
         </section>
 
-        {/* ============================================================ */}
-        {/* FAQ                                                           */}
-        {/* ============================================================ */}
-        <section className="relative py-16 sm:py-20 border-t border-accent/10">
-          <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-            <SectionLead
-              eyebrow="common questions"
-              title="Quick answers."
-            />
-
-            <motion.dl
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, margin: "-60px" }}
-              variants={revealContainer(0.2, 0.1)}
-              className="mt-10 space-y-4"
+        <section className="px-6 sm:px-12 lg:px-20 py-16 border-t border-border">
+          <div className="max-w-3xl">
+            <motion.span
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="text-[10px] font-mono tracking-[0.3em] uppercase text-accent/70 block mb-10"
             >
-              {FAQS.map(({ q, a }) => (
+              FAQ
+            </motion.span>
+
+            <div className="space-y-px bg-border/30">
+              {FAQS.map(({ q, a }, i) => (
                 <motion.div
                   key={q}
-                  variants={revealItem}
-                  className="rounded-xl border border-accent/15 bg-main/60 backdrop-blur-sm p-5"
+                  initial={{ opacity: 0 }}
+                  whileInView={{ opacity: 1 }}
+                  viewport={{ once: true, margin: "-30px" }}
+                  transition={{ duration: 0.4, delay: i * 0.05 }}
+                  className="bg-background/60 p-5"
                 >
-                  <dt className="text-secondary font-bold font-mono text-sm mb-2">{q}</dt>
-                  <dd className="text-secondary/60 text-sm leading-relaxed">{a}</dd>
+                  <p className="text-xs font-mono font-semibold text-foreground/80 mb-2">{q}</p>
+                  <p className="text-xs text-foreground/45 font-mono leading-relaxed">{a}</p>
                 </motion.div>
               ))}
-            </motion.dl>
+            </div>
           </div>
-        </section>
-
-        {/* ============================================================ */}
-        {/* CLOSING CTA                                                   */}
-        {/* ============================================================ */}
-        <section className="relative py-24 sm:py-32 overflow-hidden border-t border-accent/10">
-          <div
-            className="aurora-orb aurora-orb--gold"
-            style={{ width: "60vw", height: "60vw", top: "-20vw", left: "-15vw", opacity: 0.32 }}
-          />
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7, ease: easing.outExpo }}
-            className="relative max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 text-center"
-          >
-            <p className="text-accent font-mono text-sm tracking-widest mb-5">$ ready when you are</p>
-            <h2 className="text-secondary text-3xl sm:text-4xl md:text-5xl font-bold font-mono leading-[1.1] mb-6 tracking-tight">
-              Stop shipping <span className="text-sweep">prototypes.</span>
-            </h2>
-            <p className="text-secondary/60 text-base sm:text-lg leading-relaxed mb-10">
-              One email. Tell us what you need to outlast its requirements.
-            </p>
-            <PrimaryButton href={MAILTO} icon>
-              $ Open email template
-            </PrimaryButton>
-          </motion.div>
         </section>
       </main>
 
-      <Suspense fallback={<footer className="py-8 bg-main border-t border-accent/20" />}>
+      <Suspense fallback={null}>
         <Footer />
       </Suspense>
     </div>

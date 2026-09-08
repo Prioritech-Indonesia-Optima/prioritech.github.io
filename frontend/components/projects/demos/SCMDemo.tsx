@@ -80,17 +80,17 @@ export function SCMDemo() {
             {orders.map((o, i) => (
               <motion.div key={o.id}
                 initial={{ opacity: 0, x: 6 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.08 }}
-                className="flex items-center justify-between gap-3 p-2.5 rounded border border-accent/15 bg-main/50">
+                className="flex items-center justify-between gap-3 p-2.5 rounded border border-accent/15 bg-card/50">
                 <div className="min-w-0">
                   <div className="flex items-baseline gap-2">
                     <span className="text-accent text-sm font-mono">{o.id}</span>
                     <StatusPill label={o.status} tone={o.tone} />
                   </div>
-                  <div className="text-[11px] text-secondary/55 font-mono mt-0.5">{o.from} → {o.to}</div>
+                  <div className="text-[11px] text-foreground/55 font-mono mt-0.5">{o.from} → {o.to}</div>
                 </div>
                 <div className="text-right flex-shrink-0">
-                  <div className="text-xs text-secondary/55">ETA</div>
-                  <div className={`text-sm font-semibold tabular-nums ${o.tone === "danger" ? "text-rose-300" : o.tone === "success" ? "text-emerald-300" : "text-secondary"}`}>
+                  <div className="text-xs text-foreground/55">ETA</div>
+                  <div className={`text-sm font-semibold tabular-nums ${o.tone === "danger" ? "text-rose-300" : o.tone === "success" ? "text-emerald-300" : "text-foreground"}`}>
                     {o.eta}
                   </div>
                 </div>

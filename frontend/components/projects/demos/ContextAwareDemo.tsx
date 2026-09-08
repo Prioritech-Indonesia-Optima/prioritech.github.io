@@ -90,7 +90,7 @@ export function ContextAwareDemo() {
               })}
               <circle cx={query.x} cy={query.y} r={1.4} fill="#daa520" stroke="#fff8" strokeWidth={0.3} />
             </svg>
-            <div className="absolute bottom-2 left-2 text-[10px] text-secondary/50 font-mono">
+            <div className="absolute bottom-2 left-2 text-[10px] text-foreground/50 font-mono">
               dim_reduce(pca) · k={k}
             </div>
           </div>
@@ -104,22 +104,22 @@ export function ContextAwareDemo() {
                 initial={{ opacity: 0, x: 6 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: i * 0.12, duration: duration.base, ease: easing.outExpo }}
-                className="rounded border border-accent/15 bg-main/50 p-2.5"
+                className="rounded border border-accent/15 bg-card/50 p-2.5"
               >
                 <div className="flex items-baseline justify-between mb-1">
                   <span className="text-xs text-accent font-mono truncate">{d.src}</span>
-                  <span className="text-xs text-secondary/70 tabular-nums">{d.score}</span>
+                  <span className="text-xs text-foreground/70 tabular-nums">{d.score}</span>
                 </div>
-                <p className="text-[11px] text-secondary/60 leading-relaxed italic">{d.snippet}</p>
+                <p className="text-[11px] text-foreground/60 leading-relaxed italic">{d.snippet}</p>
               </motion.div>
             ))}
             <div className="pt-2 border-t border-accent/10">
               <div className="flex items-center justify-between mb-1">
-                <span className="text-[10px] uppercase tracking-wider text-secondary/55">Feedback signal</span>
+                <span className="text-[10px] uppercase tracking-wider text-foreground/55">Feedback signal</span>
                 <StatusPill label="+0.18" tone="success" />
               </div>
               <Bar pct={88} tone="success" />
-              <div className="text-[10px] text-secondary/40 mt-1">↑ reranker boosted next iteration</div>
+              <div className="text-[10px] text-foreground/40 mt-1">↑ reranker boosted next iteration</div>
             </div>
           </div>
         </Panel>

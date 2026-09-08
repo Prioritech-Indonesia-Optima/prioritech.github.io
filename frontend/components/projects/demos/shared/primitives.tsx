@@ -5,7 +5,7 @@
  * Self-contained — only depend on framer-motion and motion tokens.
  */
 
-import { useEffect, useState, useRef, ReactNode } from "react"
+import { useEffect, useState, useRef, useId, ReactNode } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { easing, duration } from "@/lib/motion"
 
@@ -23,12 +23,12 @@ export type TermLine =
   | { kind: "rule" }
 
 const toneClass = {
-  default: "text-secondary/85",
+  default: "text-foreground/85",
   ok: "text-emerald-300",
   warn: "text-amber-300",
   err: "text-rose-300",
   info: "text-sky-300",
-  dim: "text-secondary/45",
+  dim: "text-foreground/45",
 }
 
 export function AnimatedTerminal({
@@ -74,7 +74,7 @@ export function AnimatedTerminal({
   return (
     <div
       ref={ref}
-      className={`relative overflow-hidden rounded-lg border border-accent/15 bg-main/70 backdrop-blur-sm font-mono text-[12px] sm:text-[13px] leading-relaxed overflow-y-auto scrollbar-hide ${className}`}
+      className={`relative overflow-hidden rounded-lg border border-accent/15 bg-card font-mono text-[12px] sm:text-[13px] leading-relaxed overflow-y-auto scrollbar-hide ${className}`}
       style={{ height, opacity: fading ? 0 : 1, transition: "opacity 0.28s ease" }}
     >
       {/* faint scanlines */}
@@ -109,7 +109,7 @@ function TermRow({ line }: { line: TermLine }) {
         className="flex gap-2"
       >
         <span className="text-accent select-none">$</span>
-        <span className="text-secondary">{line.text}</span>
+        <span className="text-foreground">{line.text}</span>
       </motion.div>
     )
   }
@@ -162,7 +162,7 @@ export function ChatBubble({
   if (isSystem) {
     return (
       <div className="flex justify-center my-2">
-        <span className="text-[10px] uppercase tracking-wider text-secondary/40 bg-main/60 border border-accent/10 rounded-full px-2 py-0.5">
+        <span className="text-[10px] uppercase tracking-wider text-foreground/40 bg-card/60 border border-accent/10 rounded-full px-2 py-0.5">
           {text}
         </span>
       </div>
@@ -179,15 +179,15 @@ export function ChatBubble({
       <div
         className={`max-w-[85%] rounded-2xl px-3 py-2 text-sm leading-relaxed border ${
           isUser
-            ? "bg-accent/15 border-accent/30 text-secondary rounded-br-sm"
-            : "bg-main/70 border-accent/15 text-secondary/90 rounded-bl-sm"
+            ? "bg-accent/15 border-accent/30 text-foreground rounded-br-sm"
+            : "bg-card/70 border-accent/15 text-foreground/90 rounded-bl-sm"
         }`}
       >
         {from && (
           <div className="text-[10px] text-accent/70 uppercase tracking-wider mb-1">{from}</div>
         )}
         <div>{text}</div>
-        {meta && <div className="text-[10px] text-secondary/40 mt-1">{meta}</div>}
+        {meta && <div className="text-[10px] text-foreground/40 mt-1">{meta}</div>}
       </div>
     </motion.div>
   )
@@ -326,10 +326,10 @@ export function Panel({
   className?: string
 }) {
   return (
-    <div className={`rounded-lg border border-accent/15 bg-main/60 backdrop-blur-sm overflow-hidden ${className}`}>
+    <div className={`rounded-lg border border-accent/15 bg-card/60 backdrop-blur-sm overflow-hidden ${className}`}>
       {(title || right) && (
-        <div className="flex items-center justify-between px-3 py-2 border-b border-accent/10 bg-main/50">
-          <div className="text-[11px] uppercase tracking-wider text-secondary/55">{title}</div>
+        <div className="flex items-center justify-between px-3 py-2 border-b border-accent/10 bg-card/50">
+          <div className="text-[11px] uppercase tracking-wider text-foreground/55">{title}</div>
           {right}
         </div>
       )}
@@ -360,14 +360,14 @@ export function StepFlow({ steps }: { steps: { label: string; status: "done" | "
                   ? "bg-emerald-500/20 border-emerald-500/50 text-emerald-300"
                   : s.status === "active"
                   ? "bg-accent/20 border-accent/60 text-accent animate-pulse"
-                  : "bg-main/60 border-secondary/20 text-secondary/40"
+                  : "bg-card/60 border-foreground/20 text-foreground/40"
               }`}
             >
               {s.status === "done" ? "✓" : s.status === "active" ? "•" : i + 1}
             </span>
             <span
               className={`text-xs sm:text-sm font-mono ${
-                s.status === "pending" ? "text-secondary/40" : "text-secondary/85"
+                s.status === "pending" ? "text-foreground/40" : "text-foreground/85"
               }`}
             >
               {s.label}
@@ -376,5 +376,227 @@ export function StepFlow({ steps }: { steps: { label: string; status: "done" | "
         ))}
       </AnimatePresence>
     </ol>
+  )
+}
+
+// ---------------------------------------------------------------------------
+// LineChart — responsive SVG line/area chart with grid + axis labels.
+// Optionally splits into a solid history + dashed forecast at `forecastFrom`.
+// ---------------------------------------------------------------------------
+
+export function LineChart({
+  series,
+  xLabels,
+  yMin,
+  yMax,
+  height = 170,
+  stroke = "#daa520",
+  fill = true,
+  forecastFrom,
+  grid = true,
+  yFormat = (v: number) => String(Math.round(v)),
+  className = "",
+}: {
+  series: number[]
+  xLabels?: string[]
+  yMin?: number
+  yMax?: number
+  height?: number
+  stroke?: string
+  fill?: boolean
+  forecastFrom?: number
+  grid?: boolean
+  yFormat?: (v: number) => string
+  className?: string
+}) {
+  const gid = useId().replace(/:/g, "")
+  const data = series
+  const n = data.length
+  const rawMin = Math.min(...data)
+  const rawMax = Math.max(...data)
+  const pad = (rawMax - rawMin || 1) * 0.14
+  const min = yMin ?? rawMin - pad
+  const max = yMax ?? rawMax + pad
+  const range = max - min || 1
+  const W = 100
+  const H = 100
+  const x = (i: number) => (i / (n - 1)) * W
+  const y = (v: number) => H - ((v - min) / range) * H
+  const linePath = data.map((v, i) => `${i === 0 ? "M" : "L"} ${x(i).toFixed(2)} ${y(v).toFixed(2)}`).join(" ")
+  const areaPath = `${linePath} L ${W} ${H} L 0 ${H} Z`
+  const hist = forecastFrom ? data.slice(0, forecastFrom) : data
+  const fc = forecastFrom ? data.slice(forecastFrom - 1) : []
+  const histPath = hist.map((v, i) => `${i === 0 ? "M" : "L"} ${x(i).toFixed(2)} ${y(v).toFixed(2)}`).join(" ")
+  const fcPath = fc.map((v, i) => `${i === 0 ? "M" : "L"} ${x(forecastFrom! - 1 + i).toFixed(2)} ${y(v).toFixed(2)}`).join(" ")
+  const gridLines = [0, 0.25, 0.5, 0.75, 1]
+
+  return (
+    <div className={`relative w-full ${className}`} style={{ height }}>
+      {/* Y-axis gutter */}
+      <div className="absolute left-0 top-0 bottom-5 w-9 pointer-events-none">
+        {grid &&
+          gridLines.map((g, i) => (
+            <span
+              key={i}
+              className="absolute right-1.5 text-[9px] font-mono text-foreground/35 leading-none tabular-nums"
+              style={{ top: `${g * 100}%`, transform: "translateY(-50%)" }}
+            >
+              {yFormat(min + (max - min) * (1 - g))}
+            </span>
+          ))}
+      </div>
+
+      {/* Plot area */}
+      <div className="absolute left-9 right-0 top-0 bottom-5">
+        <svg viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" className="w-full h-full overflow-visible">
+          <defs>
+            <linearGradient id={gid} x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor={stroke} stopOpacity="0.28" />
+              <stop offset="100%" stopColor={stroke} stopOpacity="0" />
+            </linearGradient>
+          </defs>
+          {grid &&
+            gridLines.map((g, i) => (
+              <line key={i} x1={0} x2={W} y1={H * g} y2={H * g} stroke="currentColor" strokeOpacity={0.09} strokeWidth={0.3} />
+            ))}
+          {fill && <path d={areaPath} fill={`url(#${gid})`} />}
+          {forecastFrom ? (
+            <>
+              <path d={histPath} stroke={stroke} strokeWidth={1.4} fill="none" strokeLinecap="round" strokeLinejoin="round" vectorEffect="non-scaling-stroke" />
+              <path d={fcPath} stroke={stroke} strokeWidth={1.4} fill="none" strokeDasharray="4 3" strokeLinecap="round" vectorEffect="non-scaling-stroke" opacity={0.85} />
+              <line x1={x(forecastFrom - 1)} x2={x(forecastFrom - 1)} y1={0} y2={H} stroke={stroke} strokeOpacity={0.3} strokeWidth={0.4} strokeDasharray="2 2" />
+            </>
+          ) : (
+            <motion.path
+              d={linePath}
+              stroke={stroke}
+              strokeWidth={1.4}
+              fill="none"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              vectorEffect="non-scaling-stroke"
+              initial={{ pathLength: 0 }}
+              animate={{ pathLength: 1 }}
+              transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
+            />
+          )}
+          <circle cx={x(n - 1)} cy={y(data[n - 1])} r={2.2} fill={stroke} />
+        </svg>
+      </div>
+
+      {/* X-axis labels */}
+      {xLabels && (
+        <div className="absolute left-9 right-0 bottom-0 h-4 flex justify-between items-center text-[9px] font-mono text-foreground/30">
+          {xLabels.map((l, i) => (
+            <span key={i}>{l}</span>
+          ))}
+        </div>
+      )}
+    </div>
+  )
+}
+
+// ---------------------------------------------------------------------------
+// RadialGauge — circular progress ring with a centered value.
+// ---------------------------------------------------------------------------
+
+export function RadialGauge({
+  value,
+  max = 100,
+  label,
+  size = 128,
+  stroke = "#daa520",
+  suffix = "",
+}: {
+  value: number
+  max?: number
+  label?: string
+  size?: number
+  stroke?: string
+  suffix?: string
+}) {
+  const r = 44
+  const c = 2 * Math.PI * r
+  const pct = Math.max(0, Math.min(1, value / max))
+  return (
+    <div className="relative inline-flex items-center justify-center" style={{ width: size, height: size }}>
+      <svg viewBox="0 0 100 100" className="w-full h-full -rotate-90">
+        <circle cx="50" cy="50" r={r} fill="none" strokeWidth="8" className="text-foreground/10" stroke="currentColor" />
+        <motion.circle
+          cx="50"
+          cy="50"
+          r={r}
+          fill="none"
+          strokeWidth="8"
+          stroke={stroke}
+          strokeLinecap="round"
+          strokeDasharray={c}
+          initial={{ strokeDashoffset: c }}
+          animate={{ strokeDashoffset: c * (1 - pct) }}
+          transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
+        />
+      </svg>
+      <div className="absolute inset-0 flex flex-col items-center justify-center">
+        <span className="text-2xl font-bold tabular-nums" style={{ color: stroke }}>
+          {Math.round(value)}
+          {suffix}
+        </span>
+        {label && <span className="text-[10px] uppercase tracking-wider text-foreground/45 mt-0.5">{label}</span>}
+      </div>
+    </div>
+  )
+}
+
+// ---------------------------------------------------------------------------
+// Donut — multi-segment composition ring with a centered total.
+// ---------------------------------------------------------------------------
+
+export function Donut({
+  segments,
+  size = 128,
+  thickness = 12,
+  centerValue,
+  centerLabel,
+}: {
+  segments: { value: number; color: string }[]
+  size?: number
+  thickness?: number
+  centerValue?: string
+  centerLabel?: string
+}) {
+  const total = segments.reduce((s, x) => s + x.value, 0) || 1
+  const r = 40
+  const c = 2 * Math.PI * r
+  let offset = 0
+  return (
+    <div className="relative inline-flex items-center justify-center" style={{ width: size, height: size }}>
+      <svg viewBox="0 0 100 100" className="w-full h-full -rotate-90">
+        <circle cx="50" cy="50" r={r} fill="none" strokeWidth={thickness} className="text-foreground/5" stroke="currentColor" />
+        {segments.map((s, i) => {
+          const len = (s.value / total) * c
+          const el = (
+            <motion.circle
+              key={i}
+              cx="50"
+              cy="50"
+              r={r}
+              fill="none"
+              stroke={s.color}
+              strokeWidth={thickness}
+              strokeDasharray={`${len} ${c - len}`}
+              initial={{ strokeDashoffset: -offset, opacity: 0 }}
+              animate={{ strokeDashoffset: -offset, opacity: 1 }}
+              transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+            />
+          )
+          offset += len
+          return el
+        })}
+      </svg>
+      <div className="absolute inset-0 flex flex-col items-center justify-center">
+        {centerValue && <span className="text-lg font-bold tabular-nums text-foreground">{centerValue}</span>}
+        {centerLabel && <span className="text-[9px] uppercase tracking-wider text-foreground/45">{centerLabel}</span>}
+      </div>
+    </div>
   )
 }

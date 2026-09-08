@@ -76,7 +76,7 @@ export function OfflineTranscriberDemo() {
         <Panel title="Audio · meeting capture"
           right={<div className="flex items-center gap-2"><PulseDot color="bg-rose-400" /><span className="text-[10px] uppercase tracking-wider text-rose-300">REC</span></div>}
           className="lg:col-span-3">
-          <div className="rounded bg-main/40 border border-accent/15 p-4">
+          <div className="rounded bg-card/40 border border-accent/15 p-4">
             <div className="flex items-end gap-[2px] h-20">
               {bars.map((h, i) => (
                 <motion.span
@@ -88,22 +88,22 @@ export function OfflineTranscriberDemo() {
                 />
               ))}
             </div>
-            <div className="mt-3 text-[10px] text-secondary/50 font-mono flex items-center justify-between">
+            <div className="mt-3 text-[10px] text-foreground/50 font-mono flex items-center justify-between">
               <span>16kHz · mono · float32 · 24Hz partials</span>
               <span>04:{(18 + Math.floor(tick / 10)).toString().padStart(2, "0")}</span>
             </div>
           </div>
 
-          <div className="mt-4 rounded bg-main/40 border border-accent/15 p-4 max-h-[180px] overflow-y-auto scrollbar-hide">
+          <div className="mt-4 rounded bg-card/40 border border-accent/15 p-4 max-h-[180px] overflow-y-auto scrollbar-hide">
             {renderedLines.map((l, i) => (
               <motion.div key={i}
                 initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }}
-                className="text-sm text-secondary/85 font-mono leading-relaxed mb-1.5">
+                className="text-sm text-foreground/85 font-mono leading-relaxed mb-1.5">
                 <span className="text-accent">›</span> {l}
               </motion.div>
             ))}
             {textIndex < transcript.length && (
-              <div className="text-sm text-secondary/85 font-mono leading-relaxed">
+              <div className="text-sm text-foreground/85 font-mono leading-relaxed">
                 <span className="text-accent">›</span> {transcript[textIndex].slice(0, charIndex)}
                 <span className="inline-block w-2 h-3 align-middle bg-accent ml-0.5 animate-pulse" />
               </div>
@@ -114,11 +114,11 @@ export function OfflineTranscriberDemo() {
         <div className="lg:col-span-2 space-y-4">
           <AnimatedTerminal lines={term} height={220} />
           <Panel title="Auto-summary">
-            <p className="text-xs text-secondary/80 leading-relaxed mb-3">
+            <p className="text-xs text-foreground/80 leading-relaxed mb-3">
               Tokenizer overhead dominates inference latency. Switching to fast tokenizer recovers ~38ms.
             </p>
-            <div className="text-[10px] uppercase tracking-wider text-secondary/55 mb-1">Action items</div>
-            <ul className="text-xs space-y-1 text-secondary/85">
+            <div className="text-[10px] uppercase tracking-wider text-foreground/55 mb-1">Action items</div>
+            <ul className="text-xs space-y-1 text-foreground/85">
               <li>• Ship fast tokenizer to staging — <span className="text-accent">Fri</span></li>
               <li>• Audit per-worker memory budget — <span className="text-accent">+12MB</span></li>
             </ul>

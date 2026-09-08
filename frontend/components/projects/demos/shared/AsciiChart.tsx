@@ -96,16 +96,16 @@ export function AsciiChart({
   const getColorForValue = (value: number): string => {
     if (value > 0) return "text-green-500"
     if (value < 0) return "text-red-500"
-    return "text-secondary"
+    return "text-foreground"
   }
 
   return (
     <div className="font-mono text-xs">
       {label && (
-        <div className="mb-1 text-secondary/60">{label}</div>
+        <div className="mb-1 text-foreground/60">{label}</div>
       )}
       
-      <div className="text-secondary">
+      <div className="text-foreground">
         {type === "sparkline" ? (
           <div className="tracking-tight">{renderSparkline()}</div>
         ) : (
@@ -120,7 +120,7 @@ export function AsciiChart({
       </div>
 
       {complete && animatedData.length > 0 && (
-        <div className="mt-1 text-secondary/40 text-xs">
+        <div className="mt-1 text-foreground/40 text-xs">
           Min: {Math.min(...data).toFixed(2)} • Max: {Math.max(...data).toFixed(2)}
         </div>
       )}

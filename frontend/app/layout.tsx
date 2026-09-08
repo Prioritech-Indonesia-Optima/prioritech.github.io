@@ -3,6 +3,7 @@ import { GeistSans } from 'geist/font/sans'
 import { GeistMono } from 'geist/font/mono'
 import { Analytics } from '@vercel/analytics/next'
 import { SplashScreenWrapper } from '@/components/common/SplashScreenWrapper'
+import { ThemeProvider } from '@/components/common/ThemeProvider'
 import { StructuredData } from '@/components/common/StructuredData'
 import { ResourceHints } from '@/components/common/ResourceHints'
 import { generateMetadata as generateSEOMetadata, siteConfig, getCanonicalUrl } from '@/lib/seo'
@@ -61,8 +62,8 @@ export const viewport: Viewport = {
   initialScale: 1,
   maximumScale: 5,
   themeColor: [
-    { media: '(prefers-color-scheme: dark)', color: '#2d2c2c' },
-    { media: '(prefers-color-scheme: light)', color: '#2d2c2c' },
+    { media: '(prefers-color-scheme: dark)', color: '#0a0a0a' },
+    { media: '(prefers-color-scheme: light)', color: '#ef9a0e' },
   ],
   colorScheme: 'dark',
 }
@@ -151,7 +152,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
         <ResourceHints />
         <StructuredData 
@@ -160,13 +161,20 @@ export default function RootLayout({
         />
       </head>
       <body className={`font-sans antialiased ${GeistSans.variable} ${GeistMono.variable}`}>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var t=localStorage.getItem('prioritech-theme');if(!t){t=window.matchMedia('(prefers-color-scheme: light)').matches?'light':'dark'}if(t==='light'){document.documentElement.classList.add('light')}}catch(e){}})()`,
+          }}
+        />
         <a href="#main-content" className="skip-link">
           Skip to content
         </a>
-        <SplashScreenWrapper>
-          {children}
-          <Analytics />
-        </SplashScreenWrapper>
+        <ThemeProvider>
+          <SplashScreenWrapper>
+            {children}
+            <Analytics />
+          </SplashScreenWrapper>
+        </ThemeProvider>
       </body>
     </html>
   )

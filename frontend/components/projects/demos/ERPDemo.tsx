@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react"
 import { motion } from "framer-motion"
 import { DemoShell, StatusPill, Bar } from "./shared/DemoShell"
-import { Panel, AnimatedNumber, Sparkline } from "./shared/primitives"
+import { Panel, AnimatedNumber, LineChart } from "./shared/primitives"
 
 /**
  * ERP Suite — unified financial + operational + HR cockpit.
@@ -46,36 +46,44 @@ export function ERPDemo() {
       <div className="grid lg:grid-cols-6 gap-4">
         {/* Revenue card */}
         <Panel title="Revenue · last 16 weeks" className="lg:col-span-3">
-          <div className="flex items-baseline gap-3 mb-2">
+          <div className="flex items-baseline gap-3 mb-3">
             <div className="text-3xl font-bold text-accent tabular-nums">
               $<AnimatedNumber value={2.84} decimals={2} />M
             </div>
             <span className="text-xs text-emerald-300">+12.4% YoY</span>
           </div>
-          <div className="text-accent w-full">
-            <Sparkline points={revenueSeries} height={64} width={300} className="w-full h-16" stroke="#daa520" />
-          </div>
+          <LineChart
+            series={revenueSeries}
+            xLabels={["W1", "W4", "W8", "W12", "W16"]}
+            yFormat={(v) => `$${Math.round(v)}k`}
+            stroke="#daa520"
+            height={150}
+          />
           <div className="grid grid-cols-3 gap-3 mt-3 text-xs">
-            <div><div className="text-secondary/55">Orders</div><div className="text-secondary tabular-nums font-semibold">1,284</div></div>
-            <div><div className="text-secondary/55">AOV</div><div className="text-secondary tabular-nums font-semibold">$2,210</div></div>
-            <div><div className="text-secondary/55">Margin</div><div className="text-secondary tabular-nums font-semibold">34.8%</div></div>
+            <div><div className="text-foreground/55">Orders</div><div className="text-foreground tabular-nums font-semibold">1,284</div></div>
+            <div><div className="text-foreground/55">AOV</div><div className="text-foreground tabular-nums font-semibold">$2,210</div></div>
+            <div><div className="text-foreground/55">Margin</div><div className="text-foreground tabular-nums font-semibold">34.8%</div></div>
           </div>
         </Panel>
 
         <Panel title="Cash · liquidity" className="lg:col-span-3">
-          <div className="flex items-baseline gap-3 mb-2">
+          <div className="flex items-baseline gap-3 mb-3">
             <div className="text-3xl font-bold text-emerald-300 tabular-nums">
               $<AnimatedNumber value={5.12} decimals={2} />M
             </div>
             <span className="text-xs text-emerald-300">runway 14mo</span>
           </div>
-          <div className="text-emerald-300 w-full">
-            <Sparkline points={cashSeries} height={64} width={300} className="w-full h-16" stroke="#10b981" />
-          </div>
+          <LineChart
+            series={cashSeries}
+            xLabels={["W1", "W4", "W8", "W12", "W16"]}
+            yFormat={(v) => `$${Math.round(v)}k`}
+            stroke="#10b981"
+            height={150}
+          />
           <div className="grid grid-cols-3 gap-3 mt-3 text-xs">
-            <div><div className="text-secondary/55">AR</div><div className="text-amber-300 tabular-nums font-semibold">$418k</div></div>
-            <div><div className="text-secondary/55">AP</div><div className="text-rose-300 tabular-nums font-semibold">$284k</div></div>
-            <div><div className="text-secondary/55">Net</div><div className="text-accent tabular-nums font-semibold">$134k</div></div>
+            <div><div className="text-foreground/55">AR</div><div className="text-amber-300 tabular-nums font-semibold">$418k</div></div>
+            <div><div className="text-foreground/55">AP</div><div className="text-rose-300 tabular-nums font-semibold">$284k</div></div>
+            <div><div className="text-foreground/55">Net</div><div className="text-accent tabular-nums font-semibold">$134k</div></div>
           </div>
         </Panel>
 
@@ -88,10 +96,10 @@ export function ERPDemo() {
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.06 }}
-                className="rounded border border-accent/15 bg-main/50 p-3"
+                className="rounded border border-accent/15 bg-card/50 p-3"
               >
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-sm text-secondary">{m.name}</span>
+                  <span className="text-sm text-foreground">{m.name}</span>
                   <StatusPill label={m.status} tone={m.status === "live" ? "success" : "muted"} />
                 </div>
                 <Bar pct={m.load} value={`${m.load}%`} tone={m.load > 85 ? "warn" : "accent"} />
@@ -114,7 +122,7 @@ export function ERPDemo() {
                 initial={{ opacity: 0, x: 4 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.08 }}
                 className="flex items-center gap-2"
               >
-                <span className="text-secondary/40 w-12 flex-shrink-0">{e.t}</span>
+                <span className="text-foreground/40 w-12 flex-shrink-0">{e.t}</span>
                 <StatusPill label={e.m} tone="muted" />
                 <span className={
                   e.tone === "success" ? "text-emerald-300"

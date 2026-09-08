@@ -24,13 +24,13 @@ interface DemoShellProps {
 
 const statusStyle: Record<string, { dot: string; label: string; pulse: boolean }> = {
   live:   { dot: "bg-emerald-400", label: "LIVE",   pulse: true },
-  idle:   { dot: "bg-secondary/40", label: "IDLE", pulse: false },
+  idle:   { dot: "bg-foreground/40", label: "IDLE", pulse: false },
   alert:  { dot: "bg-amber-400",   label: "ALERT",  pulse: true },
   secure: { dot: "bg-sky-400",      label: "SECURE", pulse: false },
 }
 
 const trendGlyph = { up: "↑", down: "↓", flat: "→" } as const
-const trendClass = { up: "text-emerald-400", down: "text-rose-400", flat: "text-secondary/60" } as const
+const trendClass = { up: "text-emerald-400", down: "text-rose-400", flat: "text-foreground/60" } as const
 
 /**
  * Captivating demo shell with header, status indicator, KPI strip, and body.
@@ -51,7 +51,7 @@ export function DemoShell({
       initial="hidden"
       animate="visible"
       variants={revealContainer(0.25, 0.06)}
-      className={`relative w-full rounded-xl border border-accent/20 bg-gradient-to-br from-main via-main to-main/95 overflow-hidden font-mono ${className}`}
+      className={`relative isolate w-full rounded-xl border border-accent/20 bg-gradient-to-br from-card via-card to-card/95 overflow-hidden font-mono ${className}`}
     >
       {/* Glow accent */}
       <div className="pointer-events-none absolute -top-24 -left-24 w-72 h-72 rounded-full bg-accent/10 blur-3xl" />
@@ -60,15 +60,15 @@ export function DemoShell({
       {/* Header */}
       <motion.div
         variants={revealItem}
-        className="relative flex items-start justify-between gap-4 px-5 sm:px-6 py-4 border-b border-accent/15 bg-main/40 backdrop-blur-sm"
+        className="relative flex items-start justify-between gap-4 px-5 sm:px-6 py-4 border-b border-accent/15 bg-card/40 backdrop-blur-sm"
       >
         <div className="min-w-0">
           <div className="flex items-center gap-2 mb-1">
             <span className={`text-xs ${accentTextClass}`}>$</span>
-            <h3 className="text-secondary font-semibold text-sm sm:text-base truncate">{title}</h3>
+            <h3 className="text-foreground font-semibold text-sm sm:text-base truncate">{title}</h3>
           </div>
           {subtitle && (
-            <p className="text-secondary/55 text-xs leading-relaxed line-clamp-2">{subtitle}</p>
+            <p className="text-foreground/55 text-xs leading-relaxed line-clamp-2">{subtitle}</p>
           )}
         </div>
         <div className="flex items-center gap-2 flex-shrink-0">
@@ -78,7 +78,7 @@ export function DemoShell({
             )}
             <span className={`relative inline-flex rounded-full h-2 w-2 ${s.dot}`} />
           </span>
-          <span className="text-[10px] tracking-widest text-secondary/70 uppercase">{s.label}</span>
+          <span className="text-[10px] tracking-widest text-foreground/70 uppercase">{s.label}</span>
         </div>
       </motion.div>
 
@@ -89,7 +89,7 @@ export function DemoShell({
           className="grid grid-cols-2 md:grid-cols-4 gap-px bg-accent/10 border-b border-accent/15"
         >
           {kpis.map((k, i) => (
-            <div key={i} className="bg-main/60 backdrop-blur-sm px-4 py-3">
+            <div key={i} className="bg-card/60 backdrop-blur-sm px-4 py-3">
               <div className="flex items-baseline gap-1.5">
                 <span className={`text-lg sm:text-xl font-bold tabular-nums ${accentTextClass}`}>
                   {k.value}
@@ -98,10 +98,10 @@ export function DemoShell({
                   <span className={`text-xs ${trendClass[k.trend]}`}>{trendGlyph[k.trend]}</span>
                 )}
               </div>
-              <div className="text-[10px] uppercase tracking-wider text-secondary/55 mt-0.5">
+              <div className="text-[10px] uppercase tracking-wider text-foreground/55 mt-0.5">
                 {k.label}
               </div>
-              {k.hint && <div className="text-[10px] text-secondary/40 mt-0.5">{k.hint}</div>}
+              {k.hint && <div className="text-[10px] text-foreground/40 mt-0.5">{k.hint}</div>}
             </div>
           ))}
         </motion.div>
@@ -129,7 +129,7 @@ export function StatusPill({
     warn:    "bg-amber-500/10 text-amber-300 border-amber-500/30",
     danger:  "bg-rose-500/10 text-rose-300 border-rose-500/30",
     info:    "bg-sky-500/10 text-sky-300 border-sky-500/30",
-    muted:   "bg-secondary/10 text-secondary/60 border-secondary/20",
+    muted:   "bg-foreground/10 text-foreground/60 border-foreground/20",
   } as const
   return (
     <span className={`inline-flex items-center gap-1 px-2 py-0.5 text-[10px] uppercase tracking-wider rounded border ${tones[tone]}`}>
@@ -160,11 +160,11 @@ export function Bar({
     <div className="w-full">
       {(label || value) && (
         <div className="flex justify-between items-baseline mb-1">
-          {label && <span className="text-xs text-secondary/70">{label}</span>}
-          {value && <span className="text-xs text-secondary tabular-nums">{value}</span>}
+          {label && <span className="text-xs text-foreground/70">{label}</span>}
+          {value && <span className="text-xs text-foreground tabular-nums">{value}</span>}
         </div>
       )}
-      <div className="h-1.5 rounded-full bg-main/60 border border-accent/10 overflow-hidden">
+      <div className="h-1.5 rounded-full bg-card/60 border border-accent/10 overflow-hidden">
         <motion.div
           className={`h-full rounded-full bg-gradient-to-r ${tones[tone]}`}
           initial={{ width: "0%" }}

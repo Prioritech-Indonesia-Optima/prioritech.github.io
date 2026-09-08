@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import Image from "next/image"
 
 interface SplashScreenProps {
@@ -28,17 +28,25 @@ interface SplashScreenProps {
  * @param show - Whether to display the splash screen
  */
 export function SplashScreen({ onComplete, show }: SplashScreenProps) {
+  const [isLight, setIsLight] = useState(false)
+
+  useEffect(() => {
+    setIsLight(document.documentElement.classList.contains("light"))
+  }, [])
+
   useEffect(() => {
     if (show) {
       const timer = setTimeout(() => {
         onComplete()
       }, 1500) // 1.5s total duration
-      
+
       return () => clearTimeout(timer)
     }
   }, [show, onComplete])
 
   if (!show) return null
+
+  const logoSrc = isLight ? "/prioritech-logo-navbar-dark.webp" : "/prioritech-logo-navbar.webp"
 
   return (
     <div className="splash-screen-container">
@@ -54,7 +62,7 @@ export function SplashScreen({ onComplete, show }: SplashScreenProps) {
       <div className="splash-content">
         <div className="splash-logo-wrapper">
           <Image
-            src="/logos/new/Asset 10.png"
+            src={logoSrc}
             alt="Prioritech Logo"
             width={600}
             height={300}
@@ -77,7 +85,7 @@ export function SplashScreen({ onComplete, show }: SplashScreenProps) {
         .splash-background {
           position: absolute;
           inset: 0;
-          background-color: #2d2c2c;
+          background-color: var(--background, #0a0a0a);
           animation: splash-fade-out 0.3s ease-in 1.2s forwards;
         }
         
@@ -88,7 +96,7 @@ export function SplashScreen({ onComplete, show }: SplashScreenProps) {
             circle at center,
             rgba(218, 165, 32, 0.12) 0%,
             rgba(218, 165, 32, 0.06) 30%,
-            rgba(45, 44, 44, 0) 70%
+            transparent 70%
           );
           animation: splash-pulse 2s ease-in-out infinite;
         }
@@ -96,7 +104,7 @@ export function SplashScreen({ onComplete, show }: SplashScreenProps) {
         .splash-iris {
           position: absolute;
           inset: 0;
-          background-color: #2d2c2c;
+          background-color: var(--background, #0a0a0a);
           clip-path: circle(0% at center);
           animation: iris-open 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
           will-change: clip-path;

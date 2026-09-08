@@ -42,7 +42,7 @@ export function WMSDemo() {
         <Panel title="Floor map · zone A"
           right={<div className="flex items-center gap-2"><PulseDot color="bg-accent" /><span className="text-[10px] uppercase tracking-wider text-accent">picking</span></div>}
           className="lg:col-span-3">
-          <div className="relative grid grid-cols-6 gap-1.5 p-2 bg-main/40 rounded border border-accent/10">
+          <div className="relative grid grid-cols-6 gap-1.5 p-2 bg-card/40 rounded border border-accent/10">
             {grid.map((b) => {
               const inPath = path.includes(b.id)
               const isCurrent = cur === b.id
@@ -55,9 +55,9 @@ export function WMSDemo() {
                   animate={isCurrent ? { scale: [1, 1.1, 1] } : {}}
                   transition={{ duration: 0.6 }}
                 >
-                  <span className="text-secondary/85">{b.sku}</span>
+                  <span className="text-foreground/85">{b.sku}</span>
                   {inPath && (
-                    <span className="absolute -top-1 -left-1 w-3.5 h-3.5 rounded-full bg-accent text-main text-[8px] flex items-center justify-center font-bold">
+                    <span className="absolute -top-1 -left-1 w-3.5 h-3.5 rounded-full bg-accent text-background text-[8px] flex items-center justify-center font-bold">
                       {pathOrder}
                     </span>
                   )}
@@ -72,7 +72,7 @@ export function WMSDemo() {
               )
             })}
           </div>
-          <div className="mt-3 flex gap-3 text-[10px] text-secondary/70 font-mono">
+          <div className="mt-3 flex gap-3 text-[10px] text-foreground/70 font-mono">
             <span className="flex items-center gap-1.5"><span className="w-2 h-2 bg-emerald-500/50 rounded-sm" />high</span>
             <span className="flex items-center gap-1.5"><span className="w-2 h-2 bg-accent/40 rounded-sm" />med</span>
             <span className="flex items-center gap-1.5"><span className="w-2 h-2 bg-amber-500/40 rounded-sm" />low</span>
@@ -92,9 +92,9 @@ export function WMSDemo() {
                     <span className={`w-5 h-5 rounded-full border flex items-center justify-center text-[10px] ${
                       done ? "bg-emerald-500/20 border-emerald-500/50 text-emerald-300"
                       : active ? "bg-accent/20 border-accent text-accent animate-pulse"
-                      : "border-secondary/20 text-secondary/40"
+                      : "border-foreground/20 text-foreground/40"
                     }`}>{done ? "✓" : i + 1}</span>
-                    <span className={done ? "text-secondary/50 line-through" : active ? "text-accent" : "text-secondary/80"}>
+                    <span className={done ? "text-foreground/50 line-through" : active ? "text-accent" : "text-foreground/80"}>
                       bay {b.sku} · 4 ea
                     </span>
                   </li>

@@ -67,7 +67,7 @@ export function ChatMessage({
     switch (sentiment.toLowerCase()) {
       case "positive": return "text-green-500"
       case "negative": return "text-red-500"
-      case "neutral": return "text-secondary/60"
+      case "neutral": return "text-foreground/60"
       default: return ""
     }
   }
@@ -85,7 +85,7 @@ export function ChatMessage({
         className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
           role === "user"
             ? "bg-accent/20 text-accent"
-            : "bg-secondary/10 text-secondary"
+            : "bg-foreground/10 text-foreground"
         }`}
       >
         {role === "user" ? <User className="w-4 h-4" /> : <Bot className="w-4 h-4" />}
@@ -100,8 +100,8 @@ export function ChatMessage({
         <div
           className={`px-4 py-3 rounded-lg font-mono text-sm ${
             role === "user"
-              ? "bg-accent/10 text-secondary border border-accent/20"
-              : "bg-main/50 text-secondary border border-secondary/20"
+              ? "bg-accent/10 text-foreground border border-accent/20"
+              : "bg-card/50 text-foreground border border-foreground/20"
           }`}
         >
           {displayText}
@@ -113,7 +113,7 @@ export function ChatMessage({
         {/* Timestamp and Sentiment */}
         {(timestamp || sentiment) && (
           <div className={`flex items-center gap-2 mt-1 text-xs ${getSentimentColor()}`}>
-            {timestamp && <span className="text-secondary/40">{timestamp}</span>}
+            {timestamp && <span className="text-foreground/40">{timestamp}</span>}
             {sentiment && (
               <span className={`${getSentimentColor()}`}>
                 {sentiment.charAt(0).toUpperCase() + sentiment.slice(1)}

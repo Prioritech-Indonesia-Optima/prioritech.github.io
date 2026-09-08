@@ -8,9 +8,6 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
-  // Enable SWC minification (faster and better than Terser)
-  swcMinify: true,
-  // Compiler options for modern browsers
   compiler: {
     // Remove console.log in production
     removeConsole: process.env.NODE_ENV === 'production' ? {
@@ -23,13 +20,6 @@ const nextConfig = {
   experimental: {
     optimizePackageImports: ['framer-motion', 'lucide-react', '@radix-ui/react-accordion', '@radix-ui/react-dialog', '@radix-ui/react-tooltip'],
     optimizeCss: true,
-  },
-  // Modularize imports for better tree shaking
-  modularizeImports: {
-    'lucide-react': {
-      transform: 'lucide-react/dist/esm/icons/{{kebabCase member}}',
-      skipDefaultConversion: true,
-    },
   },
   // Disable source maps in production
   productionBrowserSourceMaps: false,

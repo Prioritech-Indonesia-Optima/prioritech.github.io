@@ -54,7 +54,7 @@ export function IntelligentQueryDemo() {
             {rows.map((r, i) => (
               <div key={r.region}>
                 <div className="flex items-baseline justify-between mb-1">
-                  <span className="text-sm text-secondary/80">{r.region}</span>
+                  <span className="text-sm text-foreground/80">{r.region}</span>
                   <span className="text-sm text-accent font-medium">
                     $<AnimatedNumber value={r.total} />k
                   </span>
@@ -63,8 +63,8 @@ export function IntelligentQueryDemo() {
               </div>
             ))}
             <div className="pt-2 mt-2 border-t border-accent/10 flex items-center justify-between">
-              <span className="text-xs text-secondary/55">Total</span>
-              <span className="text-sm text-secondary font-bold">
+              <span className="text-xs text-foreground/55">Total</span>
+              <span className="text-sm text-foreground font-bold">
                 $<AnimatedNumber value={4530} />k
               </span>
             </div>

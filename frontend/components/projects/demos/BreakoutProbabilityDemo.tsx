@@ -2,8 +2,8 @@
 
 import { useEffect, useState, useMemo } from "react"
 import { motion } from "framer-motion"
-import { DemoShell, StatusPill, Bar } from "./shared/DemoShell"
-import { Panel, Sparkline, AnimatedNumber, PulseDot } from "./shared/primitives"
+import { DemoShell, Bar } from "./shared/DemoShell"
+import { Panel, LineChart, AnimatedNumber, PulseDot } from "./shared/primitives"
 
 /**
  * Breakout Probability — radial gauge + real-time signal indicator.
@@ -78,15 +78,19 @@ export function BreakoutProbabilityDemo() {
               <div className="text-3xl font-bold text-accent tabular-nums">
                 <AnimatedNumber value={Math.round(prob * 100)} suffix="%" />
               </div>
-              <div className="text-[10px] uppercase tracking-wider text-secondary/55">probability · 5m window</div>
+              <div className="text-[10px] uppercase tracking-wider text-foreground/55">probability · 5m window</div>
             </div>
           </div>
         </Panel>
 
         <Panel title="Price tape · 28 ticks" className="lg:col-span-3">
-          <div className="text-accent w-full">
-            <Sparkline points={tape} height={120} width={460} className="w-full h-32" stroke="#daa520" />
-          </div>
+          <LineChart
+            series={tape}
+            xLabels={["−28t", "−21t", "−14t", "−7t", "now"]}
+            yFormat={(v) => v.toFixed(0)}
+            stroke="#daa520"
+            height={150}
+          />
           <div className="mt-3 grid grid-cols-3 gap-3">
             <Bar pct={Math.round(prob * 100)} label="Momentum" value={`${(prob * 2).toFixed(2)}σ`} tone="accent" />
             <Bar pct={68} label="Volatility regime" value="HIGH" tone="warn" />
@@ -102,16 +106,16 @@ export function BreakoutProbabilityDemo() {
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.08 }}
-                className="rounded border border-accent/15 bg-main/50 p-2.5"
+                className="rounded border border-accent/15 bg-card/50 p-2.5"
               >
-                <div className="text-[10px] text-secondary/40 font-mono">{s.ts}</div>
+                <div className="text-[10px] text-foreground/40 font-mono">{s.ts}</div>
                 <div className="flex items-baseline justify-between mt-1">
                   <span className="text-accent font-semibold">{s.sym}</span>
                   <span className={`text-xs ${s.side === "LONG" ? "text-emerald-300" : "text-rose-300"}`}>
                     {s.side}
                   </span>
                 </div>
-                <div className="text-[11px] text-secondary/70 mt-0.5">edge {s.edge}</div>
+                <div className="text-[11px] text-foreground/70 mt-0.5">edge {s.edge}</div>
               </motion.div>
             ))}
           </div>

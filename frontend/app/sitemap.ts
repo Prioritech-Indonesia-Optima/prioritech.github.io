@@ -10,6 +10,8 @@
 import { MetadataRoute } from 'next'
 import { siteConfig } from '@/lib/seo'
 
+export const dynamic = 'force-static'
+
 /**
  * Generates sitemap.xml for search engine discovery.
  * 

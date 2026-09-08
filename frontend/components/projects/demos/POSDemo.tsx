@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { DemoShell, StatusPill, Bar } from "./shared/DemoShell"
-import { Panel, AnimatedNumber, Sparkline, PulseDot } from "./shared/primitives"
+import { Panel, AnimatedNumber, LineChart, PulseDot } from "./shared/primitives"
 
 /**
  * POS — Point of Sale. Live sales feed, product mix, terminals.
@@ -64,15 +64,15 @@ export function POSDemo() {
                   animate={{ opacity: 1, x: 0, scale: 1 }}
                   exit={{ opacity: 0, x: 10 }}
                   transition={{ duration: 0.3 }}
-                  className="flex items-center justify-between rounded border border-accent/15 bg-main/50 px-3 py-2"
+                  className="flex items-center justify-between rounded border border-accent/15 bg-card/50 px-3 py-2"
                 >
                   <div className="flex items-center gap-3">
                     <StatusPill label={f.term} tone="muted" />
-                    <span className="text-sm text-secondary">{f.sku}</span>
+                    <span className="text-sm text-foreground">{f.sku}</span>
                   </div>
                   <div className="text-right">
                     <div className="text-sm text-accent font-bold tabular-nums">Rp {f.price.toLocaleString("id-ID")}</div>
-                    <div className="text-[10px] text-secondary/40 font-mono">{f.t}</div>
+                    <div className="text-[10px] text-foreground/40 font-mono">{f.t}</div>
                   </div>
                 </motion.div>
               ))}
@@ -87,9 +87,13 @@ export function POSDemo() {
             </div>
             <span className="text-xs text-emerald-300">+22% DoD</span>
           </div>
-          <div className="text-accent w-full">
-            <Sparkline points={hourly} height={64} width={220} className="w-full h-16" stroke="#daa520" />
-          </div>
+          <LineChart
+            series={hourly}
+            xLabels={["07", "09", "11", "13", "15", "17", "20"]}
+            yFormat={(v) => String(Math.round(v))}
+            stroke="#daa520"
+            height={140}
+          />
           <div className="mt-3 space-y-2">
             <Bar pct={84} label="Peak utilization" value="11:00–12:00" tone="accent" />
             <Bar pct={72} label="Card / cashless" value="72%" tone="success" />
@@ -106,13 +110,13 @@ export function POSDemo() {
             ].map((p, i) => (
               <motion.div key={p.sku}
                 initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.06 }}
-                className="rounded border border-accent/15 bg-main/50 p-3">
-                <div className="text-[10px] uppercase tracking-wider text-secondary/55">{p.sku}</div>
+                className="rounded border border-accent/15 bg-card/50 p-3">
+                <div className="text-[10px] uppercase tracking-wider text-foreground/55">{p.sku}</div>
                 <div className="flex items-baseline gap-2 mt-1">
                   <span className="text-2xl text-accent font-bold tabular-nums">
                     <AnimatedNumber value={p.units} />
                   </span>
-                  <span className="text-[10px] text-secondary/55">units</span>
+                  <span className="text-[10px] text-foreground/55">units</span>
                 </div>
                 <div className="text-xs text-emerald-300 tabular-nums">Rp {(p.rev * 1000).toLocaleString("id-ID")}</div>
               </motion.div>

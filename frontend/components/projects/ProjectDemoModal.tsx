@@ -46,11 +46,11 @@ const demoMap: Record<string, React.ComponentType> = {
   "Therapeutic Dialogue AI": TherapeuticDialogueDemo,
   "Offline Transcriber": OfflineTranscriberDemo,
   "ERP Suite": ERPDemo,
-  "Warehouse Management System": WMSDemo,
+  "Warehouse Management": WMSDemo,
   "Supply Chain Management": SCMDemo,
-  "Customer Relationship Management": CRMDemo,
+  "CRM Platform": CRMDemo,
   "HRIS / HCM Platform": HRISDemo,
-  "Manufacturing Execution System": MESDemo,
+  "Manufacturing Execution": MESDemo,
   "Transportation Management": TMSDemo,
   "Point of Sale Platform": POSDemo,
 }
@@ -79,7 +79,7 @@ export function ProjectDemoModal({ open, onOpenChange, projectTitle }: ProjectDe
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
         className="
-          bg-[#2d2c2c] border-accent/20 p-0 overflow-hidden gap-0
+          bg-background border-border p-0 overflow-hidden gap-0
           w-screen h-[100dvh] max-w-none max-h-none rounded-none
           sm:w-[95vw] sm:h-auto sm:max-w-[640px] sm:max-h-[90vh] sm:rounded-xl
           md:max-w-[860px] lg:max-w-[1100px] xl:max-w-[1280px]
@@ -88,7 +88,7 @@ export function ProjectDemoModal({ open, onOpenChange, projectTitle }: ProjectDe
         showCloseButton={false}
       >
         {/* Sticky terminal-style header */}
-        <div className="sticky top-0 z-10 flex items-center justify-between gap-3 px-4 sm:px-6 py-3 sm:py-4 border-b border-accent/20 bg-[#2d2c2c]/95 backdrop-blur-md">
+        <div className="sticky top-0 z-10 flex items-center justify-between gap-3 px-4 sm:px-6 py-3 sm:py-4 border-b border-border bg-background/95 backdrop-blur-md">
           <div className="flex items-center gap-3 min-w-0">
             <div className="hidden sm:flex gap-1.5 flex-shrink-0">
               <div className="w-2.5 h-2.5 rounded-full bg-red-500/50" />
@@ -96,15 +96,15 @@ export function ProjectDemoModal({ open, onOpenChange, projectTitle }: ProjectDe
               <div className="w-2.5 h-2.5 rounded-full bg-green-500/50" />
             </div>
             <DialogTitle className="sr-only">Demo: {projectTitle}</DialogTitle>
-            <h2 className="text-secondary text-sm sm:text-base lg:text-lg font-semibold font-mono truncate">
-              <span className="text-accent">$</span> demo: <span className="text-accent">{projectTitle}</span>
+            <h2 className="text-foreground text-sm sm:text-base lg:text-lg font-semibold font-mono truncate">
+              <span className="text-accent">$</span> demo: <span className="text-foreground">{projectTitle}</span>
             </h2>
           </div>
           <button
             onClick={handleClose}
             className="
               p-2 -m-2 rounded-md
-              text-secondary/70 hover:text-accent hover:bg-accent/10
+              text-foreground/70 hover:text-accent hover:bg-accent/10
               transition-colors flex-shrink-0
               focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2
             "
@@ -122,7 +122,7 @@ export function ProjectDemoModal({ open, onOpenChange, projectTitle }: ProjectDe
                 <div className="flex items-center justify-center min-h-[40vh]">
                   <div className="flex flex-col items-center gap-3">
                     <div className="w-6 h-6 border-2 border-accent/30 border-t-accent rounded-full animate-spin" />
-                    <div className="text-secondary/60 font-mono text-sm">Loading demo…</div>
+                    <div className="text-foreground/60 font-mono text-sm">Loading demo…</div>
                   </div>
                 </div>
               }
@@ -131,7 +131,7 @@ export function ProjectDemoModal({ open, onOpenChange, projectTitle }: ProjectDe
             </Suspense>
           ) : (
             <div className="flex items-center justify-center min-h-[40vh]">
-              <div className="text-secondary/60 font-mono">Demo not available for this project</div>
+              <div className="text-foreground/60 font-mono">Demo not available for this project</div>
             </div>
           )}
         </div>

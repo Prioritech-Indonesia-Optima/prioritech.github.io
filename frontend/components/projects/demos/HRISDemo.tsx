@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion"
 import { DemoShell, StatusPill, Bar } from "./shared/DemoShell"
-import { Panel, AnimatedNumber, Sparkline } from "./shared/primitives"
+import { Panel, AnimatedNumber, LineChart } from "./shared/primitives"
 
 /**
  * HRIS — workforce analytics, attendance, payroll, retention.
@@ -43,13 +43,17 @@ export function HRISDemo() {
             </div>
             <span className="text-xs text-emerald-300">+27% YoY</span>
           </div>
-          <div className="text-accent w-full">
-            <Sparkline points={headcount} height={64} width={320} className="w-full h-16" stroke="#daa520" />
-          </div>
+          <LineChart
+            series={headcount}
+            xLabels={["Oct", "Jan", "Apr", "Jul", "Sep"]}
+            yFormat={(v) => String(Math.round(v))}
+            stroke="#daa520"
+            height={140}
+          />
           <div className="grid grid-cols-3 gap-3 mt-3 text-xs">
-            <div><div className="text-secondary/55">Voluntary attrition</div><div className="text-secondary tabular-nums font-semibold">5.2%</div></div>
-            <div><div className="text-secondary/55">Avg tenure</div><div className="text-secondary tabular-nums font-semibold">3.4y</div></div>
-            <div><div className="text-secondary/55">eNPS</div><div className="text-emerald-300 tabular-nums font-semibold">+62</div></div>
+            <div><div className="text-foreground/55">Voluntary attrition</div><div className="text-foreground tabular-nums font-semibold">5.2%</div></div>
+            <div><div className="text-foreground/55">Avg tenure</div><div className="text-foreground tabular-nums font-semibold">3.4y</div></div>
+            <div><div className="text-foreground/55">eNPS</div><div className="text-emerald-300 tabular-nums font-semibold">+62</div></div>
           </div>
         </Panel>
 
@@ -59,7 +63,7 @@ export function HRISDemo() {
               <motion.div key={d.name}
                 initial={{ opacity: 0, x: 4 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.06 }}>
                 <div className="flex items-baseline justify-between mb-1">
-                  <span className="text-xs text-secondary/80">{d.name}</span>
+                  <span className="text-xs text-foreground/80">{d.name}</span>
                   <span className="text-xs text-accent font-semibold tabular-nums">{d.count}</span>
                 </div>
                 <Bar pct={d.pct} tone={i === 0 ? "accent" : "accent"} />
@@ -78,9 +82,9 @@ export function HRISDemo() {
             ].map((p, i) => (
               <motion.div key={p.l}
                 initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05 }}
-                className="rounded border border-accent/15 bg-main/50 p-3">
-                <div className="text-[10px] uppercase tracking-wider text-secondary/55">{p.l}</div>
-                <div className={`text-xl font-bold tabular-nums mt-1 ${p.tone === "success" ? "text-emerald-300" : p.tone === "accent" ? "text-accent" : "text-secondary/70"}`}>
+                className="rounded border border-accent/15 bg-card/50 p-3">
+                <div className="text-[10px] uppercase tracking-wider text-foreground/55">{p.l}</div>
+                <div className={`text-xl font-bold tabular-nums mt-1 ${p.tone === "success" ? "text-emerald-300" : p.tone === "accent" ? "text-accent" : "text-foreground/70"}`}>
                   {p.v}
                 </div>
               </motion.div>
@@ -97,11 +101,11 @@ export function HRISDemo() {
             {upcoming.map((u, i) => (
               <motion.li key={i}
                 initial={{ opacity: 0, x: 4 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.08 }}
-                className="flex items-center justify-between p-2 rounded border border-accent/10 bg-main/40"
+                className="flex items-center justify-between p-2 rounded border border-accent/10 bg-card/40"
               >
                 <div>
-                  <div className="text-secondary">{u.name}</div>
-                  <div className="text-[10px] text-secondary/50 font-mono">{u.date}</div>
+                  <div className="text-foreground">{u.name}</div>
+                  <div className="text-[10px] text-foreground/50 font-mono">{u.date}</div>
                 </div>
                 <StatusPill label={u.type} tone={u.tone} />
               </motion.li>

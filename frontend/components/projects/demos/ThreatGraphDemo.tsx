@@ -125,7 +125,7 @@ export function ThreatGraphDemo() {
                   transition={{ delay: i * 0.12 }}
                   className="text-xs"
                 >
-                  <span className="text-secondary/40 font-mono mr-2">{e.time}</span>
+                  <span className="text-foreground/40 font-mono mr-2">{e.time}</span>
                   <span className={
                     e.tone === "alert" ? "text-accent"
                     : e.tone === "warn" ? "text-amber-300"

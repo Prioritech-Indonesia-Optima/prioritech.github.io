@@ -38,7 +38,7 @@ export function TMSDemo() {
         <Panel title="Live map · Java region"
           right={<div className="flex items-center gap-2"><PulseDot color="bg-emerald-400" /><span className="text-[10px] uppercase tracking-wider text-emerald-300">tracking</span></div>}
           className="lg:col-span-3">
-          <div className="relative w-full overflow-hidden rounded bg-main/40 border border-accent/15" style={{ aspectRatio: "16 / 9" }}>
+          <div className="relative w-full overflow-hidden rounded bg-card/40 border border-accent/15" style={{ aspectRatio: "16 / 9" }}>
             <svg viewBox="0 0 160 90" preserveAspectRatio="none" className="absolute inset-0 w-full h-full">
               {/* island silhouette */}
               <path
@@ -90,12 +90,12 @@ export function TMSDemo() {
             {trucks.map((t, i) => (
               <motion.div key={t.id}
                 initial={{ opacity: 0, x: 4 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.06 }}
-                className="rounded border border-accent/15 bg-main/50 p-2.5">
+                className="rounded border border-accent/15 bg-card/50 p-2.5">
                 <div className="flex items-baseline justify-between mb-1">
                   <span className="text-sm text-accent font-mono">{t.id}</span>
                   <StatusPill label={t.status} tone={t.tone} />
                 </div>
-                <div className="text-[11px] text-secondary/70 font-mono">{t.route} · {t.driver}</div>
+                <div className="text-[11px] text-foreground/70 font-mono">{t.route} · {t.driver}</div>
               </motion.div>
             ))}
           </div>
@@ -111,8 +111,8 @@ export function TMSDemo() {
             ].map((s, i) => (
               <motion.div key={i}
                 initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05 }}
-                className="rounded border border-accent/15 bg-main/50 p-3">
-                <div className="text-[10px] uppercase tracking-wider text-secondary/55">{s.l}</div>
+                className="rounded border border-accent/15 bg-card/50 p-3">
+                <div className="text-[10px] uppercase tracking-wider text-foreground/55">{s.l}</div>
                 <div className="text-xl font-bold text-accent tabular-nums mt-1">
                   <AnimatedNumber value={s.v} suffix={s.suf} />
                 </div>

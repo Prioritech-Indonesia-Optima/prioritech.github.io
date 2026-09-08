@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from "react"
 import { motion } from "framer-motion"
-import { DemoShell, StatusPill, Bar } from "./shared/DemoShell"
-import { ChatBubble, Panel } from "./shared/primitives"
+import { DemoShell, StatusPill } from "./shared/DemoShell"
+import { ChatBubble, Panel, LineChart } from "./shared/primitives"
 
 /**
  * Therapeutic Dialogue AI — sentiment-aware conversation with privacy badges.
@@ -29,6 +29,9 @@ export function TherapeuticDialogueDemo() {
 
   const sentiment = transcript[shown - 1]?.sentiment ?? 0.5
 
+  // Sentiment across the exchange — dips on user turns, lifts after companion responses
+  const sentimentTrajectory = [0.46, 0.32, 0.4, 0.28, 0.42]
+
   return (
     <DemoShell
       title="Therapeutic Dialogue AI"
@@ -50,7 +53,7 @@ export function TherapeuticDialogueDemo() {
             ))}
             {shown < transcript.length && (
               <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-                className="text-xs text-secondary/40 italic ml-2"
+                className="text-xs text-foreground/40 italic ml-2"
               >
                 companion is composing…
               </motion.div>
@@ -60,17 +63,25 @@ export function TherapeuticDialogueDemo() {
 
         <div className="lg:col-span-2 space-y-4">
           <Panel title="Sentiment trajectory">
-            <Bar pct={Math.round(sentiment * 100)} label="Now" value={sentiment.toFixed(2)} tone={sentiment < 0.4 ? "warn" : "success"} />
-            <div className="h-2" />
-            <Bar pct={42} label="Session avg" value="0.42" tone="warn" />
-            <div className="h-2" />
-            <Bar pct={68} label="Trust signal" value="0.68" tone="accent" />
-            <p className="text-[11px] text-secondary/55 mt-3 leading-relaxed">
+            <LineChart
+              series={sentimentTrajectory}
+              xLabels={["t1", "t2", "t3", "t4", "t5"]}
+              yMin={0.2}
+              yMax={0.55}
+              yFormat={(v) => v.toFixed(2)}
+              stroke="#daa520"
+              height={120}
+            />
+            <div className="mt-2 flex items-center justify-between text-[10px] font-mono">
+              <span className="text-foreground/45">empathy threshold 0.40</span>
+              <span className="text-foreground/45">escalate &lt; 0.20</span>
+            </div>
+            <p className="text-[11px] text-foreground/55 mt-3 leading-relaxed">
               Companion responds with empathy when sentiment dips below 0.4 — escalates to human review at 0.2.
             </p>
           </Panel>
           <Panel title="Privacy guarantees">
-            <ul className="text-xs space-y-1.5 text-secondary/75 font-mono">
+            <ul className="text-xs space-y-1.5 text-foreground/75 font-mono">
               <li>✓ no transcripts persisted</li>
               <li>✓ inference fully on-device</li>
               <li>✓ ephemeral context window</li>

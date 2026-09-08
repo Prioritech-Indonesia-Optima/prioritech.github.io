@@ -122,8 +122,8 @@ export function MarketForecastDemo() {
                 { t: "12:33", side: "SHORT", sym: "TSLA", pnl: "−0.21%" },
                 { t: "12:28", side: "LONG", sym: "NVDA", pnl: "+2.15%" },
               ].map((tr, i) => (
-                <div key={i} className="flex items-center justify-between text-secondary/80">
-                  <span>{tr.t} <span className="text-secondary/40 mx-1">·</span>
+                <div key={i} className="flex items-center justify-between text-foreground/80">
+                  <span>{tr.t} <span className="text-foreground/40 mx-1">·</span>
                     <span className={tr.side === "LONG" ? "text-emerald-300" : "text-rose-300"}>{tr.side}</span>
                     <span className="text-accent mx-1">{tr.sym}</span>
                   </span>

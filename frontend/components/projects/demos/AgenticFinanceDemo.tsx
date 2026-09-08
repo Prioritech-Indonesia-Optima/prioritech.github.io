@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from "react"
 import { motion } from "framer-motion"
-import { DemoShell, StatusPill, Bar } from "./shared/DemoShell"
-import { ChatBubble, Panel, AnimatedNumber } from "./shared/primitives"
+import { DemoShell, StatusPill } from "./shared/DemoShell"
+import { ChatBubble, Panel, Donut } from "./shared/primitives"
 
 /**
  * Agentic Finance Tracker — conversational SME finance with charts.
@@ -28,12 +28,13 @@ export function AgenticFinanceDemo() {
   }, [shown, transcript.length])
 
   const categories = [
-    { name: "Marketing tools", value: 4280, pct: 100, tone: "danger" as const },
-    { name: "Cloud & SaaS",    value: 3120, pct: 73, tone: "warn" as const },
-    { name: "Payroll",         value: 12800, pct: 60, tone: "accent" as const },
-    { name: "Equipment",       value: 1450, pct: 28, tone: "accent" as const },
-    { name: "Travel",          value: 920,  pct: 18, tone: "success" as const },
+    { name: "Payroll",         value: 12800, color: "#daa520" },
+    { name: "Marketing tools", value: 4280,  color: "#f43f5e" },
+    { name: "Cloud & SaaS",    value: 3120,  color: "#f59e0b" },
+    { name: "Equipment",       value: 1450,  color: "#38bdf8" },
+    { name: "Travel",          value: 920,   color: "#10b981" },
   ]
+  const totalSpend = categories.reduce((s, c) => s + c.value, 0)
 
   return (
     <DemoShell
@@ -56,7 +57,7 @@ export function AgenticFinanceDemo() {
             {shown < transcript.length && (
               <motion.div
                 initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-                className="text-xs text-secondary/40 italic ml-2"
+                className="text-xs text-foreground/40 italic ml-2"
               >
                 agent is thinking…
               </motion.div>
@@ -65,20 +66,30 @@ export function AgenticFinanceDemo() {
         </Panel>
 
         <Panel title="Spend by category · this month" className="lg:col-span-2">
-          <div className="space-y-3">
-            {categories.map((c) => (
-              <div key={c.name}>
-                <div className="flex justify-between text-xs mb-1">
-                  <span className="text-secondary/75">{c.name}</span>
-                  <span className="text-accent font-medium">
-                    $<AnimatedNumber value={c.value} />
+          <div className="flex flex-col items-center">
+            <Donut
+              segments={categories.map((c) => ({ value: c.value, color: c.color }))}
+              centerValue={`$${(totalSpend / 1000).toFixed(1)}k`}
+              centerLabel="total"
+              size={148}
+              thickness={14}
+            />
+            <div className="w-full mt-4 space-y-2">
+              {categories.map((c) => (
+                <div key={c.name} className="flex items-center justify-between text-xs">
+                  <span className="flex items-center gap-2 text-foreground/75">
+                    <span className="w-2.5 h-2.5 rounded-sm flex-shrink-0" style={{ background: c.color }} />
+                    {c.name}
+                  </span>
+                  <span className="text-foreground tabular-nums">
+                    <span className="text-foreground/40 mr-1">{Math.round((c.value / totalSpend) * 100)}%</span>
+                    ${c.value.toLocaleString()}
                   </span>
                 </div>
-                <Bar pct={c.pct} tone={c.tone} />
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-          <div className="mt-4 pt-3 border-t border-accent/10 text-[11px] text-secondary/55 leading-relaxed">
+          <div className="mt-4 pt-3 border-t border-accent/10 text-[11px] text-foreground/55 leading-relaxed">
             <span className="text-rose-300">Marketing tools</span> is the largest anomaly · 42% above 6-mo avg
           </div>
         </Panel>

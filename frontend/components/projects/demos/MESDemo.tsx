@@ -47,19 +47,19 @@ export function MESDemo() {
             {lines.map((l, i) => (
               <motion.div key={l.id}
                 initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.06 }}
-                className={`rounded border ${l.tone === "danger" ? "border-rose-500/40 bg-rose-500/5" : "border-accent/15 bg-main/50"} p-3`}>
+                className={`rounded border ${l.tone === "danger" ? "border-rose-500/40 bg-rose-500/5" : "border-accent/15 bg-card/50"} p-3`}>
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-sm text-secondary font-semibold">{l.name}</span>
+                  <span className="text-sm text-foreground font-semibold">{l.name}</span>
                   <StatusPill label={l.status} tone={l.tone} />
                 </div>
                 <div className="flex items-baseline gap-2 mb-2">
                   <span className="text-2xl font-bold text-accent tabular-nums">
                     <AnimatedNumber value={Math.round(l.oee * 100)} suffix="%" />
                   </span>
-                  <span className="text-[10px] uppercase tracking-wider text-secondary/55">OEE</span>
+                  <span className="text-[10px] uppercase tracking-wider text-foreground/55">OEE</span>
                 </div>
                 <Bar pct={l.oee * 100} tone={l.tone} />
-                <div className="mt-2 flex justify-between text-[10px] text-secondary/55 font-mono">
+                <div className="mt-2 flex justify-between text-[10px] text-foreground/55 font-mono">
                   <span>A: {Math.round(l.oee * 100 + 4)}%</span>
                   <span>P: {Math.round(l.oee * 100 - 2)}%</span>
                   <span>Q: {Math.round(l.oee * 100 + 6)}%</span>
@@ -74,17 +74,17 @@ export function MESDemo() {
             {wos.map((w, i) => (
               <motion.div key={w.id}
                 initial={{ opacity: 0, x: 4 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.08 }}
-                className="rounded border border-accent/15 bg-main/50 p-3">
+                className="rounded border border-accent/15 bg-card/50 p-3">
                 <div className="flex items-baseline justify-between mb-1">
                   <span className="text-sm text-accent font-mono">{w.id}</span>
-                  <span className="text-[11px] text-secondary/55 font-mono">ETA {w.eta}</span>
+                  <span className="text-[11px] text-foreground/55 font-mono">ETA {w.eta}</span>
                 </div>
-                <div className="text-[11px] text-secondary/70 font-mono mb-2">{w.sku} · {w.qty} ea</div>
+                <div className="text-[11px] text-foreground/70 font-mono mb-2">{w.sku} · {w.qty} ea</div>
                 <div className="flex items-center gap-2">
                   <div className="flex-1">
                     <Bar pct={w.prog} tone={w.prog > 70 ? "success" : "accent"} />
                   </div>
-                  <span className="text-xs text-secondary tabular-nums w-9 text-right">{w.prog}%</span>
+                  <span className="text-xs text-foreground tabular-nums w-9 text-right">{w.prog}%</span>
                 </div>
               </motion.div>
             ))}
@@ -98,8 +98,8 @@ export function MESDemo() {
               { t: "13:48", text: "Coolant pressure low · L2", tone: "warn" },
               { t: "12:14", text: "Tool change scheduled · L1", tone: "info" },
             ].map((a, i) => (
-              <div key={i} className="flex items-start gap-2 p-2 rounded border border-accent/10 bg-main/40">
-                <span className="text-secondary/40 font-mono flex-shrink-0">{a.t}</span>
+              <div key={i} className="flex items-start gap-2 p-2 rounded border border-accent/10 bg-card/40">
+                <span className="text-foreground/40 font-mono flex-shrink-0">{a.t}</span>
                 <span className={
                   a.tone === "danger" ? "text-rose-300"
                   : a.tone === "warn" ? "text-amber-300"

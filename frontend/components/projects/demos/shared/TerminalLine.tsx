@@ -22,7 +22,7 @@ interface TerminalLineProps extends DemoLine {
 export function TerminalLine({
   text,
   prefix = "",
-  color = "text-secondary",
+  color = "text-foreground",
   isAnimating = false
 }: TerminalLineProps) {
   const getPrefixColor = () => {

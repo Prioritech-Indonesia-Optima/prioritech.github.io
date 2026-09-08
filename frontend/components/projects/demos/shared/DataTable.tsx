@@ -50,7 +50,7 @@ export function DataTable({
     if (highlightColumns.includes(colIndex)) {
       return "text-accent font-semibold"
     }
-    return "text-secondary"
+    return "text-foreground"
   }
 
   return (

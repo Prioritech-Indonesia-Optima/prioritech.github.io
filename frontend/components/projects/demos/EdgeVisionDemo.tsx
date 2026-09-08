@@ -93,7 +93,7 @@ export function EdgeVisionDemo() {
             <div className="absolute top-2 left-2 text-[10px] font-mono text-emerald-300/80">
               ● REC  · 1080p · {(38 + Math.sin(frame) * 4).toFixed(0)}ms
             </div>
-            <div className="absolute top-2 right-2 text-[10px] font-mono text-secondary/60">
+            <div className="absolute top-2 right-2 text-[10px] font-mono text-foreground/60">
               CAM-03 · 14:02:{18 + frame}
             </div>
 
@@ -124,7 +124,7 @@ export function EdgeVisionDemo() {
           </div>
           <div className="mt-3 flex flex-wrap gap-2">
             {Object.entries(palette).map(([k, v]) => (
-              <div key={k} className="flex items-center gap-1.5 text-[10px] text-secondary/70 font-mono">
+              <div key={k} className="flex items-center gap-1.5 text-[10px] text-foreground/70 font-mono">
                 <span className="w-2 h-2 rounded-sm" style={{ backgroundColor: v }} />
                 {k}
               </div>

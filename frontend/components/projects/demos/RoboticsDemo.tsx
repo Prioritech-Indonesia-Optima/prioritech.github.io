@@ -79,7 +79,7 @@ export function RoboticsDemo() {
             </svg>
           </div>
           <div className="mt-3">
-            <div className="text-[10px] uppercase tracking-wider text-secondary/55 mb-1">Altitude · last 24s</div>
+            <div className="text-[10px] uppercase tracking-wider text-foreground/55 mb-1">Altitude · last 24s</div>
             <div className="text-accent w-full">
               <Sparkline points={altSeries} height={48} width={320} className="w-full h-12" stroke="#daa520" />
             </div>

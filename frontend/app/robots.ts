@@ -10,6 +10,8 @@
 import { MetadataRoute } from 'next'
 import { siteConfig } from '@/lib/seo'
 
+export const dynamic = 'force-static'
+
 /**
  * Generates robots.txt for search engine crawler directives.
  * 

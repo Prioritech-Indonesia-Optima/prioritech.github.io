@@ -2,14 +2,14 @@
 
 import { motion } from "framer-motion"
 import { DemoShell, StatusPill, Bar } from "./shared/DemoShell"
-import { Panel, AnimatedNumber, Sparkline } from "./shared/primitives"
+import { Panel, AnimatedNumber, LineChart } from "./shared/primitives"
 
 /**
  * CRM — sales pipeline kanban with deal flow.
  */
 export function CRMDemo() {
   const stages = [
-    { name: "Lead",       count: 42, value: "$284k", color: "text-secondary/70",   bar: 100 },
+    { name: "Lead",       count: 42, value: "$284k", color: "text-foreground/70",   bar: 100 },
     { name: "Qualified",  count: 24, value: "$612k", color: "text-sky-300",         bar: 72 },
     { name: "Proposal",   count: 12, value: "$1.42M", color: "text-accent",         bar: 48 },
     { name: "Negotiation", count: 6, value: "$1.84M", color: "text-amber-300",     bar: 28 },
@@ -44,7 +44,7 @@ export function CRMDemo() {
               <motion.div key={s.name}
                 initial={{ opacity: 0, x: -6 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.08 }}>
                 <div className="flex items-baseline justify-between mb-1.5">
-                  <span className="text-sm text-secondary">{s.name}</span>
+                  <span className="text-sm text-foreground">{s.name}</span>
                   <div className="flex items-baseline gap-3">
                     <span className={`text-xs ${s.color}`}>{s.count} deals</span>
                     <span className="text-accent font-semibold tabular-nums">{s.value}</span>
@@ -63,12 +63,16 @@ export function CRMDemo() {
             </div>
             <span className="text-xs text-emerald-300">+6pp vs 6mo</span>
           </div>
-          <div className="text-accent w-full">
-            <Sparkline points={conversion} height={60} width={200} className="w-full h-16" stroke="#daa520" />
-          </div>
+          <LineChart
+            series={conversion}
+            xLabels={["Jan", "Apr", "Jul", "Oct", "Dec"]}
+            yFormat={(v) => `${Math.round(v)}%`}
+            stroke="#daa520"
+            height={120}
+          />
           <div className="mt-3 grid grid-cols-2 gap-3 text-xs">
-            <div><div className="text-secondary/55">Avg deal</div><div className="text-secondary font-semibold tabular-nums">$69.2k</div></div>
-            <div><div className="text-secondary/55">Quota</div><div className="text-emerald-300 font-semibold">112%</div></div>
+            <div><div className="text-foreground/55">Avg deal</div><div className="text-foreground font-semibold tabular-nums">$69.2k</div></div>
+            <div><div className="text-foreground/55">Quota</div><div className="text-emerald-300 font-semibold">112%</div></div>
           </div>
         </Panel>
 
@@ -77,15 +81,15 @@ export function CRMDemo() {
             {deals.map((d, i) => (
               <motion.div key={d.co}
                 initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.06 }}
-                className="rounded border border-accent/15 bg-main/50 p-3">
+                className="rounded border border-accent/15 bg-card/50 p-3">
                 <div className="flex items-start justify-between mb-1">
-                  <span className="text-sm text-secondary font-semibold truncate">{d.co}</span>
+                  <span className="text-sm text-foreground font-semibold truncate">{d.co}</span>
                   <span className="w-7 h-7 rounded-full bg-accent/10 border border-accent/30 text-accent text-[10px] flex items-center justify-center font-mono">{d.owner}</span>
                 </div>
                 <div className="text-accent text-lg font-bold tabular-nums">$<AnimatedNumber value={d.amt / 1000} />k</div>
                 <div className="flex items-center justify-between mt-1.5">
                   <StatusPill label={d.stage} tone="info" />
-                  <span className="text-xs text-secondary/60 tabular-nums">{Math.round(d.prob * 100)}%</span>
+                  <span className="text-xs text-foreground/60 tabular-nums">{Math.round(d.prob * 100)}%</span>
                 </div>
               </motion.div>
             ))}
