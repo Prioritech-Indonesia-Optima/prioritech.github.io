@@ -364,8 +364,16 @@ download_and_install() {
         unzip -q "$tmp_dir/$filename" -d "$tmp_dir"
     fi
 
-    mv "$tmp_dir/prioricode" "$INSTALL_DIR"
-    chmod 755 "${INSTALL_DIR}/prioricode"
+    if [ -f "$tmp_dir/prioricode" ]; then
+        mv "$tmp_dir/prioricode" "$INSTALL_DIR"
+        chmod 755 "${INSTALL_DIR}/prioricode"
+    elif [ -f "$tmp_dir/prioricode.exe" ]; then
+        mv "$tmp_dir/prioricode.exe" "$INSTALL_DIR"
+        chmod 755 "${INSTALL_DIR}/prioricode.exe"
+    else
+        echo -e "${RED}Error: archive did not contain a prioricode binary${NC}"
+        exit 1
+    fi
     rm -rf "$tmp_dir"
 }
 
