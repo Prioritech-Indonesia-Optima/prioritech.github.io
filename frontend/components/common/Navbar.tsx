@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Menu, X } from "lucide-react"
+import { Menu, X, ArrowUpRight } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
 import { useTheme, ThemeToggle } from "./ThemeProvider"
 
@@ -105,6 +105,15 @@ export function Navbar() {
                 {item.name}
               </Link>
             ))}
+            <a
+              href="https://code.prioritech.co.id"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1 text-xs tracking-wide text-accent/90 hover:text-accent transition-colors"
+            >
+              code.prioritech
+              <ArrowUpRight className="w-3 h-3" />
+            </a>
           </nav>
 
           <div className="flex items-center gap-2">
@@ -169,6 +178,22 @@ export function Navbar() {
                   </Link>
                 </motion.div>
               ))}
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: navigation.length * 0.05, duration: 0.3 }}
+              >
+                <a
+                  href="https://code.prioritech.co.id"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 text-lg text-accent transition-colors"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  code.prioritech
+                  <ArrowUpRight className="w-4 h-4" />
+                </a>
+              </motion.div>
             </nav>
           </motion.div>
         )}

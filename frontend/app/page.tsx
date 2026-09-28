@@ -104,6 +104,17 @@ function HeroSection() {
             <ArrowUpRight size={14} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
           </Link>
         </div>
+
+        <a
+          href="https://code.prioritech.co.id"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-10 inline-flex items-center gap-2 border border-accent/40 px-4 py-2.5 font-mono text-xs text-foreground/80 hover:border-accent hover:text-accent transition-colors"
+        >
+          <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse-dot" />
+          Now open source — code.prioritech.co.id
+          <ArrowUpRight size={12} />
+        </a>
       </motion.div>
 
       <div className="absolute bottom-8 left-6 sm:left-12 lg:left-20 flex items-center gap-2 text-foreground/30">

@@ -8,6 +8,7 @@ const breadcrumbs = generateBreadcrumbSchema([
 ])
 
 const projects = [
+  { name: "Code Prioritech", description: "Open-source AI coding agent for production engineering workflows. Live at code.prioritech.co.id.", category: "AI Systems" },
   { name: "Intelligent Query Assistant", description: "Natural-language analytics over structured enterprise data. 80% faster data retrieval.", category: "AI Systems" },
   { name: "Context-Aware Data Engine", description: "Adaptive retrieval and feedback system designed for precision analytics.", category: "AI Systems" },
   { name: "Virtual Penetration Framework", description: "Autonomous AI-driven pentest system that maps, analyzes, and exploits vulnerabilities safely.", category: "Cybersecurity" },

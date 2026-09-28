@@ -3,18 +3,21 @@
 import { Suspense, lazy, useState } from "react"
 import Link from "next/link"
 import { motion } from "framer-motion"
-import { ArrowRight, Play } from "lucide-react"
+import { ArrowRight, ArrowUpRight, Play } from "lucide-react"
 import { Navbar } from "@/components/common/Navbar"
 import { PageScene } from "@/components/three/PageScene"
 import { ProjectDemoModal } from "@/components/projects/ProjectDemoModal"
 
 const Footer = lazy(() => import("@/components/common/Footer").then((m) => ({ default: m.Footer })))
 
-const CATEGORIES = [
+type ProjectCard = { title: string; desc: string; impact: string; stack: string[]; external?: string }
+
+const CATEGORIES: { id: string; title: string; projects: ProjectCard[] }[] = [
   {
     id: "ai-systems",
     title: "AI Systems",
     projects: [
+      { title: "Code Prioritech", desc: "Open-source AI coding agent for production engineering workflows.", impact: "Open source — code.prioritech.co.id", stack: ["TypeScript", "LLM Orchestration", "Open Source"], external: "https://code.prioritech.co.id" },
       { title: "Intelligent Query Assistant", desc: "Natural-language analytics over structured enterprise data.", impact: "80% faster data retrieval", stack: ["LangChain", "FastAPI", "PostgreSQL"] },
       { title: "Context-Aware Data Engine", desc: "Adaptive retrieval and feedback system for precision analytics.", impact: "Self-improving retrieval", stack: ["RAG", "Vector Stores", "Feedback Loops"] },
       { title: "Therapeutic Dialogue AI", desc: "Sentiment-aware conversational engine with on-device privacy.", impact: "Sensitivity-first, zero cloud", stack: ["On-device LLM", "Sentiment", "Guardrails"] },
@@ -139,13 +142,25 @@ export default function ProjectsClient() {
                       ))}
                     </div>
 
-                    <button
-                      onClick={() => handleOpenDemo(p.title)}
-                      className="inline-flex items-center gap-2 text-[11px] font-mono text-foreground/50 hover:text-accent transition-colors"
-                    >
-                      <Play size={10} />
-                      View demo
-                    </button>
+                    {p.external ? (
+                      <a
+                        href={p.external}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 text-[11px] font-mono text-accent hover:text-accent/80 transition-colors"
+                      >
+                        <ArrowUpRight size={10} />
+                        Visit site
+                      </a>
+                    ) : (
+                      <button
+                        onClick={() => handleOpenDemo(p.title)}
+                        className="inline-flex items-center gap-2 text-[11px] font-mono text-foreground/50 hover:text-accent transition-colors"
+                      >
+                        <Play size={10} />
+                        View demo
+                      </button>
+                    )}
                   </motion.div>
                 ))}
               </div>

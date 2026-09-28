@@ -17,7 +17,7 @@ const DIVISIONS = [
     title: "Decisions that explain themselves.",
     body: "Retrieval, agent orchestration, and workflow engines built for the audit trail. Every output is traceable; every escalation routes to the right human.",
     capabilities: ["RAG pipelines", "Multi-agent orchestration", "Workflow engines with audit", "Custom evals & guardrails", "Vector + structured stores", "On-prem & cloud deployment"],
-    projects: ["Intelligent Query Assistant", "Context-Aware Data Engine"],
+    projects: ["Intelligent Query Assistant", "Context-Aware Data Engine", "Code Prioritech"],
   },
   {
     id: "cybersecurity",

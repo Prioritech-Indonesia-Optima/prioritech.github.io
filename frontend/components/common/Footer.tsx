@@ -33,6 +33,14 @@ export function Footer() {
             <Link href="/contact" className="text-xs text-foreground/40 hover:text-foreground transition-colors">
               Contact
             </Link>
+            <a
+              href="https://code.prioritech.co.id"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs text-accent/70 hover:text-accent transition-colors"
+            >
+              code.prioritech ↗
+            </a>
           </nav>
 
           <button
