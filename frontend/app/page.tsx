@@ -138,7 +138,7 @@ function DivisionsSection() {
           transition={{ duration: 0.8 }}
           className="mb-16 text-backdrop p-6 sm:p-8"
         >
-          <span className="text-[10px] font-mono tracking-[0.3em] uppercase text-accent/70 block mb-4 text-shadow-subtle">
+          <span className="text-[10px] font-mono tracking-[0.3em] uppercase text-accent block mb-4 text-shadow-subtle">
             02 — Divisions
           </span>
           <h2 className="text-3xl sm:text-5xl font-mono font-bold tracking-tight text-shadow-deep">
@@ -188,7 +188,7 @@ function EngineeringSection() {
           transition={{ duration: 0.8 }}
           className="mb-16 text-backdrop p-6 sm:p-8"
         >
-          <span className="text-[10px] font-mono tracking-[0.3em] uppercase text-accent/70 block mb-4 text-shadow-subtle">
+          <span className="text-[10px] font-mono tracking-[0.3em] uppercase text-accent block mb-4 text-shadow-subtle">
             03 — Engineering
           </span>
           <h2 className="text-3xl sm:text-5xl font-mono font-bold tracking-tight text-shadow-deep">
@@ -258,7 +258,7 @@ function ProcessSection() {
           transition={{ duration: 0.8 }}
           className="mb-20 text-backdrop p-6 sm:p-8"
         >
-          <span className="text-[10px] font-mono tracking-[0.3em] uppercase text-accent/70 block mb-4 text-shadow-subtle">
+          <span className="text-[10px] font-mono tracking-[0.3em] uppercase text-accent block mb-4 text-shadow-subtle">
             04 — Process
           </span>
           <h2 className="text-3xl sm:text-5xl font-mono font-bold tracking-tight text-shadow-deep">
@@ -311,7 +311,7 @@ function ContactSection() {
         transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
         className="relative max-w-3xl w-full text-backdrop p-8 sm:p-10"
       >
-        <span className="text-[10px] font-mono tracking-[0.3em] uppercase text-accent/70 block mb-6 text-shadow-subtle">
+        <span className="text-[10px] font-mono tracking-[0.3em] uppercase text-accent block mb-6 text-shadow-subtle">
           05 — Contact
         </span>
 

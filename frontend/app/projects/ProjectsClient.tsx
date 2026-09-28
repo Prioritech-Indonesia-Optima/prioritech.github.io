@@ -88,7 +88,7 @@ export default function ProjectsClient() {
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             className="max-w-4xl"
           >
-            <span className="text-[10px] font-mono tracking-[0.3em] uppercase text-accent/70 block mb-6">
+            <span className="text-[10px] font-mono tracking-[0.3em] uppercase text-accent block mb-6">
               Projects
             </span>
             <h1 className="text-4xl sm:text-6xl font-mono font-bold leading-[0.95] tracking-tight mb-8">
@@ -130,7 +130,7 @@ export default function ProjectsClient() {
                     <p className="text-xs text-foreground/40 font-mono leading-relaxed mb-3">
                       {p.desc}
                     </p>
-                    <p className="text-[11px] text-accent/60 font-mono mb-4">
+                    <p className="text-[11px] text-accent font-mono mb-4">
                       {p.impact}
                     </p>
 

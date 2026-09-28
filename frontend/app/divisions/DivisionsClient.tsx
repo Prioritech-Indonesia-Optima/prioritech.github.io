@@ -71,7 +71,7 @@ export default function DivisionsClient() {
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             className="max-w-4xl"
           >
-            <span className="text-[10px] font-mono tracking-[0.3em] uppercase text-accent/70 block mb-6">
+            <span className="text-[10px] font-mono tracking-[0.3em] uppercase text-accent block mb-6">
               Divisions
             </span>
             <h1 className="text-4xl sm:text-6xl font-mono font-bold leading-[0.95] tracking-tight mb-8">

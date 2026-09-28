@@ -115,7 +115,7 @@ export function DivisionPanel({
             className="lg:col-span-5"
           >
             <div className="flex items-center gap-3 mb-4">
-              <span className="text-accent/60 font-mono text-sm tabular-nums">{String(index + 1).padStart(2, "0")}</span>
+              <span className="text-accent font-mono text-sm tabular-nums">{String(index + 1).padStart(2, "0")}</span>
               <span className="h-px w-10 bg-accent/30" />
               <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-accent/10 border border-accent/30">
                 <Icon size={20} className="text-accent" />
@@ -425,7 +425,7 @@ export function SharedPlatform() {
             >
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
                 <div className="flex items-center gap-3">
-                  <span className="text-accent/60 font-mono text-xs tabular-nums">L{i + 1}</span>
+                  <span className="text-accent font-mono text-xs tabular-nums">L{i + 1}</span>
                   <span className="h-px w-6 bg-accent/20" />
                   <h3 className={`font-mono font-semibold text-base sm:text-lg ${l.tone === "accent" ? "text-accent" : "text-secondary"}`}>
                     {l.name}

@@ -43,7 +43,7 @@ export default function AboutClient() {
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             className="max-w-4xl"
           >
-            <span className="text-[10px] font-mono tracking-[0.3em] uppercase text-accent/70 block mb-6">
+            <span className="text-[10px] font-mono tracking-[0.3em] uppercase text-accent block mb-6">
               About
             </span>
             <h1 className="text-4xl sm:text-6xl font-mono font-bold leading-[0.95] tracking-tight mb-8">
@@ -65,7 +65,7 @@ export default function AboutClient() {
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
-              className="text-[10px] font-mono tracking-[0.3em] uppercase text-accent/70 block mb-10"
+              className="text-[10px] font-mono tracking-[0.3em] uppercase text-accent block mb-10"
             >
               Principles
             </motion.span>
@@ -98,7 +98,7 @@ export default function AboutClient() {
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
-              className="text-[10px] font-mono tracking-[0.3em] uppercase text-accent/70 block mb-10"
+              className="text-[10px] font-mono tracking-[0.3em] uppercase text-accent block mb-10"
             >
               What we don&apos;t do
             </motion.span>
@@ -127,7 +127,7 @@ export default function AboutClient() {
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
-              className="text-[10px] font-mono tracking-[0.3em] uppercase text-accent/70 block mb-10"
+              className="text-[10px] font-mono tracking-[0.3em] uppercase text-accent block mb-10"
             >
               Timeline
             </motion.span>

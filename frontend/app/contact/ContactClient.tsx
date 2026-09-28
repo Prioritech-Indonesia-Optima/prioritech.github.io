@@ -91,7 +91,7 @@ export default function ContactClient() {
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             className="max-w-3xl"
           >
-            <span className="text-[10px] font-mono tracking-[0.3em] uppercase text-accent/70 block mb-6">
+            <span className="text-[10px] font-mono tracking-[0.3em] uppercase text-accent block mb-6">
               Contact
             </span>
             <h1 className="text-4xl sm:text-6xl font-mono font-bold leading-[0.95] tracking-tight mb-8">
@@ -123,7 +123,7 @@ export default function ContactClient() {
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
-              className="text-[10px] font-mono tracking-[0.3em] uppercase text-accent/70 block mb-10"
+              className="text-[10px] font-mono tracking-[0.3em] uppercase text-accent block mb-10"
             >
               Find us
             </motion.span>
@@ -170,7 +170,7 @@ export default function ContactClient() {
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
-              className="text-[10px] font-mono tracking-[0.3em] uppercase text-accent/70 block mb-10"
+              className="text-[10px] font-mono tracking-[0.3em] uppercase text-accent block mb-10"
             >
               What happens next
             </motion.span>
@@ -202,7 +202,7 @@ export default function ContactClient() {
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
-              className="text-[10px] font-mono tracking-[0.3em] uppercase text-accent/70 block mb-10"
+              className="text-[10px] font-mono tracking-[0.3em] uppercase text-accent block mb-10"
             >
               FAQ
             </motion.span>

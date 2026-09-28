@@ -136,7 +136,7 @@ export function PrincipleManifest() {
               </div>
               <div className="relative">
                 <div className="flex items-baseline gap-3 mb-3">
-                  <span className="text-accent/70 font-mono text-sm tracking-wider">{p.n}</span>
+                  <span className="text-accent font-mono text-sm tracking-wider">{p.n}</span>
                   <span className="h-px flex-1 bg-accent/20" />
                 </div>
                 <h3 className="text-secondary text-xl sm:text-2xl font-bold font-mono leading-tight mb-3 group-hover:text-accent/90 transition-colors">
@@ -298,7 +298,7 @@ export function CompanyTimeline() {
               <div className="absolute left-0 top-1.5 w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-main border-2 border-accent/40 flex items-center justify-center">
                 <span className="w-2 h-2 rounded-full bg-accent" />
               </div>
-              <div className="text-[10px] sm:text-xs uppercase tracking-widest text-accent/70 font-mono mb-2">{m.year}</div>
+              <div className="text-[10px] sm:text-xs uppercase tracking-widest text-accent font-mono mb-2">{m.year}</div>
               <h3 className="text-secondary text-lg sm:text-xl font-bold font-mono leading-snug mb-2">{m.title}</h3>
               <p className="text-secondary/60 text-sm sm:text-base leading-relaxed max-w-2xl">{m.body}</p>
             </motion.li>
