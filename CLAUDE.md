@@ -30,8 +30,17 @@ The Next.js app lives in `frontend/`. **Always `cd frontend` before running npm 
 - `styles/` — global CSS
 - `next.config.mjs` — static export config, chunk splitting (244KB max), modularized lucide-react imports, `optimizeCss` (Critters), `removeConsole` in prod
 
+## Design bible (ui-ux-pro-max)
+- **Every UI decision must go through the `ui-ux-pro-max` skill** at `.prioricode/skills/ui-ux-pro-max/` — it is the bible for style, color, typography, motion, accessibility, and stack guidance.
+- Before any UI change, read `design-system/prioritech/MASTER.md` (the persisted source of truth; page overrides live in `design-system/prioritech/pages/`).
+- Run targeted lookups from the repo root, e.g.:
+  `python3 .prioricode/skills/ui-ux-pro-max/scripts/search.py "focus not obscured" --domain ux`
+- Deliver UI only after passing the skill's Pre-Delivery Checklist (contrast 4.5:1, visible focus, `prefers-reduced-motion`, no emoji icons, `cursor-pointer`).
+
 ## Design system
-- Colors: `#2d2c2c` graphite (main), `#d9d9d9` silver (secondary), `#daa520` gold (accent)
+- **Dark-first.** Default theme is near-black `#0a0a0a` + gold `#daa520` accent + silver `#e8e8e8` text (tokens in `frontend/app/globals.css`). Light mode is cream `#f5f1e8` + ink `#121212`; full-orange surfaces are retired. Gold is accent-only — never body text on cream (use `#7a5c0e` there).
+- Panels over the 3D canvas are solid (≥85% opacity + hairline border); backdrop-blur is reserved for sticky chrome (navbar/footer/modal).
+- One shared three.js scroll engine (`components/three/`) renders the wireframe terrain on all pages — extend via `sceneConfigs.ts`, don't fork new scenes.
 - Mobile-first responsive: 320px / 768px / 1024px breakpoints
 
 ## Local development
