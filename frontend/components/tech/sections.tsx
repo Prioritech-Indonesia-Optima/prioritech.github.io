@@ -137,14 +137,14 @@ export function TechStackLayers() {
                 tabIndex={0}
                 role="button"
                 aria-expanded={isActive}
-                className={`group relative rounded-xl border overflow-hidden cursor-pointer transition-all duration-500 ease-out outline-none focus-visible:ring-2 focus-visible:ring-accent ${
+                className={`group relative rounded-xl border overflow-hidden cursor-pointer transition-all duration-500 ease-out outline-none focus-visible:ring-2 focus-visible:ring-accent ink-flip ${
                   isActive
                     ? "border-accent/60 -translate-y-1 shadow-2xl shadow-accent/20"
                     : "border-accent/15 hover:border-accent/40"
                 }`}
               >
                 <div className={`absolute inset-0 bg-gradient-to-r ${l.tone} pointer-events-none transition-opacity duration-500 ${isActive ? "opacity-100" : "opacity-60"}`} />
-                <div className="absolute inset-0 bg-main/85 backdrop-blur-sm pointer-events-none" />
+                <div className="absolute inset-0 bg-main/95 pointer-events-none" />
 
                 <div className="relative px-5 sm:px-6 py-4 sm:py-5 flex items-center gap-4 sm:gap-5">
                   <span className="text-accent/40 font-mono text-xs tabular-nums tracking-wider flex-shrink-0 w-6">
@@ -250,7 +250,7 @@ export function EngineeringPrinciples() {
             <motion.article
               key={p.word}
               variants={revealItem}
-              className="group relative rounded-2xl border border-accent/15 bg-main/60 backdrop-blur-sm p-7 lg:p-8 overflow-hidden hover:border-accent/40 hover:bg-main/80 transition-all duration-500"
+              className="group relative rounded-2xl border border-accent/15 ink-slab p-7 lg:p-8 overflow-hidden hover:border-accent/40 hover:bg-main transition-all duration-500"
             >
               <div className="flex items-center justify-center w-12 h-12 rounded-lg bg-accent/10 border border-accent/30 mb-6">
                 <p.Icon size={22} className="text-accent" />
@@ -299,7 +299,7 @@ export function SecurityHardwareSplit() {
           variants={revealContainer(0.2, 0.12)}
           className="grid lg:grid-cols-2 gap-6 mt-14 lg:mt-16"
         >
-          <motion.div variants={revealItem} className="rounded-2xl border border-accent/15 bg-main/60 backdrop-blur-sm p-6 lg:p-8">
+          <motion.div variants={revealItem} className="rounded-2xl border border-accent/15 ink-slab p-6 lg:p-8">
             <div className="flex items-center gap-3 mb-6">
               <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-accent/10 border border-accent/30">
                 <Shield size={20} className="text-accent" />
@@ -320,7 +320,7 @@ export function SecurityHardwareSplit() {
             </div>
           </motion.div>
 
-          <motion.div variants={revealItem} className="rounded-2xl border border-accent/15 bg-main/60 backdrop-blur-sm p-6 lg:p-8">
+          <motion.div variants={revealItem} className="rounded-2xl border border-accent/15 ink-slab p-6 lg:p-8">
             <div className="flex items-center gap-3 mb-6">
               <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-accent/10 border border-accent/30">
                 <Cpu size={20} className="text-accent" />
@@ -376,7 +376,7 @@ export function DevelopmentApproach() {
         >
           {points.map((p, i) => (
             <motion.div key={p.title} variants={revealItem}
-              className="relative rounded-xl border border-accent/15 bg-main/50 backdrop-blur-sm p-5 hover:border-accent/40 hover:bg-main/70 transition-all"
+              className="relative rounded-xl border border-accent/15 ink-slab p-5 hover:border-accent/40 hover:bg-main transition-all"
             >
               <div className="text-accent/40 font-mono text-xs tabular-nums mb-2">0{i + 1}</div>
               <h3 className="text-secondary font-mono font-semibold text-base sm:text-lg mb-2">{p.title}</h3>

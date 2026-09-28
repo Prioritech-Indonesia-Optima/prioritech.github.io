@@ -31,7 +31,7 @@ export function PrimaryButton({
       style={style}
       className={`
         group relative inline-flex items-center justify-center gap-2
-        bg-accent hover:bg-accent/90 text-main
+        bg-accent hover:bg-accent/90 text-accent-foreground
         px-6 py-3 rounded-lg font-semibold font-mono
         transition-[background,box-shadow,transform] duration-300 ease-out
         hover:shadow-lg hover:shadow-accent/30
@@ -72,8 +72,8 @@ export function SecondaryButton({
       href={href}
       className={`
         group relative inline-flex items-center justify-center gap-2
-        bg-main/60 backdrop-blur-sm border border-accent/30
-        hover:border-accent hover:bg-main/80
+        bg-card/95 border border-accent/30
+        hover:border-accent hover:bg-card
         text-secondary hover:text-accent
         px-6 py-3 rounded-lg font-semibold font-mono
         transition-all duration-300 ease-out
@@ -112,9 +112,9 @@ export function Button({
 
   const variantStyles = {
     primary:
-      "bg-accent hover:bg-accent/90 text-main hover:shadow-lg hover:shadow-accent/25 hover:scale-[1.02]",
+      "bg-accent hover:bg-accent/90 text-accent-foreground hover:shadow-lg hover:shadow-accent/25 hover:scale-[1.02]",
     secondary:
-      "bg-main/60 backdrop-blur-sm border border-accent/30 hover:border-accent hover:bg-main/80 text-secondary hover:text-accent hover:shadow-lg",
+      "bg-card/95 border border-accent/30 hover:border-accent hover:bg-card text-secondary hover:text-accent hover:shadow-lg",
   }
 
   return (

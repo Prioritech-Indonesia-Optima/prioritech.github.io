@@ -63,7 +63,7 @@ export const viewport: Viewport = {
   maximumScale: 5,
   themeColor: [
     { media: '(prefers-color-scheme: dark)', color: '#0a0a0a' },
-    { media: '(prefers-color-scheme: light)', color: '#ef9a0e' },
+    { media: '(prefers-color-scheme: light)', color: '#f5f1e8' },
   ],
   colorScheme: 'dark',
 }
@@ -163,7 +163,7 @@ export default function RootLayout({
       <body className={`font-sans antialiased ${GeistSans.variable} ${GeistMono.variable}`}>
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{var t=localStorage.getItem('prioritech-theme');if(!t){t=window.matchMedia('(prefers-color-scheme: light)').matches?'light':'dark'}if(t==='light'){document.documentElement.classList.add('light')}}catch(e){}})()`,
+            __html: `(function(){try{if(localStorage.getItem('prioritech-theme')==='light'){document.documentElement.classList.add('light')}}catch(e){}})()`,
           }}
         />
         <a href="#main-content" className="skip-link">

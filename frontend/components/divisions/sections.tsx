@@ -57,7 +57,7 @@ export function DivisionsHero() {
               <Link
                 key={d.id}
                 href={`#${d.id}`}
-                className="group inline-flex items-center gap-2 px-3 py-2 rounded-full border border-accent/20 bg-main/60 backdrop-blur-sm hover:border-accent/50 hover:bg-main/80 transition-all"
+                className="group inline-flex items-center gap-2 px-3 py-2 rounded-full border border-accent/20 bg-main/90 ink-flip hover:border-accent/50 hover:bg-main transition-all"
               >
                 <d.Icon size={14} className="text-accent/80 group-hover:text-accent" />
                 <span className="text-xs sm:text-sm text-secondary/80 group-hover:text-secondary font-mono">{d.name}</span>
@@ -176,7 +176,7 @@ export function DivisionPanel({
             transition={{ duration: 0.8, ease: easing.outExpo, delay: 0.2 }}
             className="lg:col-span-7"
           >
-            <div className="relative rounded-2xl border border-accent/20 bg-gradient-to-br from-main/95 via-main to-main/80 backdrop-blur-md p-5 sm:p-7 shadow-2xl shadow-accent/10">
+            <div className="relative rounded-2xl border border-accent/20 ink-slab p-5 sm:p-7 shadow-2xl shadow-accent/10">
               {preview}
             </div>
           </motion.div>
@@ -421,7 +421,7 @@ export function SharedPlatform() {
         >
           {layers.map((l, i) => (
             <motion.div key={l.name} variants={revealItem}
-              className={`rounded-2xl border ${l.tone === "accent" ? "border-accent/30 bg-accent/[0.04]" : "border-accent/15 bg-main/50"} p-5 sm:p-6 backdrop-blur-sm`}
+              className={`rounded-2xl border ${l.tone === "accent" ? "border-accent/30 bg-accent/[0.04]" : "border-accent/15 bg-main/90 ink-flip"} p-5 sm:p-6`}
             >
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
                 <div className="flex items-center gap-3">
@@ -435,7 +435,7 @@ export function SharedPlatform() {
               <div className="flex flex-wrap gap-2">
                 {l.items.map((it) => (
                   <span key={it}
-                    className={`px-3 py-1.5 rounded font-mono text-xs sm:text-sm border ${
+                    className={`ink-flip px-3 py-1.5 rounded font-mono text-xs sm:text-sm border ${
                       l.tone === "accent"
                         ? "bg-main/60 border-accent/30 text-secondary"
                         : "bg-main/60 border-accent/15 text-secondary/80"
@@ -490,7 +490,7 @@ export function MethodologyStrip() {
           {steps.map((s, i) => (
             <motion.div key={s.title} variants={revealItem} className="relative">
               <div className="flex items-center gap-3 mb-4">
-                <div className="relative flex items-center justify-center w-12 h-12 rounded-full bg-main/80 border border-accent/30 backdrop-blur-sm">
+                <div className="relative flex items-center justify-center w-12 h-12 rounded-full bg-main/90 border border-accent/30">
                   <s.Icon size={20} className="text-accent" />
                   <span className="absolute inset-0 rounded-full bg-accent/10 blur-md -z-10" />
                 </div>

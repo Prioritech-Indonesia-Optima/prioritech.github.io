@@ -119,7 +119,7 @@ export default function ProjectsClient() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: "-40px" }}
                     transition={{ duration: 0.5, delay: i * 0.05, ease: [0.16, 1, 0.3, 1] }}
-                    className="bg-background/60 backdrop-blur-[4px] p-6 group"
+                    className="ink-slab p-6 group"
                   >
                     <h3 className="text-sm font-mono font-semibold text-foreground/90 mb-2">
                       {p.title}

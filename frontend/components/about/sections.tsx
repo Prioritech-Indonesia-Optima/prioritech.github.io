@@ -47,7 +47,7 @@ export function AboutHero() {
           {/* Right: identity card */}
           <motion.div
             variants={revealItem}
-            className="lg:col-span-2 relative rounded-2xl border border-accent/25 bg-gradient-to-br from-main/95 via-main to-main/80 backdrop-blur-md p-6 sm:p-7 shadow-2xl shadow-accent/10"
+            className="lg:col-span-2 relative rounded-2xl border border-accent/25 ink-slab p-6 sm:p-7 shadow-2xl shadow-accent/10"
           >
             <div className="flex items-center gap-2 mb-5">
               <PulseDot color="bg-accent" />
@@ -129,7 +129,7 @@ export function PrincipleManifest() {
             <motion.article
               key={p.n}
               variants={revealItem}
-              className="group relative rounded-2xl border border-accent/15 bg-main/60 backdrop-blur-sm p-6 lg:p-8 hover:border-accent/40 hover:bg-main/80 transition-all duration-500 overflow-hidden"
+              className="group relative rounded-2xl border border-accent/15 ink-slab p-6 lg:p-8 hover:border-accent/40 hover:bg-main transition-all duration-500 overflow-hidden"
             >
               <div className="absolute -top-4 -right-4 text-[120px] sm:text-[140px] font-bold text-accent/[0.06] font-mono leading-none select-none group-hover:text-accent/10 transition-colors duration-500">
                 {p.n}
@@ -166,7 +166,7 @@ export function CompanyStats() {
     { v: 1, suffix: "",  label: "office · Jakarta",     caption: "Tanjung Duren · ships globally" },
   ]
   return (
-    <section className="relative py-16 sm:py-20 border-y border-accent/15 bg-main/40 backdrop-blur-sm overflow-hidden">
+    <section className="relative py-16 sm:py-20 border-y border-accent/15 ink-slab overflow-hidden">
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial="hidden"
@@ -230,7 +230,7 @@ export function AntiFeatures() {
             <motion.article
               key={it.title}
               variants={revealItem}
-              className="relative rounded-2xl border border-rose-500/15 bg-rose-500/[0.03] backdrop-blur-sm p-6 lg:p-7 hover:border-rose-500/30 transition-colors duration-500"
+              className="relative rounded-2xl border border-rose-500/15 bg-rose-500/[0.03] p-6 lg:p-7 hover:border-rose-500/30 transition-colors duration-500"
             >
               <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-rose-500/15 border border-rose-500/30 mb-4">
                 <X size={20} className="text-rose-300" />

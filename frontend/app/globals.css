@@ -7,15 +7,14 @@
   --main: #0a0a0a;
   --background: #0a0a0a;
   --foreground: #e8e8e8;
-  --secondary: #e8e8e8;
   --card: #0f0f0f;
   --card-foreground: #e8e8e8;
   --popover: #0f0f0f;
   --popover-foreground: #e8e8e8;
   --primary: #daa520;
   --primary-foreground: #0a0a0a;
-  --secondary: #2a2a2a;
-  --secondary-foreground: #e8e8e8;
+  --secondary: #d9d9d9;
+  --secondary-foreground: #0a0a0a;
   --muted: #141414;
   --muted-foreground: #6b6b6b;
   --accent: #daa520;
@@ -43,42 +42,42 @@
 }
 
 .light {
-  /* Inverted brand: orange is the dominant surface, warm near-black is the
-     secondary, warm cream lifts elevated panels. Black terrain reads as
-     negative space against the orange field. */
-  --main: #ef9a0e;
-  --background: #ef9a0e;
-  --foreground: #17140f;
-  --card: #f6e7c6;
-  --card-foreground: #17140f;
-  --popover: #17140f;
-  --popover-foreground: #ef9a0e;
-  --primary: #17140f;
-  --primary-foreground: #ef9a0e;
-  --secondary: #17140f;
-  --secondary-foreground: #ef9a0e;
-  --muted: #e08c0a;
-  --muted-foreground: #4a4030;
-  --accent: #17140f;
-  --accent-foreground: #ef9a0e;
+  /* Tamed light theme: cream page, ink text, gold accent-only.
+     Hero/section panels flip to near-black slabs (see .text-backdrop)
+     so the site stays dark-dominant in both themes. */
+  --main: #121212;
+  --background: #f5f1e8;
+  --foreground: #121212;
+  --card: #fffdf8;
+  --card-foreground: #121212;
+  --popover: #121212;
+  --popover-foreground: #f5f1e8;
+  --primary: #121212;
+  --primary-foreground: #f5f1e8;
+  --secondary: #121212;
+  --secondary-foreground: #f5f1e8;
+  --muted: #ece6d8;
+  --muted-foreground: #5c554a;
+  --accent: #7a5c0e;
+  --accent-foreground: #fffdf8;
   --destructive: #b91c1c;
   --destructive-foreground: #ffffff;
-  --border: rgba(23, 20, 15, 0.18);
-  --input: rgba(23, 20, 15, 0.18);
-  --ring: #17140f;
-  --chart-1: #17140f;
-  --chart-2: #4a4030;
-  --chart-3: #7a6a4d;
-  --chart-4: #17140f;
-  --chart-5: #4a4030;
-  --sidebar: #ef9a0e;
-  --sidebar-foreground: #17140f;
-  --sidebar-primary: #17140f;
-  --sidebar-primary-foreground: #ef9a0e;
-  --sidebar-accent: #e08c0a;
-  --sidebar-accent-foreground: #17140f;
-  --sidebar-border: rgba(23, 20, 15, 0.18);
-  --sidebar-ring: #17140f;
+  --border: rgba(18, 18, 18, 0.14);
+  --input: rgba(18, 18, 18, 0.18);
+  --ring: #7a5c0e;
+  --chart-1: #121212;
+  --chart-2: #7a5c0e;
+  --chart-3: #5c554a;
+  --chart-4: #daa520;
+  --chart-5: #8a8271;
+  --sidebar: #f5f1e8;
+  --sidebar-foreground: #121212;
+  --sidebar-primary: #121212;
+  --sidebar-primary-foreground: #f5f1e8;
+  --sidebar-accent: #ece6d8;
+  --sidebar-accent-foreground: #121212;
+  --sidebar-border: rgba(18, 18, 18, 0.14);
+  --sidebar-ring: #7a5c0e;
   --speed: 1s;
 }
 
@@ -248,20 +247,47 @@
   }
 
   .light .text-shadow-deep {
-    text-shadow: 0 2px 20px rgba(246, 231, 198, 0.7), 0 0 40px rgba(246, 231, 198, 0.4);
+    text-shadow: 0 2px 20px rgba(245, 241, 232, 0.7), 0 0 40px rgba(245, 241, 232, 0.4);
   }
 
   .light .text-shadow-subtle {
-    text-shadow: 0 1px 12px rgba(246, 231, 198, 0.6);
+    text-shadow: 0 1px 12px rgba(245, 241, 232, 0.6);
+  }
+
+  .ink-flip,
+  .ink-slab {
+    /* Panels over the 3D canvas: near-black slab in BOTH themes with inner
+       tokens flipped, so text-secondary/text-accent stay readable. */
+    --foreground: #f5f1e8;
+    --secondary: #e8e8e8;
+    --muted-foreground: #a89f8d;
+    --accent: #daa520;
+    --border: rgba(245, 241, 232, 0.14);
+  }
+  .ink-slab {
+    background: color-mix(in srgb, var(--main) 95%, transparent);
   }
 
   .text-backdrop {
-    background: rgba(10, 10, 10, 0.35);
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
+    background: rgba(10, 10, 10, 0.72);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+    border: 1px solid color-mix(in srgb, var(--foreground) 12%, transparent);
   }
   .light .text-backdrop {
-    background: rgba(246, 231, 198, 0.45);
+    /* Near-black slab on the cream page; inner text flips via token cascade */
+    background: rgba(18, 18, 18, 0.92);
+    border-color: rgba(218, 165, 32, 0.22);
+    --foreground: #f5f1e8;
+    --muted-foreground: #a89f8d;
+    --accent: #daa520;
+    --border: rgba(245, 241, 232, 0.14);
+  }
+
+  .ink-panel {
+    background: #121212;
+    color: #f5f1e8;
+    border: 1px solid rgba(218, 165, 32, 0.25);
   }
 
   .text-sweep {

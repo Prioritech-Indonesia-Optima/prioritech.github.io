@@ -145,7 +145,7 @@ function DivisionsSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.6, delay: i * 0.08, ease: [0.16, 1, 0.3, 1] }}
-              className={`relative bg-background/40 backdrop-blur-[4px] p-6 sm:p-8 group hover:bg-background/60 transition-colors duration-300 ${i === DIVISIONS.length - 1 ? "lg:col-span-2" : ""}`}
+              className={`relative ink-slab p-6 sm:p-8 group hover:bg-main transition-colors duration-300 ${i === DIVISIONS.length - 1 ? "lg:col-span-2" : ""}`}
             >
               <span className="text-[10px] font-mono text-accent/50 block mb-4">
                 {d.num}
@@ -213,7 +213,7 @@ function EngineeringSection() {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true, margin: "-50px" }}
           transition={{ duration: 0.8, delay: 0.4 }}
-          className="mt-20 p-6 sm:p-8 border border-border/50 bg-background/30 backdrop-blur-[4px]"
+          className="mt-20 p-6 sm:p-8 border ink-slab"
         >
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <p className="text-sm font-mono text-foreground/60 text-shadow-subtle">
@@ -325,7 +325,7 @@ function ContactSection() {
           </Link>
           <Link
             href="/projects"
-            className="inline-flex items-center justify-center gap-3 px-8 py-4 border border-border/50 text-foreground/70 font-mono text-sm hover:border-foreground/30 hover:text-foreground transition-colors bg-background/30 backdrop-blur-[4px]"
+            className="inline-flex items-center justify-center gap-3 px-8 py-4 border border-foreground/20 text-foreground/70 font-mono text-sm hover:border-foreground/40 hover:text-foreground transition-colors bg-foreground/5"
           >
             View live demos
           </Link>

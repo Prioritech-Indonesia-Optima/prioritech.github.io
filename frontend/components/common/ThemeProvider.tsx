@@ -6,22 +6,10 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [theme, setTheme] = useState<"dark" | "light">("dark")
 
   useEffect(() => {
-    const stored = localStorage.getItem("prioritech-theme") as "dark" | "light" | null
-    const system = window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark"
-    const initial = stored || system
+    const stored = localStorage.getItem("prioritech-theme")
+    const initial: "dark" | "light" = stored === "light" ? "light" : "dark"
     setTheme(initial)
     document.documentElement.classList.toggle("light", initial === "light")
-
-    // Follow system changes only when the user hasn't manually chosen
-    const mq = window.matchMedia("(prefers-color-scheme: light)")
-    const onChange = (e: MediaQueryListEvent) => {
-      if (localStorage.getItem("prioritech-theme")) return
-      const next = e.matches ? "light" : "dark"
-      setTheme(next)
-      document.documentElement.classList.toggle("light", next === "light")
-    }
-    mq.addEventListener("change", onChange)
-    return () => mq.removeEventListener("change", onChange)
   }, [])
 
   const toggle = () => {
