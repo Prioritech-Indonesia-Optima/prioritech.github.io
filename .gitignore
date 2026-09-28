@@ -29,3 +29,5 @@ yarn-error.log*
 
 # Package locks - only ignore in root, track in frontend/
 pnpm-lock.yaml
+__pycache__/
+*.pyc
