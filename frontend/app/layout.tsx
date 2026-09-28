@@ -22,7 +22,7 @@ import './globals.css'
  */
 export const metadata: Metadata = {
   ...generateSEOMetadata(
-    'AI & Engineering Solutions',
+    'AI & Engineering Firm in Jakarta, Indonesia',
     siteConfig.description,
     '/',
     undefined,
@@ -90,10 +90,30 @@ export const viewport: Viewport = {
 const organizationSchema = {
   '@context': 'https://schema.org',
   '@type': 'Organization' as const,
+  '@id': `${siteConfig.url}/#organization`,
   name: siteConfig.name,
+  legalName: 'PT Prioritech Indonesia Optima',
+  alternateName: ['Prioritech', 'Prioritech Indonesia'],
+  slogan: 'Engineering that endures.',
+  foundingDate: '2025-10',
   url: siteConfig.url,
   logo: `${siteConfig.url}/prioritech-logo-navbar.png`,
   description: siteConfig.description,
+  disambiguatingDescription:
+    'PT Prioritech Indonesia Optima is an independent AI and engineering firm based in Jakarta, Indonesia. It is not affiliated with, related to, or the same entity as Prioritech Indonesia (an Autodesk training center), PT Prioritas Teknologi Indonesia, or any other company named "Prioritech".',
+  areaServed: ['ID', 'SEA'],
+  knowsAbout: [
+    'AI systems and orchestration',
+    'cybersecurity intelligence',
+    'quantitative engineering',
+    'automation and robotics',
+    'enterprise software engineering',
+  ],
+  sameAs: [
+    'https://github.com/Prioritech-Indonesia-Optima',
+    'https://prioritech.github.io',
+    'https://code.prioritech.co.id',
+  ],
   address: {
     '@type': 'PostalAddress' as const,
     streetAddress: 'NEO SOHO PODOMORO CITY UNIT 3106, Jl. Letjen S. Parman Kav. 28, Tanjung Duren Selatan',

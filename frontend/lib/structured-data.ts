@@ -96,6 +96,10 @@ export function generateLocalBusinessSchema() {
     '@context': 'https://schema.org',
     '@type': 'LocalBusiness',
     name: siteConfig.name,
+    legalName: 'PT Prioritech Indonesia Optima',
+    foundingDate: '2025-10',
+    disambiguatingDescription:
+      'Independent AI and engineering firm in Jakarta. Not affiliated with Prioritech Indonesia (Autodesk training center), PT Prioritas Teknologi Indonesia, or any other entity named "Prioritech".',
     image: `${siteConfig.url}/prioritech-logo-navbar.png`,
     '@id': siteConfig.url,
     url: siteConfig.url,
@@ -121,7 +125,9 @@ export function generateLocalBusinessSchema() {
       closes: '18:00',
     },
     sameAs: [
-      // Add social media profiles here when available
+      'https://github.com/Prioritech-Indonesia-Optima',
+      'https://prioritech.github.io',
+      'https://code.prioritech.co.id',
     ],
   }
 }

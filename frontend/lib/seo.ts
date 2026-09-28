@@ -14,13 +14,17 @@
  */
 export const siteConfig = {
   name: 'Prioritech Indonesia Optima',
+  legalName: 'PT Prioritech Indonesia Optima',
   shortName: 'Prioritech',
-  description: 'Indonesian AI and engineering company focused on creating production-grade systems. Intelligent automation, network defense, and applied quantitative analytics.',
+  description: 'PT Prioritech Indonesia Optima — an independent AI & engineering firm in Jakarta building production-grade systems: AI orchestration, cybersecurity intelligence, quantitative engineering, automation & robotics, and enterprise software. Makers of the open-source Code Prioritech.',
   url: 'https://prioritech.co.id',
   ogImage: '/opengraph-image',
   twitterHandle: '@prioritech',
   author: 'Prioritech Indonesia Optima',
   keywords: [
+    'Prioritech Indonesia Optima',
+    'PT Prioritech Indonesia Optima',
+    'AI engineering company Jakarta',
     'AI systems',
     'engineering solutions',
     'automation',
@@ -30,6 +34,7 @@ export const siteConfig = {
     'robotics',
     'machine learning',
     'production-grade systems',
+    'Code Prioritech open source',
     'Indonesia',
     'Jakarta'
   ],

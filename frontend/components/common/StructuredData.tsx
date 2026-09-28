@@ -16,10 +16,18 @@ import React from 'react'
 export interface OrganizationSchema {
   '@context': string
   '@type': 'Organization'
+  '@id'?: string
   name: string
+  legalName?: string
+  alternateName?: string[]
+  slogan?: string
+  foundingDate?: string
+  disambiguatingDescription?: string
   url: string
   logo?: string
   description?: string
+  areaServed?: string[]
+  knowsAbout?: string[]
   address?: {
     '@type': 'PostalAddress'
     streetAddress?: string

@@ -24,11 +24,18 @@ export const dynamic = 'force-static'
  */
 export default function robots(): MetadataRoute.Robots {
   return {
-    rules: {
-      userAgent: '*',
-      allow: '/',
-      disallow: [],
-    },
+    rules: [
+      {
+        userAgent: '*',
+        allow: '/',
+        disallow: [],
+      },
+      // Explicitly welcome AI search & answer crawlers (brand discovery layer)
+      {
+        userAgent: ['GPTBot', 'OAI-SearchBot', 'ChatGPT-User', 'ClaudeBot', 'Claude-SearchBot', 'PerplexityBot', 'GoogleOther', 'Google-Extended', 'Applebot-Extended', 'CCBot'],
+        allow: '/',
+      },
+    ],
     sitemap: `${siteConfig.url}/sitemap.xml`,
   }
 }
