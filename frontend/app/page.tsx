@@ -1,11 +1,12 @@
 "use client"
 
-import { Suspense, lazy, useCallback } from "react"
+import { Suspense, lazy } from "react"
 import Link from "next/link"
 import { motion } from "framer-motion"
 import { ArrowRight, ArrowUpRight } from "lucide-react"
 import { Navbar } from "@/components/common/Navbar"
-import { ScrollCanvas, SectionIndicator, ScrollProgress, useScrollProgress } from "@/components/three/ScrollScene"
+import { PageScene } from "@/components/three/PageScene"
+import { SectionIndicator, ScrollProgress, useScrollProgress } from "@/components/three/ScrollScene"
 
 const Footer = lazy(() => import("@/components/common/Footer").then((m) => ({ default: m.Footer })))
 
@@ -34,11 +35,9 @@ const PROCESS = [
 export default function HomePage() {
   const [containerRef, progress, activeSection] = useScrollProgress()
 
-  const handleProgress = useCallback(() => {}, [])
-
   return (
     <div ref={containerRef} className="relative">
-      <ScrollCanvas onProgress={handleProgress} />
+      <PageScene pageId="home" />
 
       <div className="fixed inset-0 z-[1] pointer-events-none vignette" />
 

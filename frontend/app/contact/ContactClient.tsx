@@ -4,7 +4,7 @@ import { Suspense, lazy } from "react"
 import { motion } from "framer-motion"
 import { Mail, MapPin, Building2, ArrowRight, Clock, MessageSquare, FileText } from "lucide-react"
 import { Navbar } from "@/components/common/Navbar"
-import { SubPageScene } from "@/components/three/SubPageScene"
+import { PageScene } from "@/components/three/PageScene"
 
 const Footer = lazy(() => import("@/components/common/Footer").then((m) => ({ default: m.Footer })))
 
@@ -80,7 +80,7 @@ const FAQS = [
 export default function ContactClient() {
   return (
     <div className="min-h-screen bg-background">
-      <SubPageScene pageId="contact" />
+      <PageScene pageId="contact" />
       <div className="fixed inset-0 z-[1] pointer-events-none vignette" />
       <Navbar />
       <main id="main-content" className="relative z-10 pt-16">

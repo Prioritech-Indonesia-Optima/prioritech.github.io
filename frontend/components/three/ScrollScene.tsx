@@ -1,7 +1,6 @@
 "use client"
 
-import { useEffect, useRef, useCallback, useState } from "react"
-import { TerrainScene } from "./TerrainScene"
+import { useEffect, useRef, useState } from "react"
 
 type Section = {
   id: string
@@ -45,43 +44,6 @@ export function useScrollProgress(): [React.RefObject<HTMLDivElement>, number, n
   }, [])
 
   return [containerRef, progress, activeSection]
-}
-
-export function ScrollCanvas({ onProgress }: { onProgress?: (p: number) => void }) {
-  const canvasRef = useRef<HTMLCanvasElement>(null)
-  const sceneRef = useRef<TerrainScene | null>(null)
-
-  useEffect(() => {
-    if (!canvasRef.current) return
-    const scene = new TerrainScene(canvasRef.current)
-    sceneRef.current = scene
-
-    if (onProgress) {
-      scene.setOnProgress(onProgress)
-    }
-
-    const onScroll = () => {
-      const total = document.documentElement.scrollHeight - window.innerHeight
-      const p = total > 0 ? window.scrollY / total : 0
-      scene.setScroll(p)
-    }
-    onScroll()
-    window.addEventListener("scroll", onScroll, { passive: true })
-
-    return () => {
-      window.removeEventListener("scroll", onScroll)
-      scene.dispose()
-      sceneRef.current = null
-    }
-  }, [onProgress])
-
-  return (
-    <canvas
-      ref={canvasRef}
-      className="fixed inset-0 w-full h-full z-0"
-      aria-hidden="true"
-    />
-  )
 }
 
 export function SectionIndicator({ activeIndex }: { activeIndex: number }) {

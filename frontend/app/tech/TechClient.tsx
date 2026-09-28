@@ -5,7 +5,7 @@ import Link from "next/link"
 import { motion } from "framer-motion"
 import { ArrowRight } from "lucide-react"
 import { Navbar } from "@/components/common/Navbar"
-import { SubPageScene } from "@/components/three/SubPageScene"
+import { PageScene } from "@/components/three/PageScene"
 
 const Footer = lazy(() => import("@/components/common/Footer").then((m) => ({ default: m.Footer })))
 
@@ -46,7 +46,7 @@ const PRINCIPLES = [
 export default function TechClient() {
   return (
     <div className="min-h-screen bg-background">
-      <SubPageScene pageId="tech" />
+      <PageScene pageId="tech" />
       <div className="fixed inset-0 z-[1] pointer-events-none vignette" />
       <Navbar />
       <main id="main-content" className="relative z-10 pt-16">
