@@ -69,14 +69,14 @@ export default function DivisionsClient() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="max-w-4xl"
+            className="text-backdrop p-8 sm:p-10 max-w-4xl"
           >
             <span className="text-[10px] font-mono tracking-[0.3em] uppercase text-accent block mb-6">
               Divisions
             </span>
             <h1 className="text-4xl sm:text-6xl font-mono font-bold leading-[0.95] tracking-tight mb-8">
               <span className="block">Five disciplines.</span>
-              <span className="block text-foreground/40">One standard.</span>
+              <span className="block text-muted-foreground">One standard.</span>
             </h1>
             <p className="text-base sm:text-lg text-foreground/50 font-mono leading-relaxed max-w-2xl">
               Each division operates independently but shares the same engineering
@@ -92,11 +92,11 @@ export default function DivisionsClient() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-              className="max-w-5xl"
+              className="text-backdrop p-8 sm:p-10 max-w-5xl"
             >
               <div className="flex items-baseline gap-4 mb-6">
                 <span className="text-[10px] font-mono text-accent/50">{d.num}</span>
-                <span className="text-[10px] font-mono tracking-[0.2em] uppercase text-foreground/40">
+                <span className="text-[10px] font-mono tracking-[0.2em] uppercase text-muted-foreground">
                   {d.name}
                 </span>
               </div>
@@ -140,7 +140,7 @@ export default function DivisionsClient() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.8 }}
-            className="max-w-3xl"
+            className="text-backdrop p-8 sm:p-10 max-w-3xl"
           >
             <h2 className="text-2xl sm:text-3xl font-mono font-bold tracking-tight mb-6">
               Ready to scope a system?

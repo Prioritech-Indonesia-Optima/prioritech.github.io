@@ -35,20 +35,23 @@ to `frontend/app/globals.css` CSS variables. **Dark is the default theme.**
 | Border | `#1a1a1a` | `--border` |
 | Ring | `#daa520` | `--ring` |
 
-**Light (tamed — cream + ink, never full-orange):**
+**Light (paper & gold editorial):**
 
 | Role | Hex | CSS Variable |
 |------|-----|--------------|
-| Background (cream) | `#f5f1e8` | `--background` |
-| Foreground (ink) | `#121212` | `--foreground` |
-| Card | `#ffffff` | `--card` |
-| Accent text on cream | `#7a5c0e` (dark gold, 5.5:1) | `--accent` |
-| Ink slabs (near-black panels) | `#121212` | `.ink-panel` |
-| Border | `rgba(18,18,18,0.14)` | `--border` |
+| Background (paper) | `#faf6ee` | `--background` |
+| Foreground (warm ink) | `#211d16` | `--foreground` |
+| Card (white paper panels) | `#ffffff` | `--card` |
+| Accent (amber gold, AA on paper) | `#a16207` | `--accent` |
+| Muted surface | `#f1ead9` | `--muted` |
+| Muted text | `#6b6153` | `--muted-foreground` |
+| Dark terminal chips/rows | `#211d16` | `--main` |
+| Border | `rgba(33,29,22,0.12)` | `--border` |
 
 **Color rules:**
-- Gold `#daa520` is an accent: hairlines, active states, text on near-black only. Never body/link text on cream (fails 4.5:1) — use `#7a5c0e` there.
+- Gold `#daa520` is an accent: hairlines, active states, text on near-black only. Never body/link text on cream (fails 4.5:1) — use `#a16207` there.
 - Orange `#ef9a0e` is retired from all surfaces.
+- Light mode panels are white paper cards — no dark slabs on cream; only terminal-style chips/rows stay dark (brand texture).
 - No frosted glass over the 3D canvas: panels are solid at ≥85% opacity with a 1px border. Blur ≤3px, sticky chrome only (navbar/footer/modal).
 
 ### Typography

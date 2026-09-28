@@ -55,14 +55,14 @@ export default function TechClient() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="max-w-4xl"
+            className="text-backdrop p-8 sm:p-10 max-w-4xl"
           >
             <span className="text-[10px] font-mono tracking-[0.3em] uppercase text-accent block mb-6">
               Technology
             </span>
             <h1 className="text-4xl sm:text-6xl font-mono font-bold leading-[0.95] tracking-tight mb-8">
               <span className="block">The stack.</span>
-              <span className="block text-foreground/40">Chosen deliberately.</span>
+              <span className="block text-muted-foreground">Chosen deliberately.</span>
             </h1>
             <p className="text-base sm:text-lg text-foreground/50 font-mono leading-relaxed max-w-2xl">
               We don&apos;t use technology because it&apos;s new. We use it because
@@ -81,7 +81,7 @@ export default function TechClient() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "-40px" }}
                   transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                  className="bg-background/60 p-6"
+                  className="ink-slab p-6"
                 >
                   <h3 className="text-[10px] font-mono tracking-[0.2em] uppercase text-accent mb-4">
                     {group.category}
@@ -100,7 +100,7 @@ export default function TechClient() {
         </section>
 
         <section className="px-6 sm:px-12 lg:px-20 py-16 border-t border-border">
-          <div className="max-w-4xl">
+          <div className="text-backdrop p-8 sm:p-10 max-w-4xl">
             <motion.span
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
@@ -136,7 +136,7 @@ export default function TechClient() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.8 }}
-            className="max-w-3xl"
+            className="text-backdrop p-8 sm:p-10 max-w-3xl"
           >
             <h2 className="text-2xl sm:text-3xl font-mono font-bold tracking-tight mb-6">
               Have a specific technical challenge?

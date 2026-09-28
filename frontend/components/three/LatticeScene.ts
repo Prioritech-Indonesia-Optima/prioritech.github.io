@@ -12,7 +12,7 @@ type ThemeSpec = {
 
 const THEMES: { dark: ThemeSpec; light: ThemeSpec } = {
   dark: { fog: 0x0a0a0a, fogDensity: 0.014, line: 0xffc94a, lineOpacity: 0.5, particle: 0xffd97a, particleOpacity: 0.5 },
-  light: { fog: 0xf5f1e8, fogDensity: 0.016, line: 0x121212, lineOpacity: 0.16, particle: 0x121212, particleOpacity: 0.2 },
+  light: { fog: 0xfaf6ee, fogDensity: 0.016, line: 0xb08a3e, lineOpacity: 0.2, particle: 0xa16207, particleOpacity: 0.15 },
 }
 
 const IDLE_DELAY = 4

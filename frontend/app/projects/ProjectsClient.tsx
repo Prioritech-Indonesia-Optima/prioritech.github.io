@@ -86,14 +86,14 @@ export default function ProjectsClient() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="max-w-4xl"
+            className="text-backdrop p-8 sm:p-10 max-w-4xl"
           >
             <span className="text-[10px] font-mono tracking-[0.3em] uppercase text-accent block mb-6">
               Projects
             </span>
             <h1 className="text-4xl sm:text-6xl font-mono font-bold leading-[0.95] tracking-tight mb-8">
               <span className="block">Systems in</span>
-              <span className="block text-foreground/40">production.</span>
+              <span className="block text-muted-foreground">production.</span>
             </h1>
             <p className="text-base sm:text-lg text-foreground/50 font-mono leading-relaxed max-w-2xl">
               Every project below is live or has been deployed to a client environment.
@@ -110,7 +110,7 @@ export default function ProjectsClient() {
               viewport={{ once: true, margin: "-80px" }}
               transition={{ duration: 0.6 }}
             >
-              <h2 className="text-[10px] font-mono tracking-[0.3em] uppercase text-foreground/40 mb-10">
+              <h2 className="text-backdrop inline-block px-3 py-1.5 text-[10px] font-mono tracking-[0.3em] uppercase text-muted-foreground mb-10">
                 {cat.title}
               </h2>
 
@@ -127,7 +127,7 @@ export default function ProjectsClient() {
                     <h3 className="text-sm font-mono font-semibold text-foreground/90 mb-2">
                       {p.title}
                     </h3>
-                    <p className="text-xs text-foreground/40 font-mono leading-relaxed mb-3">
+                    <p className="text-xs text-muted-foreground font-mono leading-relaxed mb-3">
                       {p.desc}
                     </p>
                     <p className="text-[11px] text-accent font-mono mb-4">
@@ -174,7 +174,7 @@ export default function ProjectsClient() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.8 }}
-            className="max-w-3xl"
+            className="text-backdrop p-8 sm:p-10 max-w-3xl"
           >
             <h2 className="text-2xl sm:text-3xl font-mono font-bold tracking-tight mb-6">
               Need something similar?

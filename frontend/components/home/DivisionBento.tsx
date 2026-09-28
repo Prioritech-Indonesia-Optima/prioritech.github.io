@@ -113,7 +113,7 @@ function BentoTile({
           transition-all duration-500 ease-out
           ${accent
             ? "border-accent/30 bg-gradient-to-br from-main/95 via-main to-main/80 hover:border-accent/60"
-            : "border-accent/15 bg-main/60 backdrop-blur-sm hover:border-accent/40 hover:bg-main/80"}
+            : "border-accent/15 ink-slab hover:border-accent/40 hover:bg-main"}
           hover:-translate-y-1 hover:shadow-2xl hover:shadow-accent/10
         `}
       >

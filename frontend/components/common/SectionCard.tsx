@@ -33,8 +33,8 @@ export function SectionCard({
 }: SectionCardProps) {
   return (
     <div className={`
-      relative bg-main/70 backdrop-blur-md border border-accent/20 rounded-xl p-6 font-mono overflow-hidden group
-      ${hover ? 'hover:border-accent/60 hover:bg-main/80 hover:-translate-y-1 hover:shadow-xl hover:shadow-accent/5 transition-all duration-300 ease-out' : ''}
+      relative ink-slab border border-accent/20 rounded-xl p-6 font-mono overflow-hidden group
+      ${hover ? 'hover:border-accent/60 hover:bg-main hover:-translate-y-1 hover:shadow-xl hover:shadow-accent/5 transition-all duration-300 ease-out' : ''}
       ${className}
     `}>
       {/* Gradient overlay on hover */}

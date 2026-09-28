@@ -104,7 +104,7 @@ function ProductCard({
   return (
     <motion.article
       variants={revealItem}
-      className="group relative rounded-2xl border border-accent/20 bg-gradient-to-br from-main/95 via-main to-main/85 backdrop-blur-md p-6 sm:p-7 hover:border-accent/50 hover:-translate-y-1 hover:shadow-2xl hover:shadow-accent/15 transition-all duration-500 overflow-hidden flex flex-col"
+      className="group relative rounded-2xl border border-accent/20 ink-slab p-6 sm:p-7 hover:border-accent/50 hover:-translate-y-1 hover:shadow-2xl hover:shadow-accent/15 transition-all duration-500 overflow-hidden flex flex-col"
     >
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-accent/0 via-transparent to-accent/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
@@ -123,7 +123,7 @@ function ProductCard({
       <p className="text-secondary/60 text-sm sm:text-base leading-relaxed mb-5">{body}</p>
 
       {/* viz region */}
-      <div className="relative rounded-lg border border-accent/15 bg-main/40 p-3 sm:p-4 mt-auto">
+      <div className="relative rounded-lg border border-accent/15 bg-main/60 p-3 sm:p-4 mt-auto">
         {children}
       </div>
 

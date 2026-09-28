@@ -59,7 +59,7 @@ export function HeroControlPanel() {
       className="relative w-full"
     >
       {/* Outer chrome */}
-      <div className="relative rounded-2xl overflow-hidden border border-accent/25 bg-gradient-to-br from-main/95 via-main to-main/90 backdrop-blur-md shadow-2xl shadow-accent/10">
+      <div className="relative rounded-2xl overflow-hidden border border-accent/25 ink-slab shadow-2xl shadow-accent/10">
         {/* Header bar */}
         <div className="relative flex items-center justify-between px-4 py-2.5 border-b border-accent/15 bg-main/50">
           <div className="flex items-center gap-2">
@@ -192,7 +192,7 @@ export function HeroControlPanel() {
 
 function Pane({ label, children }: { label: string; children: React.ReactNode }) {
   return (
-    <div className="bg-main/60 backdrop-blur-sm p-3 sm:p-4 min-h-[160px]">
+    <div className="bg-main/60 p-3 sm:p-4 min-h-[160px]">
       <div className="text-[9px] uppercase tracking-widest text-secondary/45 mb-2 font-mono">
         {label}
       </div>

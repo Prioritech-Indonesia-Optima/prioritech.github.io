@@ -38,7 +38,7 @@ The Next.js app lives in `frontend/`. **Always `cd frontend` before running npm 
 - Deliver UI only after passing the skill's Pre-Delivery Checklist (contrast 4.5:1, visible focus, `prefers-reduced-motion`, no emoji icons, `cursor-pointer`).
 
 ## Design system
-- **Dark-first.** Default theme is near-black `#0a0a0a` + gold `#daa520` accent + silver `#e8e8e8` text (tokens in `frontend/app/globals.css`). Light mode is cream `#f5f1e8` + ink `#121212`; full-orange surfaces are retired. Gold is accent-only — never body text on cream (use `#7a5c0e` there).
+- **Dark-first.** Default theme is near-black `#0a0a0a` + gold `#daa520` accent + silver `#e8e8e8` text (tokens in `frontend/app/globals.css`). Light mode is paper `#faf6ee` + warm ink `#211d16` + amber `#a16207`; full-orange surfaces are retired. Gold `#daa520` is accent-only on dark surfaces — use `#a16207` for accent text on paper.
 - Panels over the 3D canvas are solid (≥85% opacity + hairline border); backdrop-blur is reserved for sticky chrome (navbar/footer/modal).
 - One shared three.js scroll engine (`components/three/`) renders the wireframe terrain on all pages — extend via `sceneConfigs.ts`, don't fork new scenes.
 - Mobile-first responsive: 320px / 768px / 1024px breakpoints

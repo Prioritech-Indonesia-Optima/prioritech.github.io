@@ -15,11 +15,6 @@ const localBusiness = generateLocalBusinessSchema()
 
 const faqs = generateFAQSchema([
   {
-    question: "Is Prioritech Indonesia Optima related to the other companies named Prioritech?",
-    answer:
-      "No. PT Prioritech Indonesia Optima is an independent AI and engineering firm based in Jakarta, Indonesia. It is not affiliated with Prioritech Indonesia (an Autodesk Authorized Training Center), PT Prioritas Teknologi Indonesia, or any other entity named \"Prioritech\". Official domains: prioritech.co.id and code.prioritech.co.id.",
-  },
-  {
     question: "How quickly does Prioritech respond to inquiries?",
     answer:
       "We typically respond to new business inquiries within one business day from our Jakarta office.",

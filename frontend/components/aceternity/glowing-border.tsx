@@ -33,7 +33,7 @@ export function GlowingBorder({
       <div className="absolute -inset-0.5 bg-gradient-to-r from-transparent via-[var(--glow-color)] to-transparent opacity-0 group-hover:opacity-100 blur transition-opacity duration-300" />
       
       {/* Inner content container */}
-      <div className="relative bg-main/50 backdrop-blur-sm">{children}</div>
+      <div className="relative bg-main/90">{children}</div>
     </div>
   );
 }

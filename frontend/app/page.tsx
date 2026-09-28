@@ -63,7 +63,6 @@ export default function HomePage() {
 function HeroSection() {
   return (
     <section id="hero" className="relative min-h-screen flex items-end pb-20 sm:pb-28 px-6 sm:px-12 lg:px-20">
-      <div className="vignette-bottom absolute inset-x-0 bottom-0 h-64 pointer-events-none" />
 
       <motion.div
         initial={{ opacity: 0, y: 30 }}
@@ -80,7 +79,7 @@ function HeroSection() {
 
         <h1 className="text-5xl sm:text-7xl lg:text-8xl font-mono font-bold leading-[0.9] tracking-tight mb-8 text-shadow-deep">
           <span className="block">Engineering</span>
-          <span className="block text-foreground/40">that endures.</span>
+          <span className="block text-muted-foreground">that endures.</span>
         </h1>
 
         <p className="text-base sm:text-lg text-foreground/50 max-w-lg leading-relaxed font-mono text-shadow-subtle">
@@ -117,7 +116,7 @@ function HeroSection() {
         </a>
       </motion.div>
 
-      <div className="absolute bottom-8 left-6 sm:left-12 lg:left-20 flex items-center gap-2 text-foreground/30">
+      <div className="absolute bottom-8 left-6 sm:left-12 lg:left-20 flex items-center gap-2 text-muted-foreground/70">
         <span className="text-[10px] font-mono tracking-wider">SCROLL</span>
         <span className="w-px h-4 bg-foreground/20 animate-pulse" />
       </div>
@@ -128,7 +127,6 @@ function HeroSection() {
 function DivisionsSection() {
   return (
     <section id="divisions" className="relative min-h-screen flex items-center px-6 sm:px-12 lg:px-20 py-32">
-      <div className="vignette-bottom absolute inset-x-0 bottom-0 h-64 pointer-events-none" />
 
       <div className="w-full max-w-6xl mx-auto">
         <motion.div
@@ -143,7 +141,7 @@ function DivisionsSection() {
           </span>
           <h2 className="text-3xl sm:text-5xl font-mono font-bold tracking-tight text-shadow-deep">
             Five disciplines.<br />
-            <span className="text-foreground/40">One standard.</span>
+            <span className="text-muted-foreground">One standard.</span>
           </h2>
         </motion.div>
 
@@ -163,7 +161,7 @@ function DivisionsSection() {
               <h3 className="text-sm sm:text-base font-mono font-semibold text-foreground/90 mb-2 leading-snug text-shadow-subtle">
                 {d.name}
               </h3>
-              <p className="text-xs sm:text-sm text-foreground/40 font-mono leading-relaxed text-shadow-subtle">
+              <p className="text-xs sm:text-sm text-muted-foreground font-mono leading-relaxed text-shadow-subtle">
                 {d.desc}
               </p>
               <div className="absolute top-6 right-6 w-1 h-1 rounded-full bg-foreground/20 group-hover:bg-accent transition-colors" />
@@ -178,7 +176,6 @@ function DivisionsSection() {
 function EngineeringSection() {
   return (
     <section id="engineering" className="relative min-h-screen flex items-center px-6 sm:px-12 lg:px-20 py-32">
-      <div className="vignette-bottom absolute inset-x-0 bottom-0 h-64 pointer-events-none" />
 
       <div className="w-full max-w-6xl mx-auto">
         <motion.div
@@ -193,11 +190,11 @@ function EngineeringSection() {
           </span>
           <h2 className="text-3xl sm:text-5xl font-mono font-bold tracking-tight text-shadow-deep">
             Built like<br />
-            <span className="text-foreground/40">infrastructure.</span>
+            <span className="text-muted-foreground">infrastructure.</span>
           </h2>
         </motion.div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-12 sm:gap-16">
+        <div className="text-backdrop p-8 sm:p-10 grid grid-cols-1 sm:grid-cols-2 gap-12 sm:gap-16">
           {CAPABILITIES.map((c, i) => (
             <motion.div
               key={c.label}
@@ -228,7 +225,7 @@ function EngineeringSection() {
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <p className="text-sm font-mono text-foreground/60 text-shadow-subtle">
               <span className="text-accent">3</span> systems live in production.
-              <span className="text-foreground/30 mx-2">·</span>
+              <span className="text-muted-foreground/70 mx-2">·</span>
               <span className="text-accent">0</span> subcontractors, ever.
             </p>
             <Link
@@ -248,7 +245,6 @@ function EngineeringSection() {
 function ProcessSection() {
   return (
     <section id="process" className="relative min-h-screen flex items-center px-6 sm:px-12 lg:px-20 py-32">
-      <div className="vignette-bottom absolute inset-x-0 bottom-0 h-64 pointer-events-none" />
 
       <div className="w-full max-w-4xl mx-auto">
         <motion.div
@@ -263,7 +259,7 @@ function ProcessSection() {
           </span>
           <h2 className="text-3xl sm:text-5xl font-mono font-bold tracking-tight text-shadow-deep">
             Four phases.<br />
-            <span className="text-foreground/40">No surprises.</span>
+            <span className="text-muted-foreground">No surprises.</span>
           </h2>
         </motion.div>
 
@@ -281,7 +277,7 @@ function ProcessSection() {
             >
               <div className="absolute left-[-3px] top-1 w-[7px] h-[7px] rounded-full bg-accent" />
               <div className="text-backdrop p-5 sm:p-6">
-                <span className="text-[10px] font-mono text-foreground/30 block mb-2">
+                <span className="text-[10px] font-mono text-muted-foreground/70 block mb-2">
                   PHASE {String(i + 1).padStart(2, "0")}
                 </span>
                 <h3 className="text-xl sm:text-2xl font-mono font-semibold text-foreground/90 mb-3 text-shadow-subtle">
@@ -302,7 +298,6 @@ function ProcessSection() {
 function ContactSection() {
   return (
     <section id="contact" className="relative min-h-screen flex items-end pb-24 sm:pb-32 px-6 sm:px-12 lg:px-20">
-      <div className="vignette-bottom absolute inset-x-0 bottom-0 h-64 pointer-events-none" />
 
       <motion.div
         initial={{ opacity: 0, y: 30 }}
@@ -317,7 +312,7 @@ function ContactSection() {
 
         <h2 className="text-4xl sm:text-6xl lg:text-7xl font-mono font-bold leading-[0.95] tracking-tight mb-8 text-shadow-deep">
           <span className="block">Ready to build</span>
-          <span className="block text-foreground/40">something real?</span>
+          <span className="block text-muted-foreground">something real?</span>
         </h2>
 
         <p className="text-base sm:text-lg text-foreground/50 font-mono leading-relaxed mb-12 max-w-lg text-shadow-subtle">
@@ -342,12 +337,12 @@ function ContactSection() {
         </div>
 
         <div className="mt-16 pt-8 border-t border-border/50 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <span className="text-[11px] font-mono text-foreground/30 text-shadow-subtle">
-            Jakarta, Indonesia — operating since 2024
+          <span className="text-[11px] font-mono text-muted-foreground/70 text-shadow-subtle">
+            Jakarta, Indonesia — operating since 2025
           </span>
           <a
             href="mailto:ivan.aurelius@prioritech.co.id"
-            className="text-[11px] font-mono text-foreground/40 hover:text-accent transition-colors text-shadow-subtle"
+            className="text-[11px] font-mono text-muted-foreground hover:text-accent transition-colors text-shadow-subtle"
           >
             ivan.aurelius@prioritech.co.id
           </a>

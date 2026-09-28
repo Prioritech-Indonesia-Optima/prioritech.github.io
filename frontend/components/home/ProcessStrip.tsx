@@ -68,7 +68,7 @@ export function ProcessStrip() {
             <motion.div key={s.n} variants={revealItem} className="relative">
               <div className="relative">
                 <div className="flex items-center gap-4 mb-5">
-                  <div className="relative flex items-center justify-center w-12 h-12 rounded-full bg-main/80 border border-accent/30 backdrop-blur-sm">
+                  <div className="relative flex items-center justify-center w-12 h-12 rounded-full bg-main/90 border border-accent/30">
                     <s.Icon size={20} className="text-accent" />
                     {/* glow */}
                     <span className="absolute inset-0 rounded-full bg-accent/10 blur-md -z-10" />

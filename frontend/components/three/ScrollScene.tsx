@@ -64,7 +64,7 @@ export function SectionIndicator({ activeIndex }: { activeIndex: number }) {
             className={`text-[9px] font-mono tracking-wider transition-all duration-300 ${
               i === activeIndex
                 ? "text-accent opacity-100"
-                : "text-foreground/40 opacity-0 group-hover:opacity-100"
+                : "text-muted-foreground opacity-0 group-hover:opacity-100"
             }`}
           >
             {s.label}

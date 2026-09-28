@@ -12,25 +12,25 @@ export function Footer() {
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="flex items-center gap-3">
             <span className="text-xs font-mono font-bold text-foreground">PRIORITECH</span>
-            <span className="text-[9px] font-mono text-foreground/30 tracking-wider">
+            <span className="text-[9px] font-mono text-muted-foreground/70 tracking-wider">
               INDONESIA OPTIMA
             </span>
           </div>
 
           <nav className="flex items-center gap-6 font-mono" aria-label="Footer">
-            <Link href="/about" className="text-xs text-foreground/40 hover:text-foreground transition-colors">
+            <Link href="/about" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
               About
             </Link>
-            <Link href="/divisions" className="text-xs text-foreground/40 hover:text-foreground transition-colors">
+            <Link href="/divisions" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
               Divisions
             </Link>
-            <Link href="/projects" className="text-xs text-foreground/40 hover:text-foreground transition-colors">
+            <Link href="/projects" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
               Projects
             </Link>
-            <Link href="/tech" className="text-xs text-foreground/40 hover:text-foreground transition-colors">
+            <Link href="/tech" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
               Tech
             </Link>
-            <Link href="/contact" className="text-xs text-foreground/40 hover:text-foreground transition-colors">
+            <Link href="/contact" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
               Contact
             </Link>
             <a
@@ -46,7 +46,7 @@ export function Footer() {
           <button
             type="button"
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-            className="group inline-flex items-center gap-2 text-foreground/40 hover:text-accent text-xs font-mono transition-colors"
+            className="group inline-flex items-center gap-2 text-muted-foreground hover:text-accent text-xs font-mono transition-colors"
             aria-label="Scroll to top"
           >
             TOP

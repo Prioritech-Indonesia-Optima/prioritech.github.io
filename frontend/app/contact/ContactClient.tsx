@@ -56,10 +56,6 @@ const PROCESS_STEPS = [
 
 const FAQS = [
   {
-    q: "Are you related to the other \"Prioritech\" companies?",
-    a: "No. PT Prioritech Indonesia Optima is an independent AI and engineering firm based in Jakarta. We are not affiliated with Prioritech Indonesia (the Autodesk training center), PT Prioritas Teknologi Indonesia, or any other entity named \"Prioritech\". Our official domains are prioritech.co.id and code.prioritech.co.id.",
-  },
-  {
     q: "How quickly do you respond?",
     a: "Within one business day from our Jakarta office. Usually the same afternoon.",
   },
@@ -93,14 +89,14 @@ export default function ContactClient() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="max-w-3xl"
+            className="text-backdrop p-8 sm:p-10 max-w-3xl"
           >
             <span className="text-[10px] font-mono tracking-[0.3em] uppercase text-accent block mb-6">
               Contact
             </span>
             <h1 className="text-4xl sm:text-6xl font-mono font-bold leading-[0.95] tracking-tight mb-8">
               <span className="block">Tell us what you</span>
-              <span className="block text-foreground/40">need to ship.</span>
+              <span className="block text-muted-foreground">need to ship.</span>
             </h1>
             <p className="text-base sm:text-lg text-foreground/50 font-mono leading-relaxed max-w-xl mb-10">
               No forms. No ticketing. Just an email — straight to the engineers
@@ -114,14 +110,14 @@ export default function ContactClient() {
               Open email template
               <ArrowRight size={14} />
             </a>
-            <p className="mt-4 text-foreground/30 text-xs font-mono">
+            <p className="mt-4 text-muted-foreground/70 text-xs font-mono">
               Opens your email client with a pre-filled message.
             </p>
           </motion.div>
         </section>
 
         <section className="px-6 sm:px-12 lg:px-20 py-16 border-t border-border">
-          <div className="max-w-5xl">
+          <div className="text-backdrop p-8 sm:p-10 max-w-5xl">
             <motion.span
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
@@ -144,7 +140,7 @@ export default function ContactClient() {
                 >
                   <div className="flex items-center gap-3 mb-4">
                     <Icon size={16} className="text-accent" />
-                    <span className="text-[10px] font-mono tracking-[0.2em] uppercase text-foreground/40">
+                    <span className="text-[10px] font-mono tracking-[0.2em] uppercase text-muted-foreground">
                       {label}
                     </span>
                   </div>
@@ -168,7 +164,7 @@ export default function ContactClient() {
         </section>
 
         <section className="px-6 sm:px-12 lg:px-20 py-16 border-t border-border">
-          <div className="max-w-5xl">
+          <div className="text-backdrop p-8 sm:p-10 max-w-5xl">
             <motion.span
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
@@ -200,7 +196,7 @@ export default function ContactClient() {
         </section>
 
         <section className="px-6 sm:px-12 lg:px-20 py-16 border-t border-border">
-          <div className="max-w-3xl">
+          <div className="text-backdrop p-8 sm:p-10 max-w-3xl">
             <motion.span
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}

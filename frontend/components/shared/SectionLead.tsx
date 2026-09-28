@@ -27,7 +27,7 @@ export function SectionLead({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-80px" }}
       transition={{ duration: 0.6, ease: easing.outExpo }}
-      className={`${align === "center" ? "text-center mx-auto" : ""} max-w-3xl ${className}`}
+      className={`text-backdrop p-6 sm:p-8 ${align === "center" ? "text-center mx-auto" : ""} max-w-3xl ${className}`}
     >
       {eyebrow && (
         <p className="text-accent font-mono text-sm tracking-wider mb-3">$ {eyebrow}</p>

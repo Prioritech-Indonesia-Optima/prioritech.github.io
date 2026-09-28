@@ -27,13 +27,13 @@ export function ModernCard({
   const baseStyles = "relative rounded-xl overflow-hidden font-mono transition-all duration-300 ease-out group"
   
   const variantStyles = {
-    default: "bg-main/60 backdrop-blur-md border border-accent/20",
-    glass: "bg-main/40 backdrop-blur-xl border border-accent/10",
-    elevated: "bg-main/70 backdrop-blur-md border border-accent/20 shadow-lg shadow-accent/5",
+    default: "ink-slab border border-accent/20",
+    glass: "bg-card/95 border border-accent/10",
+    elevated: "ink-slab border border-accent/20 shadow-lg shadow-accent/5",
   }
   
   const hoverStyles = hover
-    ? "hover:bg-main/80 hover:border-accent/50 hover:-translate-y-1 hover:shadow-xl hover:shadow-accent/10"
+    ? "hover:bg-main hover:border-accent/50 hover:-translate-y-1 hover:shadow-xl hover:shadow-accent/10"
     : ""
 
   return (

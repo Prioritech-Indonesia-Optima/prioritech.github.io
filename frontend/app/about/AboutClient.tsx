@@ -24,8 +24,8 @@ const ANTI_FEATURES = [
 ]
 
 const TIMELINE = [
-  { year: "2024", event: "Founded in Jakarta. First production system shipped within 6 weeks." },
-  { year: "2025", event: "Three systems live in production. Five divisions formalized." },
+  { year: "Oct 2025", event: "Registered in Jakarta. First production system shipped within 6 weeks." },
+  { year: "Q1 2026", event: "Three systems live in production. Five divisions formalized." },
   { year: "2026", event: "Expanding into industrial automation and edge AI deployments." },
 ]
 
@@ -41,14 +41,14 @@ export default function AboutClient() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="max-w-4xl"
+            className="text-backdrop p-8 sm:p-10 max-w-4xl"
           >
             <span className="text-[10px] font-mono tracking-[0.3em] uppercase text-accent block mb-6">
               About
             </span>
             <h1 className="text-4xl sm:text-6xl font-mono font-bold leading-[0.95] tracking-tight mb-8">
               <span className="block">We build systems</span>
-              <span className="block text-foreground/40">that outlast their requirements.</span>
+              <span className="block text-muted-foreground">that outlast their requirements.</span>
             </h1>
             <p className="text-base sm:text-lg text-foreground/50 font-mono leading-relaxed max-w-2xl">
               Prioritech Indonesia Optima is an engineering firm based in Jakarta.
@@ -59,7 +59,7 @@ export default function AboutClient() {
         </section>
 
         <section className="px-6 sm:px-12 lg:px-20 py-16 border-t border-border">
-          <div className="max-w-4xl">
+          <div className="text-backdrop p-8 sm:p-10 max-w-4xl">
             <motion.span
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
@@ -92,7 +92,7 @@ export default function AboutClient() {
         </section>
 
         <section className="px-6 sm:px-12 lg:px-20 py-16 border-t border-border">
-          <div className="max-w-4xl">
+          <div className="text-backdrop p-8 sm:p-10 max-w-4xl">
             <motion.span
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
@@ -121,7 +121,7 @@ export default function AboutClient() {
         </section>
 
         <section className="px-6 sm:px-12 lg:px-20 py-16 border-t border-border">
-          <div className="max-w-4xl">
+          <div className="text-backdrop p-8 sm:p-10 max-w-4xl">
             <motion.span
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
@@ -144,7 +144,7 @@ export default function AboutClient() {
                   className="relative pl-8 pb-12 last:pb-0"
                 >
                   <div className="absolute left-[-3px] top-1 w-[7px] h-[7px] rounded-full bg-accent" />
-                  <span className="text-[10px] font-mono text-foreground/30 block mb-1">{t.year}</span>
+                  <span className="text-[10px] font-mono text-muted-foreground/70 block mb-1">{t.year}</span>
                   <p className="text-sm text-foreground/60 font-mono">{t.event}</p>
                 </motion.div>
               ))}
@@ -158,10 +158,10 @@ export default function AboutClient() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.8 }}
-            className="max-w-3xl"
+            className="text-backdrop p-8 sm:p-10 max-w-3xl"
           >
             <h2 className="text-3xl sm:text-4xl font-mono font-bold tracking-tight mb-6">
-              <span className="text-foreground/40">Jakarta.</span>
+              <span className="text-muted-foreground">Jakarta.</span>
             </h2>
             <p className="text-sm text-foreground/45 font-mono leading-relaxed mb-8">
               NEO SOHO Podomoro City, Unit 3106

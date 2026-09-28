@@ -42,42 +42,42 @@
 }
 
 .light {
-  /* Tamed light theme: cream page, ink text, gold accent-only.
-     Hero/section panels flip to near-black slabs (see .text-backdrop)
-     so the site stays dark-dominant in both themes. */
-  --main: #121212;
-  --background: #f5f1e8;
-  --foreground: #121212;
-  --card: #fffdf8;
-  --card-foreground: #121212;
-  --popover: #121212;
-  --popover-foreground: #f5f1e8;
-  --primary: #121212;
-  --primary-foreground: #f5f1e8;
-  --secondary: #121212;
-  --secondary-foreground: #f5f1e8;
-  --muted: #ece6d8;
-  --muted-foreground: #5c554a;
-  --accent: #7a5c0e;
-  --accent-foreground: #fffdf8;
+  /* Paper & gold editorial light mode: warm paper page, white cards,
+     warm-ink text, amber-gold accent (AA on paper). Dark terminal-style
+     chips/rows stay dark on purpose — they are the brand texture. */
+  --main: #211d16;
+  --background: #faf6ee;
+  --foreground: #211d16;
+  --card: #ffffff;
+  --card-foreground: #211d16;
+  --popover: #211d16;
+  --popover-foreground: #faf6ee;
+  --primary: #211d16;
+  --primary-foreground: #faf6ee;
+  --secondary: #211d16;
+  --secondary-foreground: #faf6ee;
+  --muted: #f1ead9;
+  --muted-foreground: #6b6153;
+  --accent: #a16207;
+  --accent-foreground: #ffffff;
   --destructive: #b91c1c;
   --destructive-foreground: #ffffff;
-  --border: rgba(18, 18, 18, 0.14);
-  --input: rgba(18, 18, 18, 0.18);
-  --ring: #7a5c0e;
-  --chart-1: #121212;
-  --chart-2: #7a5c0e;
-  --chart-3: #5c554a;
+  --border: rgba(33, 29, 22, 0.12);
+  --input: rgba(33, 29, 22, 0.16);
+  --ring: #a16207;
+  --chart-1: #211d16;
+  --chart-2: #a16207;
+  --chart-3: #6b6153;
   --chart-4: #daa520;
-  --chart-5: #8a8271;
-  --sidebar: #f5f1e8;
-  --sidebar-foreground: #121212;
-  --sidebar-primary: #121212;
-  --sidebar-primary-foreground: #f5f1e8;
-  --sidebar-accent: #ece6d8;
-  --sidebar-accent-foreground: #121212;
-  --sidebar-border: rgba(18, 18, 18, 0.14);
-  --sidebar-ring: #7a5c0e;
+  --chart-5: #b8a888;
+  --sidebar: #faf6ee;
+  --sidebar-foreground: #211d16;
+  --sidebar-primary: #211d16;
+  --sidebar-primary-foreground: #faf6ee;
+  --sidebar-accent: #f1ead9;
+  --sidebar-accent-foreground: #211d16;
+  --sidebar-border: rgba(33, 29, 22, 0.12);
+  --sidebar-ring: #a16207;
   --speed: 1s;
 }
 
@@ -247,11 +247,11 @@
   }
 
   .light .text-shadow-deep {
-    text-shadow: 0 2px 20px rgba(245, 241, 232, 0.7), 0 0 40px rgba(245, 241, 232, 0.4);
+    text-shadow: 0 2px 20px rgba(255, 255, 255, 0.7), 0 0 40px rgba(255, 255, 255, 0.4);
   }
 
   .light .text-shadow-subtle {
-    text-shadow: 0 1px 12px rgba(245, 241, 232, 0.6);
+    text-shadow: 0 1px 12px rgba(255, 255, 255, 0.6);
   }
 
   .ink-flip,
@@ -268,6 +268,22 @@
     background: color-mix(in srgb, var(--main) 95%, transparent);
   }
 
+  .light .ink-slab {
+    /* Paper cards in light mode; dark chips/rows nested inside re-flip to cream text */
+    background: rgba(255, 255, 255, 0.92);
+    --foreground: #211d16;
+    --secondary: #211d16;
+    --muted-foreground: #6b6153;
+    --accent: #a16207;
+    --border: rgba(33, 29, 22, 0.12);
+  }
+  .light .ink-slab [class*="bg-main"],
+  .light .text-backdrop [class*="bg-main"] {
+    --secondary: #ece7db;
+    --muted-foreground: #b8b0a0;
+    --foreground: #ece7db;
+  }
+
   .text-backdrop {
     background: rgba(10, 10, 10, 0.72);
     backdrop-filter: blur(3px);
@@ -275,13 +291,9 @@
     border: 1px solid color-mix(in srgb, var(--foreground) 12%, transparent);
   }
   .light .text-backdrop {
-    /* Near-black slab on the cream page; inner text flips via token cascade */
-    background: rgba(18, 18, 18, 0.92);
-    border-color: rgba(218, 165, 32, 0.22);
-    --foreground: #f5f1e8;
-    --muted-foreground: #a89f8d;
-    --accent: #daa520;
-    --border: rgba(245, 241, 232, 0.14);
+    /* Solid paper card over the canvas — no dark blocks on cream */
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(161, 98, 7, 0.25);
   }
 
   .ink-panel {

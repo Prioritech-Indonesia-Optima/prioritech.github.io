@@ -31,3 +31,6 @@ yarn-error.log*
 pnpm-lock.yaml
 __pycache__/
 *.pyc
+
+# Playwright MCP artifacts
+.playwright-mcp/
