@@ -68,7 +68,7 @@ function HeroSection() {
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-        className="relative max-w-4xl text-backdrop p-8 sm:p-10"
+        className="relative max-w-4xl min-w-0 text-backdrop p-8 sm:p-10"
       >
         <div className="flex items-center gap-3 mb-8">
           <span className="w-2 h-2 rounded-full bg-accent animate-pulse-dot" />
@@ -77,7 +77,7 @@ function HeroSection() {
           </span>
         </div>
 
-        <h1 className="text-5xl sm:text-7xl lg:text-8xl font-mono font-bold leading-[0.9] tracking-tight mb-8 text-shadow-deep">
+        <h1 className="text-4xl sm:text-7xl lg:text-8xl font-mono font-bold leading-[0.9] tracking-tight mb-8 text-shadow-deep">
           <span className="block">Engineering</span>
           <span className="block text-muted-foreground">that endures.</span>
         </h1>

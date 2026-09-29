@@ -17,7 +17,7 @@ export function Footer() {
             </span>
           </div>
 
-          <nav className="flex items-center gap-6 font-mono" aria-label="Footer">
+          <nav className="flex flex-wrap items-center gap-x-6 gap-y-3 font-mono" aria-label="Footer">
             <Link href="/about" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
               About
             </Link>

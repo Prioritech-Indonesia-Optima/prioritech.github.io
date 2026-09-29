@@ -128,7 +128,7 @@ export default function ContactClient() {
               Find us
             </motion.span>
 
-            <div className="grid sm:grid-cols-3 gap-px bg-border/30">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-px bg-border/30">
               {CONTACT_CARDS.map(({ Icon, label, lines, href }) => (
                 <motion.div
                   key={label}
@@ -147,11 +147,11 @@ export default function ContactClient() {
                   <div className="space-y-1">
                     {lines.map((line) =>
                       href ? (
-                        <a key={line} href={href} className="block text-xs text-foreground/60 font-mono hover:text-accent transition-colors">
+                        <a key={line} href={href} className="block break-words text-xs text-foreground/60 font-mono hover:text-accent transition-colors">
                           {line}
                         </a>
                       ) : (
-                        <p key={line} className="text-xs text-foreground/50 font-mono leading-relaxed">
+                        <p key={line} className="break-words text-xs text-foreground/50 font-mono leading-relaxed">
                           {line}
                         </p>
                       )
@@ -175,7 +175,7 @@ export default function ContactClient() {
               What happens next
             </motion.span>
 
-            <div className="grid sm:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
               {PROCESS_STEPS.map(({ Icon, title, body }, i) => (
                 <motion.div
                   key={title}

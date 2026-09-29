@@ -41,11 +41,7 @@ export const metadata: Metadata = {
     icon: [
       { url: '/prioritech-favicon.png', sizes: 'any' },
     ],
-    apple: [
-      { url: '/prioritech-favicon.png', sizes: '180x180', type: 'image/png' },
-    ],
   },
-  manifest: '/manifest.json',
   other: {
     'font-display': 'swap',
   },

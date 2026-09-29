@@ -175,7 +175,15 @@
 
   body {
     @apply bg-background text-foreground antialiased;
-    overflow-x: hidden;
+    /* clip (not hidden) so the body never becomes a horizontally
+       scrollable container on mobile; sticky/fixed elements unaffected */
+    overflow-x: clip;
+  }
+
+  @supports not (overflow-x: clip) {
+    body {
+      overflow-x: hidden;
+    }
   }
 
   ::selection {
