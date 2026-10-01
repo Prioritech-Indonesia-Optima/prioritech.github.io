@@ -121,6 +121,7 @@ export class AssemblyScene {
 
   private timer = new THREE.Timer()
   private time = 0
+  private bounds?: { start: number; end: number }[]
   private scrollProgress = 0
   private targetScroll = 0
   private raf = 0
@@ -209,6 +210,15 @@ export class AssemblyScene {
 
   setOnProgress(cb: (p: number) => void): void {
     this.onProgress = cb
+  }
+
+  setChapterBounds(starts: number[]): void {
+    const ch = this.config.chapters
+    if (starts.length !== ch.length) return
+    this.bounds = ch.map((_, i) => ({
+      start: starts[i],
+      end: i + 1 < ch.length ? starts[i + 1] : 1,
+    }))
   }
 
   private buildFlows(): void {
@@ -482,10 +492,12 @@ export class AssemblyScene {
   private getChapter(p: number): { chapter: SceneConfig["chapters"][number]; local: number; next: SceneConfig["chapters"][number] } {
     const ch = this.config.chapters
     for (let i = 0; i < ch.length; i++) {
-      if (p >= ch[i].start && p < ch[i].end) {
+      const start = this.bounds?.[i]?.start ?? ch[i].start
+      const end = this.bounds?.[i]?.end ?? ch[i].end
+      if (p >= start && p < end) {
         return {
           chapter: ch[i],
-          local: (p - ch[i].start) / (ch[i].end - ch[i].start),
+          local: (p - start) / (end - start),
           next: ch[Math.min(i + 1, ch.length - 1)],
         }
       }

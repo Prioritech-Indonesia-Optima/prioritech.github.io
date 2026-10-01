@@ -119,7 +119,7 @@ const PRINCIPLES = [
 
 function StageSection({ index, title, line, align }: { index: string; title: string; line: string; align: "left" | "right" }) {
   return (
-    <section className="relative h-[110vh] flex items-center px-6 sm:px-12 lg:px-20">
+    <section data-scene-step className="relative h-[110vh] flex items-center px-6 sm:px-12 lg:px-20">
       <motion.div
         initial={{ opacity: 0, y: 24 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -143,7 +143,7 @@ function StageSection({ index, title, line, align }: { index: string; title: str
 
 function PrinciplesSection() {
   return (
-    <section id="principles" className="relative min-h-[140vh] flex items-center px-6 sm:px-12 lg:px-20 py-32">
+    <section id="principles" data-scene-step className="relative min-h-[140vh] flex items-center px-6 sm:px-12 lg:px-20 py-32">
       <div className="w-full max-w-5xl mx-auto">
         <motion.div
           initial={{ opacity: 0 }}
@@ -188,7 +188,7 @@ function PrinciplesSection() {
 
 function QuoteSection() {
   return (
-    <section className="relative h-[110vh] flex items-center px-6 sm:px-12 lg:px-20">
+    <section data-scene-step className="relative h-[110vh] flex items-center px-6 sm:px-12 lg:px-20">
       <motion.blockquote
         initial={{ opacity: 0, y: 24 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -210,7 +210,7 @@ function QuoteSection() {
 
 function HeroSection() {
   return (
-    <section id="hero" className="relative min-h-screen flex items-end pb-20 sm:pb-28 px-6 sm:px-12 lg:px-20">
+    <section id="hero" data-scene-step className="relative min-h-screen flex items-end pb-20 sm:pb-28 px-6 sm:px-12 lg:px-20">
 
       <motion.div
         initial={{ opacity: 0, y: 30 }}
@@ -274,7 +274,7 @@ function HeroSection() {
 
 function DivisionsSection() {
   return (
-    <section id="divisions" className="relative min-h-[140vh] flex items-center px-6 sm:px-12 lg:px-20 py-32">
+    <section id="divisions" data-scene-step className="relative min-h-[140vh] flex items-center px-6 sm:px-12 lg:px-20 py-32">
 
       <div className="w-full max-w-6xl mx-auto">
         <motion.div
@@ -323,7 +323,7 @@ function DivisionsSection() {
 
 function EngineeringSection() {
   return (
-    <section id="engineering" className="relative min-h-[140vh] flex items-center px-6 sm:px-12 lg:px-20 py-32">
+    <section id="engineering" data-scene-step className="relative min-h-[140vh] flex items-center px-6 sm:px-12 lg:px-20 py-32">
 
       <div className="w-full max-w-6xl mx-auto">
         <motion.div
@@ -392,7 +392,7 @@ function EngineeringSection() {
 
 function ProcessSection() {
   return (
-    <section id="process" className="relative min-h-[140vh] flex items-center px-6 sm:px-12 lg:px-20 py-32">
+    <section id="process" data-scene-step className="relative min-h-[140vh] flex items-center px-6 sm:px-12 lg:px-20 py-32">
 
       <div className="w-full max-w-4xl mx-auto">
         <motion.div
@@ -445,7 +445,7 @@ function ProcessSection() {
 
 function ContactSection() {
   return (
-    <section id="contact" className="relative min-h-[140vh] flex items-end pb-24 sm:pb-32 px-6 sm:px-12 lg:px-20">
+    <section id="contact" data-scene-step className="relative min-h-[140vh] flex items-end pb-24 sm:pb-32 px-6 sm:px-12 lg:px-20">
 
       <motion.div
         initial={{ opacity: 0, y: 30 }}

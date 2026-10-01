@@ -5,24 +5,38 @@ import { useEffect, useRef, useState } from "react"
 type Section = {
   id: string
   label: string
-  range: [number, number]
 }
 
 export const SECTIONS: Section[] = [
-  { id: "hero", label: "01", range: [0.0, 0.126] },
-  { id: "divisions", label: "02", range: [0.126, 0.349] },
-  { id: "engineering", label: "03", range: [0.349, 0.554] },
-  { id: "process", label: "04", range: [0.554, 0.886] },
-  { id: "contact", label: "05", range: [0.886, 1.0] },
+  { id: "hero", label: "01" },
+  { id: "divisions", label: "02" },
+  { id: "engineering", label: "03" },
+  { id: "process", label: "04" },
+  { id: "contact", label: "05" },
 ]
+
+function measureSectionStarts(): number[] {
+  const total = document.documentElement.scrollHeight - window.innerHeight
+  if (total <= 0) return SECTIONS.map(() => 0)
+  const scrollY = window.scrollY
+  return SECTIONS.map((s) => {
+    const el = document.getElementById(s.id)
+    if (!el) return 0
+    return Math.max(0, Math.min(1, (el.getBoundingClientRect().top + scrollY) / total))
+  })
+}
 
 export function useScrollProgress(): [React.RefObject<HTMLDivElement>, number, number] {
   const containerRef = useRef<HTMLDivElement>(null!)
   const [progress, setProgress] = useState(0)
   const [activeSection, setActiveSection] = useState(0)
+  const startsRef = useRef<number[]>(SECTIONS.map((_, i) => i / SECTIONS.length))
 
   useEffect(() => {
     let raf: number
+    const sync = () => {
+      startsRef.current = measureSectionStarts()
+    }
     const onScroll = () => {
       cancelAnimationFrame(raf)
       raf = requestAnimationFrame(() => {
@@ -31,15 +45,34 @@ export function useScrollProgress(): [React.RefObject<HTMLDivElement>, number, n
         const total = el.scrollHeight - window.innerHeight
         const p = total > 0 ? window.scrollY / total : 0
         setProgress(p)
-        const idx = SECTIONS.findIndex((s) => p >= s.range[0] && p < s.range[1])
-        setActiveSection(idx === -1 ? SECTIONS.length - 1 : idx)
+        const starts = startsRef.current
+        let idx = 0
+        for (let i = 0; i < starts.length; i++) {
+          if (p >= starts[i] - 0.001) idx = i
+        }
+        setActiveSection(idx)
       })
     }
+    sync()
     onScroll()
     window.addEventListener("scroll", onScroll, { passive: true })
+    let resizeRaf = 0
+    const onResize = () => {
+      cancelAnimationFrame(resizeRaf)
+      resizeRaf = requestAnimationFrame(sync)
+    }
+    window.addEventListener("resize", onResize)
+    const ro = new ResizeObserver(onResize)
+    ro.observe(document.documentElement)
+    document.fonts?.ready.then(sync).catch(() => {})
+    const settle = setTimeout(sync, 800)
     return () => {
       window.removeEventListener("scroll", onScroll)
+      window.removeEventListener("resize", onResize)
       cancelAnimationFrame(raf)
+      cancelAnimationFrame(resizeRaf)
+      clearTimeout(settle)
+      ro.disconnect()
     }
   }, [])
 
