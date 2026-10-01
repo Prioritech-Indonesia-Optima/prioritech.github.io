@@ -47,9 +47,59 @@ export default function HomePage() {
 
       <main id="main-content" className="relative z-10">
         <HeroSection />
+        <StageSection
+          index="Stage 02 — Disassembly"
+          title="We take systems apart until nothing is mysterious."
+          line="Nacelle panels release first. Then every module slides out, forward to aft, one at a time."
+          align="right"
+        />
+        <StageSection
+          index="Stage 03 — Exploded view"
+          title="Complexity is a choice. We choose legibility."
+          line="If a system cannot be drawn in parts, it cannot be maintained by strangers."
+          align="left"
+        />
         <DivisionsSection />
+        <StageSection
+          index="Stage 04 — Reassembly"
+          title="Everything we ship is designed to be rebuilt."
+          line="Parts return in reverse order. Tolerances hold. No surprises on the bench."
+          align="right"
+        />
+        <PrinciplesSection />
         <EngineeringSection />
+        <StageSection
+          index="Stage 05 — Intake"
+          title="We listen at full width before we compress."
+          line="2.8 metres of fan. 1,250 kilograms a second. Airflow first, pressure later."
+          align="left"
+        />
+        <StageSection
+          index="Stage 06 — Compression"
+          title="Pressure is the point."
+          line="Constraints do not slow engineering down. They are the fuel."
+          align="right"
+        />
+        <QuoteSection />
+        <StageSection
+          index="Stage 07 — Combustion"
+          title="Ideas do not count until they burn."
+          line="We ship ignition, not slides. Live systems, in production, under load."
+          align="left"
+        />
         <ProcessSection />
+        <StageSection
+          index="Stage 08 — Exhaust"
+          title="Measure the thrust, not the noise."
+          line="Monitoring, SLOs, and runbooks — the exhaust of good engineering is visible."
+          align="right"
+        />
+        <StageSection
+          index="Stage 09 — Full throttle"
+          title="Boring on purpose. Relentless by temperament."
+          line="N1 98%. The whole machine alive, doing exactly what it was drawn to do."
+          align="left"
+        />
         <ContactSection />
       </main>
 
@@ -57,6 +107,104 @@ export default function HomePage() {
         <Footer />
       </Suspense>
     </div>
+  )
+}
+
+const PRINCIPLES = [
+  { num: "I", title: "Ownership is the whole job", desc: "We don't hand off and disappear. If it runs in production, it runs on our watch too." },
+  { num: "II", title: "Taste is a technical skill", desc: "Naming, structure, and restraint are engineering decisions — not decoration applied later." },
+  { num: "III", title: "Boring on purpose", desc: "We spend the innovation budget in exactly one place: where it earns rent. Everything else is proven steel." },
+  { num: "IV", title: "Slow to promise, fast to prove", desc: "Estimates stay conservative. Deltas stay incremental. Demos stay live." },
+]
+
+function StageSection({ index, title, line, align }: { index: string; title: string; line: string; align: "left" | "right" }) {
+  return (
+    <section className="relative h-[110vh] flex items-center px-6 sm:px-12 lg:px-20">
+      <motion.div
+        initial={{ opacity: 0, y: 24 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+        className={`max-w-sm text-backdrop p-6 sm:p-8 ${align === "right" ? "ml-auto text-right" : ""}`}
+      >
+        <span className="text-[10px] font-mono tracking-[0.3em] uppercase text-accent block mb-4 text-shadow-subtle">
+          {index}
+        </span>
+        <h2 className="text-xl sm:text-2xl font-mono font-bold leading-snug text-foreground/90 mb-4 text-shadow-deep">
+          {title}
+        </h2>
+        <p className="text-xs sm:text-sm font-mono text-foreground/50 leading-relaxed text-shadow-subtle">
+          {line}
+        </p>
+      </motion.div>
+    </section>
+  )
+}
+
+function PrinciplesSection() {
+  return (
+    <section id="principles" className="relative min-h-[140vh] flex items-center px-6 sm:px-12 lg:px-20 py-32">
+      <div className="w-full max-w-5xl mx-auto">
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8 }}
+          className="mb-16 text-backdrop p-6 sm:p-8"
+        >
+          <span className="text-[10px] font-mono tracking-[0.3em] uppercase text-accent block mb-4 text-shadow-subtle">
+            04 — Operating temperament
+          </span>
+          <h2 className="text-3xl sm:text-5xl font-mono font-bold tracking-tight text-shadow-deep">
+            Skills get hired.<br />
+            <span className="text-muted-foreground">Temperament gets trusted.</span>
+          </h2>
+        </motion.div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-px bg-border/30">
+          {PRINCIPLES.map((pr, i) => (
+            <motion.div
+              key={pr.num}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.6, delay: i * 0.08, ease: [0.16, 1, 0.3, 1] }}
+              className="ink-slab p-6 sm:p-8"
+            >
+              <span className="text-[10px] font-mono text-accent/50 block mb-4">{pr.num}</span>
+              <h3 className="text-sm sm:text-base font-mono font-semibold text-foreground/90 mb-3 leading-snug text-shadow-subtle">
+                {pr.title}
+              </h3>
+              <p className="text-xs sm:text-sm font-mono text-muted-foreground leading-relaxed text-shadow-subtle">
+                {pr.desc}
+              </p>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+function QuoteSection() {
+  return (
+    <section className="relative h-[110vh] flex items-center px-6 sm:px-12 lg:px-20">
+      <motion.blockquote
+        initial={{ opacity: 0, y: 24 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+        className="max-w-3xl mx-auto text-center text-backdrop p-8 sm:p-10"
+      >
+        <p className="text-2xl sm:text-4xl font-mono font-bold leading-snug tracking-tight text-foreground/90 text-shadow-deep">
+          &ldquo;Software is infrastructure.<br />
+          <span className="text-muted-foreground">Infrastructure deserves engineers who stay.&rdquo;</span>
+        </p>
+        <footer className="mt-8 text-[10px] font-mono tracking-[0.3em] uppercase text-accent text-shadow-subtle">
+          — Operating principle #01
+        </footer>
+      </motion.blockquote>
+    </section>
   )
 }
 
@@ -126,7 +274,7 @@ function HeroSection() {
 
 function DivisionsSection() {
   return (
-    <section id="divisions" className="relative min-h-screen flex items-center px-6 sm:px-12 lg:px-20 py-32">
+    <section id="divisions" className="relative min-h-[140vh] flex items-center px-6 sm:px-12 lg:px-20 py-32">
 
       <div className="w-full max-w-6xl mx-auto">
         <motion.div
@@ -175,7 +323,7 @@ function DivisionsSection() {
 
 function EngineeringSection() {
   return (
-    <section id="engineering" className="relative min-h-screen flex items-center px-6 sm:px-12 lg:px-20 py-32">
+    <section id="engineering" className="relative min-h-[140vh] flex items-center px-6 sm:px-12 lg:px-20 py-32">
 
       <div className="w-full max-w-6xl mx-auto">
         <motion.div
@@ -244,7 +392,7 @@ function EngineeringSection() {
 
 function ProcessSection() {
   return (
-    <section id="process" className="relative min-h-screen flex items-center px-6 sm:px-12 lg:px-20 py-32">
+    <section id="process" className="relative min-h-[140vh] flex items-center px-6 sm:px-12 lg:px-20 py-32">
 
       <div className="w-full max-w-4xl mx-auto">
         <motion.div
@@ -297,7 +445,7 @@ function ProcessSection() {
 
 function ContactSection() {
   return (
-    <section id="contact" className="relative min-h-screen flex items-end pb-24 sm:pb-32 px-6 sm:px-12 lg:px-20">
+    <section id="contact" className="relative min-h-[140vh] flex items-end pb-24 sm:pb-32 px-6 sm:px-12 lg:px-20">
 
       <motion.div
         initial={{ opacity: 0, y: 30 }}

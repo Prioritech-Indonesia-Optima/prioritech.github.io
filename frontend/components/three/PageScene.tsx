@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useRef } from "react"
-import { LatticeScene } from "./LatticeScene"
+import { AssemblyScene } from "./AssemblyScene"
 import { SCENE_CONFIGS } from "./sceneConfigs"
 
 export function PageScene({ pageId, onProgress }: { pageId: string; onProgress?: (p: number) => void }) {
@@ -11,7 +11,7 @@ export function PageScene({ pageId, onProgress }: { pageId: string; onProgress?:
     const canvas = canvasRef.current
     if (!canvas) return
     const config = SCENE_CONFIGS[pageId] ?? SCENE_CONFIGS.home
-    const scene = new LatticeScene(canvas, config)
+    const scene = new AssemblyScene(canvas, config)
     if (onProgress) scene.setOnProgress(onProgress)
 
     const onScroll = () => {

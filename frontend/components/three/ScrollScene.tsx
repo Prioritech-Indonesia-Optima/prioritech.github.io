@@ -9,11 +9,11 @@ type Section = {
 }
 
 export const SECTIONS: Section[] = [
-  { id: "hero", label: "01", range: [0.0, 0.2] },
-  { id: "divisions", label: "02", range: [0.2, 0.4] },
-  { id: "engineering", label: "03", range: [0.4, 0.6] },
-  { id: "process", label: "04", range: [0.6, 0.8] },
-  { id: "contact", label: "05", range: [0.8, 1.0] },
+  { id: "hero", label: "01", range: [0.0, 0.126] },
+  { id: "divisions", label: "02", range: [0.126, 0.349] },
+  { id: "engineering", label: "03", range: [0.349, 0.554] },
+  { id: "process", label: "04", range: [0.554, 0.886] },
+  { id: "contact", label: "05", range: [0.886, 1.0] },
 ]
 
 export function useScrollProgress(): [React.RefObject<HTMLDivElement>, number, number] {

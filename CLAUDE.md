@@ -39,8 +39,8 @@ The Next.js app lives in `frontend/`. **Always `cd frontend` before running npm 
 
 ## Design system
 - **Dark-first.** Default theme is near-black `#0a0a0a` + gold `#daa520` accent + silver `#e8e8e8` text (tokens in `frontend/app/globals.css`). Light mode is paper `#faf6ee` + warm ink `#211d16` + amber `#a16207`; full-orange surfaces are retired. Gold `#daa520` is accent-only on dark surfaces — use `#a16207` for accent text on paper.
-- Panels over the 3D canvas are solid (≥85% opacity + hairline border); backdrop-blur is reserved for sticky chrome (navbar/footer/modal).
-- One shared three.js scroll engine (`components/three/`) renders the wireframe terrain on all pages — extend via `sceneConfigs.ts`, don't fork new scenes.
+- Panels over the 3D canvas are translucent (45–78% fill + ≤2px blur) so the jet engine ghosts through and readers fill in the blanks; keep `text-shadow-deep`/`-subtle` on panel text for contrast. Blur on sticky chrome (navbar/footer/modal) as needed.
+- One shared three.js scroll engine (`components/three/`) renders a wireframe engine assembly (gears, turbine, trusses, node lattice, and an animated inline-four combustion engine) on all pages — scroll chapters drive camera flight + exploded-view/reassembly, the final chapter runs the engine (pistons, crank, ignition flashes). Extend via `sceneConfigs.ts`, don't fork new scenes.
 - Mobile-first responsive: 320px / 768px / 1024px breakpoints
 
 ## Local development

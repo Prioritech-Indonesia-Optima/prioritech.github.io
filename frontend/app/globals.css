@@ -215,7 +215,7 @@
 
 @layer utilities {
   .vignette {
-    background: radial-gradient(ellipse at center, transparent 40%, var(--background) 100%);
+    background: radial-gradient(ellipse at center, transparent 55%, color-mix(in srgb, var(--background) 78%, transparent) 100%);
   }
 
   .vignette-bottom {
@@ -273,12 +273,12 @@
     --border: rgba(245, 241, 232, 0.14);
   }
   .ink-slab {
-    background: color-mix(in srgb, var(--main) 95%, transparent);
+    background: color-mix(in srgb, var(--main) 78%, transparent);
   }
 
   .light .ink-slab {
     /* Paper cards in light mode; dark chips/rows nested inside re-flip to cream text */
-    background: rgba(255, 255, 255, 0.92);
+    background: rgba(255, 255, 255, 0.78);
     --foreground: #211d16;
     --secondary: #211d16;
     --muted-foreground: #6b6153;
@@ -293,14 +293,16 @@
   }
 
   .text-backdrop {
-    background: rgba(10, 10, 10, 0.72);
-    backdrop-filter: blur(3px);
-    -webkit-backdrop-filter: blur(3px);
+    background: rgba(10, 10, 10, 0.5);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
     border: 1px solid color-mix(in srgb, var(--foreground) 12%, transparent);
   }
   .light .text-backdrop {
-    /* Solid paper card over the canvas — no dark blocks on cream */
-    background: rgba(255, 255, 255, 0.9);
+    /* Translucent paper card — the engine ghosts through, readers fill in the blanks */
+    background: rgba(255, 255, 255, 0.72);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
     border: 1px solid rgba(161, 98, 7, 0.25);
   }
 
