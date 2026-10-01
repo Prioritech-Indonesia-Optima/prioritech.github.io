@@ -1,7 +1,6 @@
 import type { Metadata, Viewport } from 'next'
 import { GeistSans } from 'geist/font/sans'
 import { GeistMono } from 'geist/font/mono'
-import { Analytics } from '@vercel/analytics/next'
 import { SplashScreenWrapper } from '@/components/common/SplashScreenWrapper'
 import { ThemeProvider } from '@/components/common/ThemeProvider'
 import { StructuredData } from '@/components/common/StructuredData'
@@ -71,7 +70,6 @@ export const viewport: Viewport = {
  * It includes:
  * - Global metadata (title, description, SEO tags)
  * - Font configuration (Geist Sans and Mono)
- * - Analytics integration (Vercel Analytics)
  * - Global CSS imports
  * 
  * The layout wraps all pages and provides consistent styling and functionality
@@ -153,7 +151,6 @@ const websiteSchema = {
  * - Open Graph and Twitter Card tags
  * - Structured data (JSON-LD) for Organization and WebSite
  * - Font configuration (Geist Sans and Mono)
- * - Analytics integration (Vercel Analytics)
  * - Global CSS imports
  * 
  * The layout wraps all pages and provides consistent styling and functionality
@@ -188,7 +185,6 @@ export default function RootLayout({
         <ThemeProvider>
           <SplashScreenWrapper>
             {children}
-            <Analytics />
           </SplashScreenWrapper>
         </ThemeProvider>
       </body>
