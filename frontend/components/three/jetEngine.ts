@@ -24,8 +24,8 @@ export type JetEngine = {
   parts: JetPart[]
   labels: EngineLabel[]
   leaderMaterial: THREE.LineBasicMaterial
-  combustorAnchors: Float32Array
   nozzleZ: number
+  plumeZ: number
 }
 
 function toThick(segs: Seg[], mat: LineMaterial): LineSegments2 {
@@ -245,6 +245,8 @@ export function buildJetEngine(mat: LineMaterial, labelColor: string): JetEngine
     pushCircle(o, 0.82, -5.9, 24)
   }, -6.0, 0, 1.0)
 
+  const plumeZ = -5.9
+
   const labels: EngineLabel[] = []
   const leaderSegs: Seg[] = []
   for (const l of STATIC_LABELS) {
@@ -274,13 +276,5 @@ export function buildJetEngine(mat: LineMaterial, labelColor: string): JetEngine
   })
   root.add(new THREE.LineSegments(segmentsGeometry(leaderSegs), leaderMaterial))
 
-  const combustorAnchors = new Float32Array(8 * 3)
-  for (let k = 0; k < 8; k++) {
-    const a = (k / 8) * Math.PI * 2
-    combustorAnchors[k * 3] = Math.cos(a) * 2.25
-    combustorAnchors[k * 3 + 1] = Math.sin(a) * 2.25
-    combustorAnchors[k * 3 + 2] = -2.3
-  }
-
-  return { root, parts, labels, leaderMaterial, combustorAnchors, nozzleZ }
+  return { root, parts, labels, leaderMaterial, nozzleZ, plumeZ }
 }

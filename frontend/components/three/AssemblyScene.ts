@@ -52,9 +52,10 @@ const RIPPLE_LIFE = 6
 const RIPPLE_SPEED = 5
 const RIPPLE_SHELL = 2.2
 const PULSE_SPEED = 2.4
-const PLUME_COUNT = 130
+const PLUME_COUNT = 420
 const INTAKE_COUNT = 70
 const EXPLODE_SPAN = 0.25
+const COMBUST_COUNT = 96
 
 type Ripple = { x: number; y: number; z: number; t0: number }
 type Pulse = { a: number; b: number; t: number; dur: number }
@@ -70,6 +71,36 @@ function lerp(a: number, b: number, t: number): number {
 
 function clamp01(v: number): number {
   return v < 0 ? 0 : v > 1 ? 1 : v
+}
+
+function flameColor(u: number): [number, number, number] {
+  if (u < 0.18) {
+    const t = u / 0.18
+    return [lerp(0.22, 1.0, t), lerp(0.42, 0.95, t), lerp(1.0, 0.7, t)]
+  }
+  if (u < 0.45) {
+    const t = (u - 0.18) / 0.27
+    return [1.0, lerp(0.95, 0.5, t), lerp(0.7, 0.12, t)]
+  }
+  if (u < 0.78) {
+    const t = (u - 0.45) / 0.33
+    return [lerp(1.0, 0.85, t), lerp(0.5, 0.2, t), lerp(0.12, 0.05, t)]
+  }
+  const t = (u - 0.78) / 0.22
+  return [lerp(0.85, 0.4, t), lerp(0.2, 0.08, t), lerp(0.05, 0.02, t)]
+}
+
+function exhaustColor(t: number): [number, number, number] {
+  if (t < 0.25) {
+    const k = t / 0.25
+    return [1.0, lerp(0.92, 0.66, k), lerp(0.55, 0.16, k)]
+  }
+  if (t < 0.6) {
+    const k = (t - 0.25) / 0.35
+    return [1.0, lerp(0.66, 0.4, k), lerp(0.16, 0.05, k)]
+  }
+  const k = (t - 0.6) / 0.4
+  return [lerp(1.0, 0.72, k), lerp(0.4, 0.14, k), lerp(0.05, 0.02, k)]
 }
 
 export class AssemblyScene {
@@ -100,6 +131,11 @@ export class AssemblyScene {
   private plumeA!: Float32Array
   private plumeR!: Float32Array
   private plumeS!: Float32Array
+  private combustU0!: Float32Array
+  private combustA0!: Float32Array
+  private combustSwirl!: Float32Array
+  private combustR!: Float32Array
+  private combustS!: Float32Array
   private combustorGeo!: THREE.BufferGeometry
   private intakeGeo!: THREE.BufferGeometry
   private intakeU0!: Float32Array
@@ -230,7 +266,7 @@ export class AssemblyScene {
     for (let i = 0; i < PLUME_COUNT; i++) {
       this.plumeU0[i] = Math.random()
       this.plumeA[i] = Math.random() * Math.PI * 2
-      this.plumeR[i] = 0.3 + Math.random() * 0.7
+      this.plumeR[i] = Math.sqrt(Math.random())
       this.plumeS[i] = 0.22 + Math.random() * 0.2
     }
     this.plumeGeo.setAttribute("position", new THREE.BufferAttribute(new Float32Array(PLUME_COUNT * 3), 3))
@@ -249,10 +285,22 @@ export class AssemblyScene {
     this.scene.add(plume)
 
     this.combustorGeo = new THREE.BufferGeometry()
-    this.combustorGeo.setAttribute("position", new THREE.BufferAttribute(this.engine.combustorAnchors, 3))
-    this.combustorGeo.setAttribute("color", new THREE.BufferAttribute(new Float32Array(8 * 3), 3))
+    this.combustU0 = new Float32Array(COMBUST_COUNT)
+    this.combustA0 = new Float32Array(COMBUST_COUNT)
+    this.combustSwirl = new Float32Array(COMBUST_COUNT)
+    this.combustR = new Float32Array(COMBUST_COUNT)
+    this.combustS = new Float32Array(COMBUST_COUNT)
+    for (let i = 0; i < COMBUST_COUNT; i++) {
+      this.combustU0[i] = Math.random()
+      this.combustA0[i] = Math.random() * Math.PI * 2
+      this.combustSwirl[i] = 0.6 + Math.random() * 0.9
+      this.combustR[i] = 2.05 + Math.random() * 0.4
+      this.combustS[i] = 0.22 + Math.random() * 0.3
+    }
+    this.combustorGeo.setAttribute("position", new THREE.BufferAttribute(new Float32Array(COMBUST_COUNT * 3), 3))
+    this.combustorGeo.setAttribute("color", new THREE.BufferAttribute(new Float32Array(COMBUST_COUNT * 3), 3))
     this.combustorMaterial = new THREE.PointsMaterial({
-      size: 0.9,
+      size: 0.72,
       map: this.glow,
       transparent: true,
       depthWrite: false,
@@ -582,26 +630,40 @@ export class AssemblyScene {
   private updatePlume(): void {
     const pos = this.plumeGeo.attributes.position as THREE.BufferAttribute
     const col = this.plumeGeo.attributes.color as THREE.BufferAttribute
-    const len = 6 * this.run
+    const len = 3.2 * this.run
     for (let i = 0; i < PLUME_COUNT; i++) {
       const u = (this.plumeU0[i] + this.time * this.plumeS[i]) % 1
-      const r = (0.22 + u * 1.35) * this.plumeR[i]
+      const rIn = 0.55 - u * 0.2
+      const rOut = 1.7 - u * 0.45
+      const rr = this.plumeR[i] * this.plumeR[i]
+      const r = Math.sqrt(rIn * rIn + (rOut * rOut - rIn * rIn) * rr)
       const a = this.plumeA[i]
-      pos.setXYZ(i, Math.cos(a) * r, Math.sin(a) * r, this.engine.nozzleZ - 0.1 - u * len)
-      const flicker = 0.75 + 0.25 * Math.sin(this.time * 9 + i * 1.7)
+      pos.setXYZ(i, Math.cos(a) * r, Math.sin(a) * r, this.engine.plumeZ - u * len)
+      const flicker = 0.8 + 0.2 * Math.sin(this.time * 9 + i * 1.7)
       const fade = this.run * (1 - u) * (1 - u) * flicker
-      col.setXYZ(i, fade * 1.0, fade * (0.58 + 0.24 * u), fade * (0.22 + 0.34 * u))
+      const [cr, cg, cb] = exhaustColor(this.plumeR[i])
+      col.setXYZ(i, fade * cr, fade * cg, fade * cb)
     }
     pos.needsUpdate = true
     col.needsUpdate = true
   }
 
   private updateCombustor(): void {
+    const pos = this.combustorGeo.attributes.position as THREE.BufferAttribute
     const col = this.combustorGeo.attributes.color as THREE.BufferAttribute
-    for (let i = 0; i < 8; i++) {
-      const flick = 0.04 + this.run * (0.5 + 0.5 * Math.sin(this.time * 11 + i * 2.7)) * 0.9
-      col.setXYZ(i, flick, flick * 0.45, flick * 0.14)
+    const swirlBase = 0.6 + this.run * 2.4
+    for (let i = 0; i < COMBUST_COUNT; i++) {
+      const u = (this.combustU0[i] + this.time * this.combustS[i]) % 1
+      const angle = this.combustA0[i] + this.time * swirlBase * this.combustSwirl[i]
+      const z = -1.7 - u * 1.9
+      const r = this.combustR[i] + 0.12 * Math.sin(this.time * 3 + i)
+      pos.setXYZ(i, Math.cos(angle) * r, Math.sin(angle) * r, z)
+      const flick = 0.75 + 0.25 * Math.sin(this.time * 11 + i * 2.3)
+      const intensity = this.run * (0.35 + 0.65 * Math.sin(u * Math.PI)) * flick
+      const [cr, cg, cb] = flameColor(u)
+      col.setXYZ(i, intensity * cr, intensity * cg, intensity * cb)
     }
+    pos.needsUpdate = true
     col.needsUpdate = true
   }
 
