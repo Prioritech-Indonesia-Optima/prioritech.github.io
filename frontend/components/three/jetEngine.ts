@@ -239,12 +239,14 @@ export function buildJetEngine(mat: LineMaterial, labelColor: string): JetEngine
     duct(o, [[-0.6, 3.15], [-1.6, 2.9], [-3.4, 2.85], [-5.4, 2.65], [-6.2, 2.2]], 48, 10)
   }, 6.0, 0, 0.22)
 
-  const nozzleZ = -7.5
+  const nozzleZ = -7.9
   addPart((o) => {
-    cone(o, -5.9, 0.8, nozzleZ, 0.06)
-    pushCircle(o, 0.82, -5.9, 24)
+    cone(o, -5.9, 1.2, nozzleZ, 0.08)
+    pushCircle(o, 1.22, -5.9, 24)
   }, -6.0, 0, 1.0)
 
+  // The jet spills out of the wide (white) end of the nozzle cone
+  // and shoots straight down -Z, past the cone.
   const plumeZ = -5.9
 
   const labels: EngineLabel[] = []

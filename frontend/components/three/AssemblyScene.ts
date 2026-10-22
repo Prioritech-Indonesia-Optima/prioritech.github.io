@@ -52,10 +52,10 @@ const RIPPLE_LIFE = 6
 const RIPPLE_SPEED = 5
 const RIPPLE_SHELL = 2.2
 const PULSE_SPEED = 2.4
-const PLUME_COUNT = 420
+const PLUME_COUNT = 520
 const INTAKE_COUNT = 70
 const EXPLODE_SPAN = 0.25
-const COMBUST_COUNT = 96
+const COMBUST_COUNT = 128
 
 type Ripple = { x: number; y: number; z: number; t0: number }
 type Pulse = { a: number; b: number; t: number; dur: number }
@@ -73,35 +73,11 @@ function clamp01(v: number): number {
   return v < 0 ? 0 : v > 1 ? 1 : v
 }
 
-function flameColor(u: number): [number, number, number] {
-  if (u < 0.18) {
-    const t = u / 0.18
-    return [lerp(0.22, 1.0, t), lerp(0.42, 0.95, t), lerp(1.0, 0.7, t)]
-  }
-  if (u < 0.45) {
-    const t = (u - 0.18) / 0.27
-    return [1.0, lerp(0.95, 0.5, t), lerp(0.7, 0.12, t)]
-  }
-  if (u < 0.78) {
-    const t = (u - 0.45) / 0.33
-    return [lerp(1.0, 0.85, t), lerp(0.5, 0.2, t), lerp(0.12, 0.05, t)]
-  }
-  const t = (u - 0.78) / 0.22
-  return [lerp(0.85, 0.4, t), lerp(0.2, 0.08, t), lerp(0.05, 0.02, t)]
-}
-
-function exhaustColor(t: number): [number, number, number] {
-  if (t < 0.25) {
-    const k = t / 0.25
-    return [1.0, lerp(0.92, 0.66, k), lerp(0.55, 0.16, k)]
-  }
-  if (t < 0.6) {
-    const k = (t - 0.25) / 0.35
-    return [1.0, lerp(0.66, 0.4, k), lerp(0.16, 0.05, k)]
-  }
-  const k = (t - 0.6) / 0.4
-  return [lerp(1.0, 0.72, k), lerp(0.4, 0.14, k), lerp(0.05, 0.02, k)]
-}
+// Solid particle tones, theme-independent like the intake: the intake
+// stream reads as one cool color on both themes, so the hot side does the
+// same in warm gold — a single tint per system, no gradient.
+const PLUME_COLOR: [number, number, number] = [1.0, 0.82, 0.5]
+const FLAME_COLOR: [number, number, number] = [1.0, 0.68, 0.28]
 
 export class AssemblyScene {
   private renderer: THREE.WebGLRenderer
@@ -267,12 +243,15 @@ export class AssemblyScene {
       this.plumeU0[i] = Math.random()
       this.plumeA[i] = Math.random() * Math.PI * 2
       this.plumeR[i] = Math.sqrt(Math.random())
-      this.plumeS[i] = 0.22 + Math.random() * 0.2
+      this.plumeS[i] = 0.55 + Math.random() * 0.25
     }
     this.plumeGeo.setAttribute("position", new THREE.BufferAttribute(new Float32Array(PLUME_COUNT * 3), 3))
-    this.plumeGeo.setAttribute("color", new THREE.BufferAttribute(new Float32Array(PLUME_COUNT * 3), 3))
+    // 4-component color: per-particle alpha, so fades never punch dark
+    // holes in the page background (additive blending accumulates the
+    // texture alpha even when the RGB is black).
+    this.plumeGeo.setAttribute("color", new THREE.BufferAttribute(new Float32Array(PLUME_COUNT * 4), 4))
     this.plumeMaterial = new THREE.PointsMaterial({
-      size: 0.55,
+      size: 0.6,
       map: this.glow,
       transparent: true,
       depthWrite: false,
@@ -298,7 +277,7 @@ export class AssemblyScene {
       this.combustS[i] = 0.22 + Math.random() * 0.3
     }
     this.combustorGeo.setAttribute("position", new THREE.BufferAttribute(new Float32Array(COMBUST_COUNT * 3), 3))
-    this.combustorGeo.setAttribute("color", new THREE.BufferAttribute(new Float32Array(COMBUST_COUNT * 3), 3))
+    this.combustorGeo.setAttribute("color", new THREE.BufferAttribute(new Float32Array(COMBUST_COUNT * 4), 4))
     this.combustorMaterial = new THREE.PointsMaterial({
       size: 0.72,
       map: this.glow,
@@ -322,7 +301,7 @@ export class AssemblyScene {
       this.intakeS[i] = 0.14 + Math.random() * 0.12
     }
     this.intakeGeo.setAttribute("position", new THREE.BufferAttribute(new Float32Array(INTAKE_COUNT * 3), 3))
-    this.intakeGeo.setAttribute("color", new THREE.BufferAttribute(new Float32Array(INTAKE_COUNT * 3), 3))
+    this.intakeGeo.setAttribute("color", new THREE.BufferAttribute(new Float32Array(INTAKE_COUNT * 4), 4))
     this.intakeMaterial = new THREE.PointsMaterial({
       size: 0.34,
       map: this.glow,
@@ -607,7 +586,7 @@ export class AssemblyScene {
       const a = this.intakeA[i]
       pos.setXYZ(i, Math.cos(a) * r, Math.sin(a) * r, z)
       const fade = this.run * Math.sin(u * Math.PI) * 0.85
-      col.setXYZ(i, fade * 0.72, fade * 0.85, fade * 1.0)
+      col.setXYZW(i, 0.72, 0.85, 1.0, fade)
     }
     pos.needsUpdate = true
     col.needsUpdate = true
@@ -630,19 +609,23 @@ export class AssemblyScene {
   private updatePlume(): void {
     const pos = this.plumeGeo.attributes.position as THREE.BufferAttribute
     const col = this.plumeGeo.attributes.color as THREE.BufferAttribute
-    const len = 3.2 * this.run
+    const len = 8.5 * this.run
+    const [cr, cg, cb] = PLUME_COLOR
     for (let i = 0; i < PLUME_COUNT; i++) {
       const u = (this.plumeU0[i] + this.time * this.plumeS[i]) % 1
-      const rIn = 0.55 - u * 0.2
-      const rOut = 1.7 - u * 0.45
-      const rr = this.plumeR[i] * this.plumeR[i]
-      const r = Math.sqrt(rIn * rIn + (rOut * rOut - rIn * rIn) * rr)
+      // Straight turbofan jet out of the wide nozzle end: solid disk
+      // just under the 1.22 ring, expanding gently as it travels.
+      const rMax = 0.85 + u * 0.95
+      const r = rMax * this.plumeR[i]
       const a = this.plumeA[i]
       pos.setXYZ(i, Math.cos(a) * r, Math.sin(a) * r, this.engine.plumeZ - u * len)
       const flicker = 0.8 + 0.2 * Math.sin(this.time * 9 + i * 1.7)
-      const fade = this.run * (1 - u) * (1 - u) * flicker
-      const [cr, cg, cb] = exhaustColor(this.plumeR[i])
-      col.setXYZ(i, fade * cr, fade * cg, fade * cb)
+      // Symmetric lifecycle like the intake: fade in at the nozzle,
+      // long fade out as it cools and disperses. The fade is a true
+      // alpha fade — RGB stays the solid tint, so fading never leaves
+      // dark holes in the page background.
+      const fade = this.run * smoothstep(0, 0.15, u) * Math.pow(1 - u, 1.5) * flicker
+      col.setXYZW(i, cr, cg, cb, fade)
     }
     pos.needsUpdate = true
     col.needsUpdate = true
@@ -660,8 +643,8 @@ export class AssemblyScene {
       pos.setXYZ(i, Math.cos(angle) * r, Math.sin(angle) * r, z)
       const flick = 0.75 + 0.25 * Math.sin(this.time * 11 + i * 2.3)
       const intensity = this.run * (0.35 + 0.65 * Math.sin(u * Math.PI)) * flick
-      const [cr, cg, cb] = flameColor(u)
-      col.setXYZ(i, intensity * cr, intensity * cg, intensity * cb)
+      const [fr, fg, fb] = FLAME_COLOR
+      col.setXYZW(i, fr, fg, fb, intensity)
     }
     pos.needsUpdate = true
     col.needsUpdate = true
