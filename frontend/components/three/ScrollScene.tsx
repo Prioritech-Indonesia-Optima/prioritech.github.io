@@ -26,9 +26,12 @@ function measureSectionStarts(): number[] {
   })
 }
 
-export function useScrollProgress(): [React.RefObject<HTMLDivElement>, number, number] {
+// Scroll progress is written straight to the bar element (barRef). Putting it
+// in React state re-rendered the entire page on every scroll frame; only the
+// active section index is state, and React bails out when it is unchanged.
+export function useScrollProgress(): [React.RefObject<HTMLDivElement>, React.RefObject<HTMLDivElement>, number] {
   const containerRef = useRef<HTMLDivElement>(null!)
-  const [progress, setProgress] = useState(0)
+  const barRef = useRef<HTMLDivElement>(null!)
   const [activeSection, setActiveSection] = useState(0)
   const startsRef = useRef<number[]>(SECTIONS.map((_, i) => i / SECTIONS.length))
 
@@ -44,7 +47,7 @@ export function useScrollProgress(): [React.RefObject<HTMLDivElement>, number, n
         if (!el) return
         const total = el.scrollHeight - window.innerHeight
         const p = total > 0 ? window.scrollY / total : 0
-        setProgress(p)
+        if (barRef.current) barRef.current.style.transform = `scaleX(${Math.min(1, Math.max(0, p))})`
         const starts = startsRef.current
         let idx = 0
         for (let i = 0; i < starts.length; i++) {
@@ -76,7 +79,7 @@ export function useScrollProgress(): [React.RefObject<HTMLDivElement>, number, n
     }
   }, [])
 
-  return [containerRef, progress, activeSection]
+  return [containerRef, barRef, activeSection]
 }
 
 export function SectionIndicator({ activeIndex }: { activeIndex: number }) {
@@ -115,13 +118,10 @@ export function SectionIndicator({ activeIndex }: { activeIndex: number }) {
   )
 }
 
-export function ScrollProgress({ progress }: { progress: number }) {
+export function ScrollProgress({ barRef }: { barRef: React.RefObject<HTMLDivElement> }) {
   return (
     <div className="fixed top-0 left-0 right-0 h-px z-50 bg-foreground/10">
-      <div
-        className="h-full bg-accent transition-[width] duration-100 ease-out"
-        style={{ width: `${progress * 100}%` }}
-      />
+      <div ref={barRef} className="h-full w-full origin-left bg-accent will-change-transform" style={{ transform: "scaleX(0)" }} />
     </div>
   )
 }

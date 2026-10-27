@@ -3,6 +3,7 @@ import { LineMaterial } from "three/addons/lines/LineMaterial.js"
 import type { SceneConfig } from "./sceneConfigs"
 import { buildLattice, glowTexture } from "./assemblies"
 import { buildJetEngine, STATIC_LABEL_TEXTS, type JetEngine } from "./jetEngine"
+import { FlowField } from "./flowField"
 
 type ThemeSpec = {
   fog: number
@@ -52,10 +53,7 @@ const RIPPLE_LIFE = 6
 const RIPPLE_SPEED = 5
 const RIPPLE_SHELL = 2.2
 const PULSE_SPEED = 2.4
-const PLUME_COUNT = 520
-const INTAKE_COUNT = 70
 const EXPLODE_SPAN = 0.25
-const COMBUST_COUNT = 128
 
 type Ripple = { x: number; y: number; z: number; t0: number }
 type Pulse = { a: number; b: number; t: number; dur: number }
@@ -73,12 +71,6 @@ function clamp01(v: number): number {
   return v < 0 ? 0 : v > 1 ? 1 : v
 }
 
-// Solid particle tones, theme-independent like the intake: the intake
-// stream reads as one cool color on both themes, so the hot side does the
-// same in warm gold — a single tint per system, no gradient.
-const PLUME_COLOR: [number, number, number] = [1.0, 0.82, 0.5]
-const FLAME_COLOR: [number, number, number] = [1.0, 0.68, 0.28]
-
 export class AssemblyScene {
   private renderer: THREE.WebGLRenderer
   private scene: THREE.Scene
@@ -91,8 +83,6 @@ export class AssemblyScene {
   private wireMaterial!: THREE.LineBasicMaterial
   private nodeMaterial!: THREE.PointsMaterial
   private pulseMaterial!: THREE.PointsMaterial
-  private plumeMaterial!: THREE.PointsMaterial
-  private combustorMaterial!: THREE.PointsMaterial
   private glow: THREE.Texture
 
   private engine!: JetEngine
@@ -102,22 +92,13 @@ export class AssemblyScene {
   private runTarget = 0
   private labelClock = 0
 
-  private plumeGeo!: THREE.BufferGeometry
-  private plumeU0!: Float32Array
-  private plumeA!: Float32Array
-  private plumeR!: Float32Array
-  private plumeS!: Float32Array
-  private combustU0!: Float32Array
-  private combustA0!: Float32Array
-  private combustSwirl!: Float32Array
-  private combustR!: Float32Array
-  private combustS!: Float32Array
-  private combustorGeo!: THREE.BufferGeometry
-  private intakeGeo!: THREE.BufferGeometry
-  private intakeU0!: Float32Array
-  private intakeA!: Float32Array
-  private intakeS!: Float32Array
-  private intakeMaterial!: THREE.PointsMaterial
+  private flow!: FlowField
+  private anchorShift: number[] = []
+  private quality = 0
+  private perfTime = 0
+  private perfFrames = 0
+  private frame = 0
+  private lastRender = 0
   private focusRing!: THREE.LineLoop
   private focusMaterial!: THREE.LineBasicMaterial
   private focusPos = new THREE.Vector3(0, 0, -2)
@@ -158,11 +139,12 @@ export class AssemblyScene {
 
     this.renderer = new THREE.WebGLRenderer({
       canvas,
-      antialias: true,
+      // MSAA is wasted on hi-dpi screens, where the pixel ratio already hides jaggies.
+      antialias: window.devicePixelRatio < 1.5,
       alpha: true,
-      powerPreference: "high-performance",
+      powerPreference: "default",
     })
-    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+    this.renderer.setPixelRatio(this.smallScreen ? 1 : Math.min(window.devicePixelRatio, 1.5))
     this.renderer.setSize(window.innerWidth, window.innerHeight)
     this.renderer.setClearColor(0x000000, 0)
 
@@ -181,14 +163,17 @@ export class AssemblyScene {
       color: this.theme.structure,
       transparent: true,
       opacity: this.theme.structureOpacity,
-      linewidth: this.smallScreen ? 1.8 : 2.3,
+      linewidth: this.smallScreen ? 1.4 : 1.9,
       fog: true,
     })
     this.structureMaterial.resolution.set(window.innerWidth, window.innerHeight)
 
-    this.engine = buildJetEngine(this.structureMaterial, this.theme.label)
+    this.engine = buildJetEngine(this.structureMaterial, this.theme.label, this.smallScreen)
     this.scene.add(this.engine.root)
+    this.anchorShift = this.engine.anchors.map(() => 0)
     this.buildFlows()
+    this.flow.setAnchors(this.engine.anchors.map((x) => x.z))
+    this.syncDim()
 
     this.wireMaterial = new THREE.LineBasicMaterial({
       color: this.theme.structure,
@@ -234,86 +219,9 @@ export class AssemblyScene {
   }
 
   private buildFlows(): void {
-    this.plumeGeo = new THREE.BufferGeometry()
-    this.plumeU0 = new Float32Array(PLUME_COUNT)
-    this.plumeA = new Float32Array(PLUME_COUNT)
-    this.plumeR = new Float32Array(PLUME_COUNT)
-    this.plumeS = new Float32Array(PLUME_COUNT)
-    for (let i = 0; i < PLUME_COUNT; i++) {
-      this.plumeU0[i] = Math.random()
-      this.plumeA[i] = Math.random() * Math.PI * 2
-      this.plumeR[i] = Math.sqrt(Math.random())
-      this.plumeS[i] = 0.55 + Math.random() * 0.25
-    }
-    this.plumeGeo.setAttribute("position", new THREE.BufferAttribute(new Float32Array(PLUME_COUNT * 3), 3))
-    // 4-component color: per-particle alpha, so fades never punch dark
-    // holes in the page background (additive blending accumulates the
-    // texture alpha even when the RGB is black).
-    this.plumeGeo.setAttribute("color", new THREE.BufferAttribute(new Float32Array(PLUME_COUNT * 4), 4))
-    this.plumeMaterial = new THREE.PointsMaterial({
-      size: 0.6,
-      map: this.glow,
-      transparent: true,
-      depthWrite: false,
-      vertexColors: true,
-      blending: THREE.AdditiveBlending,
-      fog: false,
-    })
-    const plume = new THREE.Points(this.plumeGeo, this.plumeMaterial)
-    plume.renderOrder = 5
-    this.scene.add(plume)
-
-    this.combustorGeo = new THREE.BufferGeometry()
-    this.combustU0 = new Float32Array(COMBUST_COUNT)
-    this.combustA0 = new Float32Array(COMBUST_COUNT)
-    this.combustSwirl = new Float32Array(COMBUST_COUNT)
-    this.combustR = new Float32Array(COMBUST_COUNT)
-    this.combustS = new Float32Array(COMBUST_COUNT)
-    for (let i = 0; i < COMBUST_COUNT; i++) {
-      this.combustU0[i] = Math.random()
-      this.combustA0[i] = Math.random() * Math.PI * 2
-      this.combustSwirl[i] = 0.6 + Math.random() * 0.9
-      this.combustR[i] = 2.05 + Math.random() * 0.4
-      this.combustS[i] = 0.22 + Math.random() * 0.3
-    }
-    this.combustorGeo.setAttribute("position", new THREE.BufferAttribute(new Float32Array(COMBUST_COUNT * 3), 3))
-    this.combustorGeo.setAttribute("color", new THREE.BufferAttribute(new Float32Array(COMBUST_COUNT * 4), 4))
-    this.combustorMaterial = new THREE.PointsMaterial({
-      size: 0.72,
-      map: this.glow,
-      transparent: true,
-      depthWrite: false,
-      vertexColors: true,
-      blending: THREE.AdditiveBlending,
-      fog: false,
-    })
-    const combustor = new THREE.Points(this.combustorGeo, this.combustorMaterial)
-    combustor.renderOrder = 5
-    this.scene.add(combustor)
-
-    this.intakeGeo = new THREE.BufferGeometry()
-    this.intakeU0 = new Float32Array(INTAKE_COUNT)
-    this.intakeA = new Float32Array(INTAKE_COUNT)
-    this.intakeS = new Float32Array(INTAKE_COUNT)
-    for (let i = 0; i < INTAKE_COUNT; i++) {
-      this.intakeU0[i] = Math.random()
-      this.intakeA[i] = Math.random() * Math.PI * 2
-      this.intakeS[i] = 0.14 + Math.random() * 0.12
-    }
-    this.intakeGeo.setAttribute("position", new THREE.BufferAttribute(new Float32Array(INTAKE_COUNT * 3), 3))
-    this.intakeGeo.setAttribute("color", new THREE.BufferAttribute(new Float32Array(INTAKE_COUNT * 4), 4))
-    this.intakeMaterial = new THREE.PointsMaterial({
-      size: 0.34,
-      map: this.glow,
-      transparent: true,
-      depthWrite: false,
-      vertexColors: true,
-      blending: THREE.AdditiveBlending,
-      fog: false,
-    })
-    const intake = new THREE.Points(this.intakeGeo, this.intakeMaterial)
-    intake.renderOrder = 5
-    this.scene.add(intake)
+    this.flow = new FlowField(this.glow, this.smallScreen, this.isDark)
+    this.flow.setViewport(window.innerHeight, this.renderer.getPixelRatio())
+    this.scene.add(this.flow.group)
 
     const ringSegs: number[] = []
     const ringN = 64
@@ -418,6 +326,8 @@ export class AssemblyScene {
     this.pulseMaterial.color.setHex(this.theme.pulse)
     this.pulseMaterial.opacity = this.theme.pulseOpacity
     this.focusMaterial.color.setHex(this.theme.pulse)
+    this.flow.setTheme(dark)
+    this.syncDim()
     this.engine.leaderMaterial.color.set(this.theme.label)
     this.renderLabelTexts()
     if (this.reduceMotion || !this.running) {
@@ -477,6 +387,8 @@ export class AssemblyScene {
     this.camera.updateProjectionMatrix()
     this.renderer.setSize(w, h)
     this.structureMaterial.resolution.set(w, h)
+    this.flow.setViewport(h, this.renderer.getPixelRatio())
+    this.syncDim()
     if (this.reduceMotion) this.renderStatic()
   }
 
@@ -576,78 +488,61 @@ export class AssemblyScene {
     this.focusMaterial.opacity = this.focusStrength * (0.28 + 0.14 * Math.sin(this.time * 2.4))
   }
 
-  private updateIntake(): void {
-    const pos = this.intakeGeo.attributes.position as THREE.BufferAttribute
-    const col = this.intakeGeo.attributes.color as THREE.BufferAttribute
-    for (let i = 0; i < INTAKE_COUNT; i++) {
-      const u = (this.intakeU0[i] + this.time * this.intakeS[i]) % 1
-      const z = 9.5 - u * 8.3
-      const r = 3.2 - u * 2.5
-      const a = this.intakeA[i]
-      pos.setXYZ(i, Math.cos(a) * r, Math.sin(a) * r, z)
-      const fade = this.run * Math.sin(u * Math.PI) * 0.85
-      col.setXYZW(i, 0.72, 0.85, 1.0, fade)
-    }
-    pos.needsUpdate = true
-    col.needsUpdate = true
-  }
-
   private updateParts(dt: number): void {
     this.explode = lerp(this.explode, this.explodeTarget, 0.045)
     this.run = lerp(this.run, this.runTarget, 0.05)
     const lp = (0.12 + this.run * 1.5) * dt
     const hp = -(0.2 + this.run * 2.4) * dt
+    // Gullwing cowl doors swing open first, then the modules slide apart.
+    const open = smoothstep(0, 0.2, this.explode)
     for (const p of this.engine.parts) {
       const local = clamp01((this.explode - p.seq * (1 - EXPLODE_SPAN)) / EXPLODE_SPAN)
       const eased = local * local * (3 - 2 * local)
-      p.obj.position.set(p.base.x, p.base.y, p.base.z + p.dz * eased)
+      p.shift = p.dz * eased
+      if (p.hinge) {
+        const phi = p.hinge.angle * open
+        const c = Math.cos(phi)
+        const s = Math.sin(phi)
+        const { x, y } = p.hinge
+        p.obj.rotation.z = phi
+        p.obj.position.set(x - (c * x - s * y), y - (s * x + c * y), p.base.z)
+        continue
+      }
+      p.obj.position.set(p.base.x, p.base.y, p.base.z + p.shift)
       if (p.spool > 0) p.obj.rotation.z += lp
       else if (p.spool < 0) p.obj.rotation.z += hp
     }
+    const anchors = this.engine.anchors
+    for (let i = 0; i < anchors.length; i++) this.anchorShift[i] = this.engine.parts[anchors[i].part].shift
   }
 
-  private updatePlume(): void {
-    const pos = this.plumeGeo.attributes.position as THREE.BufferAttribute
-    const col = this.plumeGeo.attributes.color as THREE.BufferAttribute
-    const len = 8.5 * this.run
-    const [cr, cg, cb] = PLUME_COLOR
-    for (let i = 0; i < PLUME_COUNT; i++) {
-      const u = (this.plumeU0[i] + this.time * this.plumeS[i]) % 1
-      // Straight turbofan jet out of the wide nozzle end: solid disk
-      // just under the 1.22 ring, expanding gently as it travels.
-      const rMax = 0.85 + u * 0.95
-      const r = rMax * this.plumeR[i]
-      const a = this.plumeA[i]
-      pos.setXYZ(i, Math.cos(a) * r, Math.sin(a) * r, this.engine.plumeZ - u * len)
-      const flicker = 0.8 + 0.2 * Math.sin(this.time * 9 + i * 1.7)
-      // Symmetric lifecycle like the intake: fade in at the nozzle,
-      // long fade out as it cools and disperses. The fade is a true
-      // alpha fade — RGB stays the solid tint, so fading never leaves
-      // dark holes in the page background.
-      const fade = this.run * smoothstep(0, 0.15, u) * Math.pow(1 - u, 1.5) * flicker
-      col.setXYZW(i, cr, cg, cb, fade)
+  // Steps quality down (never back up, so it can't oscillate) when the
+  // average frame time over ~1.5 s says this device can't keep up.
+  private governQuality(rawDt: number): void {
+    if (rawDt > 0.5) return
+    this.perfTime += rawDt
+    if (++this.perfFrames < 90) return
+    const avg = this.perfTime / this.perfFrames
+    this.perfTime = 0
+    this.perfFrames = 0
+    const budget = this.smallScreen ? 1 / 26 : 1 / 40
+    if (avg < budget || this.quality >= 3) return
+    this.quality++
+    if (this.quality === 1) {
+      this.renderer.setPixelRatio(1)
+      this.renderer.setSize(window.innerWidth, window.innerHeight)
+      this.flow.setViewport(window.innerHeight, 1)
+    } else if (this.quality === 2) {
+      this.flow.setDensity(0.5, true)
+    } else {
+      this.flow.setDensity(0.3, false)
     }
-    pos.needsUpdate = true
-    col.needsUpdate = true
   }
 
-  private updateCombustor(): void {
-    const pos = this.combustorGeo.attributes.position as THREE.BufferAttribute
-    const col = this.combustorGeo.attributes.color as THREE.BufferAttribute
-    const swirlBase = 0.6 + this.run * 2.4
-    for (let i = 0; i < COMBUST_COUNT; i++) {
-      const u = (this.combustU0[i] + this.time * this.combustS[i]) % 1
-      const angle = this.combustA0[i] + this.time * swirlBase * this.combustSwirl[i]
-      const z = -1.7 - u * 1.9
-      const r = this.combustR[i] + 0.12 * Math.sin(this.time * 3 + i)
-      pos.setXYZ(i, Math.cos(angle) * r, Math.sin(angle) * r, z)
-      const flick = 0.75 + 0.25 * Math.sin(this.time * 11 + i * 2.3)
-      const intensity = this.run * (0.35 + 0.65 * Math.sin(u * Math.PI)) * flick
-      const [fr, fg, fb] = FLAME_COLOR
-      col.setXYZW(i, fr, fg, fb, intensity)
-    }
-    pos.needsUpdate = true
-    col.needsUpdate = true
+  private syncDim(): void {
+    const dim = this.engine.dimMaterial
+    dim.color.setHex(this.theme.structure)
+    dim.opacity = this.theme.structureOpacity * 0.7
   }
 
   private updateLabels(): void {
@@ -733,9 +628,7 @@ export class AssemblyScene {
     this.explode = this.explodeTarget
     this.run = this.runTarget
     this.updateParts(0)
-    this.updatePlume()
-    this.updateCombustor()
-    this.updateIntake()
+    this.flow.update(0, this.run, this.explode, this.time, this.anchorShift)
     this.updateFocus(0)
     this.updateLabels()
     this.updateNodes()
@@ -749,24 +642,30 @@ export class AssemblyScene {
     if (!this.running) return
     this.raf = requestAnimationFrame(this.animate)
 
+    // Phones render at 30 fps: half the GPU work for motion this slow.
+    if (this.smallScreen && timestamp - this.lastRender < 30) return
+    this.lastRender = timestamp
+
     this.timer.update(timestamp)
-    const dt = Math.min(this.timer.getDelta(), 0.05)
+    const rawDt = this.timer.getDelta()
+    const dt = Math.min(rawDt, 0.05)
     this.time += dt
+    this.governQuality(rawDt)
+    this.frame++
 
     this.scrollProgress = lerp(this.scrollProgress, this.targetScroll, 0.035)
     this.pointer.strength = lerp(this.pointer.strength, this.pointer.target, 0.03)
 
     this.updateParts(dt)
-    this.updatePlume()
-    this.updateCombustor()
-    this.updateIntake()
+    this.flow.update(0, this.run, this.explode, this.time, this.anchorShift)
     this.updateFocus(dt)
     this.updateLabels()
     this.updateLiveText(dt)
 
     this.pruneRipples()
     this.updateCamera()
-    this.updateNodes()
+    // The background lattice glows slowly; 30 Hz updates are indistinguishable.
+    if ((this.frame & 1) === 0) this.updateNodes()
     this.updatePulses(dt)
 
     if (this.onProgress) this.onProgress(this.scrollProgress)
@@ -792,12 +691,11 @@ export class AssemblyScene {
       label.sprite.material.dispose()
     }
     this.structureMaterial.dispose()
+    this.engine.dimMaterial.dispose()
     this.wireMaterial.dispose()
     this.nodeMaterial.dispose()
     this.pulseMaterial.dispose()
-    this.plumeMaterial.dispose()
-    this.combustorMaterial.dispose()
-    this.intakeMaterial.dispose()
+    this.flow.dispose()
     this.focusMaterial.dispose()
     this.engine.leaderMaterial.dispose()
     this.glow.dispose()

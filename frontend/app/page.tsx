@@ -33,7 +33,7 @@ const PROCESS = [
 ]
 
 export default function HomePage() {
-  const [containerRef, progress, activeSection] = useScrollProgress()
+  const [containerRef, barRef, activeSection] = useScrollProgress()
 
   return (
     <div ref={containerRef} className="relative">
@@ -41,7 +41,7 @@ export default function HomePage() {
 
       <div className="fixed inset-0 z-[1] pointer-events-none vignette" />
 
-      <ScrollProgress progress={progress} />
+      <ScrollProgress barRef={barRef} />
       <SectionIndicator activeIndex={activeSection} />
       <Navbar />
 
