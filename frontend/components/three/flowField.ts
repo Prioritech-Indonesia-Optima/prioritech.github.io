@@ -32,6 +32,7 @@ uniform float uFlow;
 uniform float uTail;
 uniform float uSize;
 uniform float uPx;
+uniform float uClean;
 uniform vec3 uCool;
 uniform vec3 uComp;
 uniform vec3 uHot;
@@ -43,6 +44,13 @@ attribute float aEnd;   // 0 head, 1 tail (line streaks)
 
 varying vec3 vColor;
 varying float vAlpha;
+
+// smoothstep that is well-defined for either edge order (GLSL leaves
+// edge0 >= edge1 undefined, and some mobile GPUs do return garbage).
+float sd(float a, float b, float x) {
+  float t = clamp((x - a) / (b - a), 0.0, 1.0);
+  return t * t * (3.0 - 2.0 * t);
+}
 
 vec3 sampleTab(float p, float lane) {
   bool core = lane < 0.5;
@@ -74,11 +82,11 @@ void main() {
   // turbines / outlet guide vanes so the jet leaves straight.
   float tw;
   if (aLane < 0.5) {
-    tw = 0.9 * smoothstep(3.0, 0.5, z)
-       + 2.4 * smoothstep(-1.7, -3.0, z)
-       - 2.2 * smoothstep(-3.6, -5.6, z);
+    tw = 0.9 * sd(3.0, 0.5, z)
+       + 2.4 * sd(-1.7, -3.0, z)
+       - 2.2 * sd(-3.6, -5.6, z);
   } else {
-    tw = 0.6 * smoothstep(3.0, 0.5, z) - 0.6 * smoothstep(0.4, -0.6, z);
+    tw = 0.6 * sd(3.0, 0.5, z) - 0.6 * sd(0.4, -0.6, z);
   }
   float ang = aSeed.z + tw;
   vec3 pos = vec3(cos(ang) * r, sin(ang) * r, z);
@@ -92,24 +100,28 @@ void main() {
   vec3 col;
   float bright = 1.0;
   if (aLane < 0.5) {
-    col = mix(uCool, uComp, smoothstep(3.0, 0.2, z));
-    col = mix(col, uHot, smoothstep(-1.7, -2.4, z));
-    col = mix(col, uExh, smoothstep(-3.4, -6.4, z));
-    bright = 1.0 + 0.5 * smoothstep(-1.7, -2.4, z) * (1.0 - smoothstep(-3.0, -3.6, z));
+    col = mix(uCool, uComp, sd(3.0, 0.2, z));
+    col = mix(col, uHot, sd(-1.7, -2.4, z));
+    col = mix(col, uExh, sd(-3.4, -6.4, z));
+    bright = 1.0 + 0.5 * sd(-1.7, -2.4, z) * (1.0 - sd(-3.0, -3.6, z));
   } else {
-    col = mix(uCool, uComp, 0.6 * smoothstep(3.0, 0.2, z));
-    col = mix(col, uExh, 0.5 * smoothstep(-6.0, -9.0, z));
+    col = mix(uCool, uComp, 0.6 * sd(3.0, 0.2, z));
+    col = mix(col, uExh, 0.5 * sd(-6.0, -9.0, z));
     bright = 0.7;
   }
   vColor = col;
 
-  float life = smoothstep(0.0, 0.06, p) * (1.0 - smoothstep(0.8, 1.0, p));
+  float life = sd(0.0, 0.06, p) * (1.0 - sd(0.8, 1.0, p));
   float flick = 0.85 + 0.15 * sin(uTime * 9.0 + aSeed.z * 40.0);
 #ifdef GUIDE
   vAlpha = uFlow * 0.16 * life;
 #else
   vAlpha = uFlow * life * flick * bright * (1.0 - aEnd);
 #endif
+  // Clean mode: fade the flow that is inside the engine (behind the fan,
+  // ahead of the nozzle) so the front view shows only the intake stream.
+  float inner = sd(1.2, 0.4, z) * sd(-6.6, -5.6, z);
+  vAlpha *= 1.0 - uClean * inner;
 }
 `
 
@@ -160,6 +172,7 @@ export class FlowField {
       uTail: { value: 0.02 },
       uSize: { value: 0.3 },
       uPx: { value: 400 },
+      uClean: { value: 0 },
       uMap: { value: glow },
       uCool: { value: new THREE.Vector3() },
       uComp: { value: new THREE.Vector3() },
@@ -289,6 +302,10 @@ export class FlowField {
     this.pointsGeo.setDrawRange(0, k)
     this.linesGeo.setDrawRange(0, k * 2)
     this.guides.visible = guides
+  }
+
+  setClean(c: number): void {
+    this.uniforms.uClean.value = c
   }
 
   setAnchors(z: number[]): void {

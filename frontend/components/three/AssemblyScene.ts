@@ -95,6 +95,8 @@ export class AssemblyScene {
   private flow!: FlowField
   private anchorShift: number[] = []
   private quality = 0
+  private clean = 0
+  private cleanTarget = 0
   private perfTime = 0
   private perfFrames = 0
   private frame = 0
@@ -329,6 +331,7 @@ export class AssemblyScene {
     this.flow.setTheme(dark)
     this.syncDim()
     this.engine.leaderMaterial.color.set(this.theme.label)
+    this.engine.interiorLeaderMaterial.color.set(this.theme.label)
     this.renderLabelTexts()
     if (this.reduceMotion || !this.running) {
       this.updateNodes()
@@ -468,6 +471,7 @@ export class AssemblyScene {
 
     this.explodeTarget = lerp(chapter.explode, next.explode, t)
     this.runTarget = lerp(chapter.run, next.run, t)
+    this.cleanTarget = lerp(chapter.clean ?? 0, next.clean ?? 0, smoothstep(0.55, 1, local))
     const focus = chapter.focus ?? next.focus
     if (focus) {
       this.focusTarget.set(
@@ -491,6 +495,8 @@ export class AssemblyScene {
   private updateParts(dt: number): void {
     this.explode = lerp(this.explode, this.explodeTarget, 0.045)
     this.run = lerp(this.run, this.runTarget, 0.05)
+    this.clean = lerp(this.clean, this.cleanTarget, 0.05)
+    this.applyClean()
     const lp = (0.12 + this.run * 1.5) * dt
     const hp = -(0.2 + this.run * 2.4) * dt
     // Gullwing cowl doors swing open first, then the modules slide apart.
@@ -540,17 +546,35 @@ export class AssemblyScene {
   }
 
   private syncDim(): void {
-    const dim = this.engine.dimMaterial
-    dim.color.setHex(this.theme.structure)
-    dim.opacity = this.theme.structureOpacity * 0.7
+    const e = this.engine
+    for (const m of [e.dimMaterial, e.interiorDimMaterial, e.interiorMaterial]) m.color.setHex(this.theme.structure)
+    e.interiorMaterial.resolution.set(window.innerWidth, window.innerHeight)
+    this.applyClean()
+  }
+
+  // Clean mode: interior hardware fades out; fully faded parts stop drawing.
+  private applyClean(): void {
+    const e = this.engine
+    const k = 1 - this.clean
+    const base = this.theme.structureOpacity
+    e.dimMaterial.opacity = base * 0.7
+    e.interiorMaterial.opacity = base * k
+    e.interiorDimMaterial.opacity = base * 0.7 * k
+    const show = k > 0.02
+    for (const p of e.parts) if (p.interior) p.obj.visible = show
+    this.flow.setClean(this.clean)
   }
 
   private updateLabels(): void {
     const opacity = clamp01(1 - this.explode * 1.6) * 0.95
-    for (const label of this.engine.labels) {
-      ;(label.sprite.material as THREE.SpriteMaterial).opacity = opacity
-    }
+    const k = 1 - this.clean
+    this.engine.labels.forEach((label, i) => {
+      // Labels for hidden hardware fade with it; the fan, nacelle and gauges stay.
+      const hidden = !label.live && i >= 2
+      ;(label.sprite.material as THREE.SpriteMaterial).opacity = hidden ? opacity * k : opacity
+    })
     this.engine.leaderMaterial.opacity = opacity * 0.55
+    this.engine.interiorLeaderMaterial.opacity = opacity * 0.55 * k
   }
 
   private updateNodes(): void {
@@ -627,6 +651,7 @@ export class AssemblyScene {
     this.updateCamera()
     this.explode = this.explodeTarget
     this.run = this.runTarget
+    this.clean = this.cleanTarget
     this.updateParts(0)
     this.flow.update(0, this.run, this.explode, this.time, this.anchorShift)
     this.updateFocus(0)
@@ -692,12 +717,15 @@ export class AssemblyScene {
     }
     this.structureMaterial.dispose()
     this.engine.dimMaterial.dispose()
+    this.engine.interiorMaterial.dispose()
+    this.engine.interiorDimMaterial.dispose()
     this.wireMaterial.dispose()
     this.nodeMaterial.dispose()
     this.pulseMaterial.dispose()
     this.flow.dispose()
     this.focusMaterial.dispose()
     this.engine.leaderMaterial.dispose()
+    this.engine.interiorLeaderMaterial.dispose()
     this.glow.dispose()
     this.renderer.dispose()
   }

@@ -6,6 +6,8 @@ export type Chapter = {
   explode: number
   run: number
   focus?: [number, number, number]
+  // 1 fades the engine interior so only the nacelle, spinner and fan remain
+  clean?: number
 }
 
 export type LatticeSpec = {
@@ -82,9 +84,9 @@ export const SCENE_CONFIGS: Record<string, SceneConfig> = {
       // 13 stage — FULL THROTTLE
       { start: 0.823, end: 0.886, cameraPos: [16, 3, -3], cameraTarget: [0, 0.3, -2.5], explode: 0, run: 1, focus: [0, 0, -2] },
       // 14 contact — wide, running
-      { start: 0.886, end: 0.966, cameraPos: [10, 3, 12], cameraTarget: [0, 0.5, -2], explode: 0, run: 1 },
+      { start: 0.886, end: 0.966, cameraPos: [10, 3, 12], cameraTarget: [0, 0.5, -2], explode: 0, run: 1, clean: 1 },
       // 15 footer — settle
-      { start: 0.966, end: 1.0, cameraPos: [8, 2.5, 14], cameraTarget: [0, 0.5, -2], explode: 0, run: 1 },
+      { start: 0.966, end: 1.0, cameraPos: [8, 2.5, 14], cameraTarget: [0, 0.5, -2], explode: 0, run: 1, clean: 1 },
     ],
   },
   about: {

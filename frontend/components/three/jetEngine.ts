@@ -13,6 +13,7 @@ export type JetPart = {
   spool: number
   seq: number
   shift: number
+  interior: boolean
   hinge?: { x: number; y: number; angle: number }
 }
 
@@ -27,7 +28,10 @@ export type JetEngine = {
   parts: JetPart[]
   labels: EngineLabel[]
   leaderMaterial: THREE.LineBasicMaterial
+  interiorLeaderMaterial: THREE.LineBasicMaterial
   dimMaterial: THREE.LineBasicMaterial
+  interiorMaterial: LineMaterial
+  interiorDimMaterial: THREE.LineBasicMaterial
   anchors: { z: number; part: number }[]
 }
 
@@ -251,6 +255,19 @@ export function buildJetEngine(mat: LineMaterial, labelColor: string, small = fa
     fog: true,
   })
 
+  // Interior parts get their own materials so clean mode can fade them
+  // without touching the nacelle, spinner and fan.
+  const interiorMaterial = new LineMaterial({
+    color: mat.color.getHex(),
+    transparent: true,
+    opacity: mat.opacity,
+    linewidth: mat.linewidth,
+    fog: true,
+  })
+  interiorMaterial.resolution.copy(mat.resolution)
+  const interiorDimMaterial = dimMaterial.clone()
+  let interior = false
+
   const addPart = (
     build: (out: Seg[]) => void,
     dz: number,
@@ -261,9 +278,11 @@ export function buildJetEngine(mat: LineMaterial, labelColor: string, small = fa
   ): number => {
     const segs: Seg[] = []
     build(segs)
-    const obj = dim ? new THREE.LineSegments(segmentsGeometry(segs), dimMaterial) : toThick(segs, mat)
+    const obj = dim
+      ? new THREE.LineSegments(segmentsGeometry(segs), interior ? interiorDimMaterial : dimMaterial)
+      : toThick(segs, interior ? interiorMaterial : mat)
     root.add(obj)
-    parts.push({ obj, base: new THREE.Vector3(), dz, spool, seq: seq * 0.8, shift: 0, hinge })
+    parts.push({ obj, base: new THREE.Vector3(), dz, spool, seq: seq * 0.8, shift: 0, interior, hinge })
     return parts.length - 1
   }
 
@@ -317,6 +336,9 @@ export function buildJetEngine(mat: LineMaterial, labelColor: string, small = fa
     }, 0, 0, 0, true, { x: side * 0.4, y: HINGE_Y, angle: side * OPEN })
   }
 
+  // Everything from here back (except spinner and fan) is hidden by clean mode.
+  interior = true
+
   // Fan outlet guide vanes across the bypass duct
   addPart((o) => {
     bladeRow(o, {
@@ -324,6 +346,8 @@ export function buildJetEngine(mat: LineMaterial, labelColor: string, small = fa
       chord: [0.55, 0.6], beta: [-1.3, -1.3],
     })
   }, 5.5, 0, 0.24, true)
+
+  interior = false
 
   // Spinner: ogive nose cone with spiral stripes
   addPart((o) => {
@@ -350,6 +374,8 @@ export function buildJetEngine(mat: LineMaterial, labelColor: string, small = fa
       chord: [1.0, 1.3], beta: [1.0, 0.42], sweep: 0.3, ts: TS_FAN, sections: 3, hubRing: true, detailed: true,
     })
   }, 4.6, 1, 0.38)
+
+  interior = true
 
   // Core cowl: splitter lip, inner wall of the bypass duct, gearbox underneath
   addPart((o) => {
@@ -509,16 +535,18 @@ export function buildJetEngine(mat: LineMaterial, labelColor: string, small = fa
 
   const labels: EngineLabel[] = []
   const leaderSegs: Seg[] = []
-  for (const l of STATIC_LABELS) {
+  const interiorLeaderSegs: Seg[] = []
+  STATIC_LABELS.forEach((l, idx) => {
+    const target = idx < 2 ? leaderSegs : interiorLeaderSegs
     const label = makeLabelSprite()
     label.sprite.position.set(...l.anchor)
     label.setText(l.text, labelColor)
     root.add(label.sprite)
     labels.push(label)
-    pushLine(leaderSegs, ...l.anchor, ...l.target)
-    pushLine(leaderSegs, l.target[0] - 0.12, l.target[1], l.target[2], l.target[0] + 0.12, l.target[1], l.target[2])
-    pushLine(leaderSegs, l.target[0], l.target[1] - 0.12, l.target[2], l.target[0], l.target[1] + 0.12, l.target[2])
-  }
+    pushLine(target, ...l.anchor, ...l.target)
+    pushLine(target, l.target[0] - 0.12, l.target[1], l.target[2], l.target[0] + 0.12, l.target[1], l.target[2])
+    pushLine(target, l.target[0], l.target[1] - 0.12, l.target[2], l.target[0], l.target[1] + 0.12, l.target[2])
+  })
   for (const l of LIVE_LABELS) {
     const label = makeLabelSprite()
     label.sprite.position.set(...l.anchor)
@@ -534,7 +562,9 @@ export function buildJetEngine(mat: LineMaterial, labelColor: string, small = fa
     opacity: 0.5,
     fog: false,
   })
+  const interiorLeaderMaterial = leaderMaterial.clone()
   root.add(new THREE.LineSegments(segmentsGeometry(leaderSegs), leaderMaterial))
+  root.add(new THREE.LineSegments(segmentsGeometry(interiorLeaderSegs), interiorLeaderMaterial))
 
-  return { root, parts, labels, leaderMaterial, dimMaterial, anchors }
+  return { root, parts, labels, leaderMaterial, interiorLeaderMaterial, dimMaterial, interiorMaterial, interiorDimMaterial, anchors }
 }
